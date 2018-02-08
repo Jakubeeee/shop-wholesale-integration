@@ -1,0 +1,28 @@
+body {
+    padding: 50px;
+}
+.errorLog {
+    color: #ff1026;
+    font-weight: bold;
+    font-size: small;
+}
+.warnLog {
+    color: #ffa72a;
+    font-weight: bold;
+    font-size: small;
+}
+.updateLog {
+    color: #16ff19;
+    font-weight: bold;
+    font-size: small;
+}
+.infoLog {
+    color: blue;
+    font-weight: bold;
+    font-size: small;
+}
+.debugLog {
+    color: grey;
+    font-weight: bold;
+    font-size: small;
+}

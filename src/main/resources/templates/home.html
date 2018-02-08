@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link th:href="@{/webjars/bulma/0.6.0/css/bulma.css}" rel="stylesheet" media="screen"/>
+	<link th:href="@{/css/styles.css}" rel="stylesheet"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+	<title>Integrator</title>
+
+</head>
+<body>
+<div id="app" class="container">
+	<div class="content">
+		<div class="field">
+			<div class="control level-item">
+				<form action="/updateStocks" method="POST">
+					<button type="submit" v-bind:class="setUpdateButtonClass()">Update stocks</button>
+				</form>
+			</div>
+			<br/>
+			<progress class="progress is-success" v-bind:value="currentProgress" v-bind:max="maxProgress"></progress>
+			<hr/>
+			<div class="level">
+				<div class="control level-left">
+					<label for="logbox">Logs:</label>
+				</div>
+				<label class="checkbox">
+					<input id="errorCheckbox" type="checkbox" v-model="errorChecked"/>
+					Show errors
+				</label>
+				<label class="checkbox">
+					<input id="warnCheckbox" type="checkbox" v-model="warnChecked"/>
+					Show warnings
+				</label>
+				<label class="checkbox">
+					<input id="updateCheckbox" type="checkbox" v-model="updateChecked"/>
+					Show updates
+				</label>
+				<label class="checkbox">
+					<input id="infoCheckbox" type="checkbox" v-model="infoChecked"/>
+					Show infos
+				</label>
+				<label class="checkbox">
+					<input id="debugCheckbox" type="checkbox" v-model="debugChecked"/>
+					Show debugs
+				</label>
+				<div class="field has-addons">
+					<div class="control level-right">
+						<form action="/clearLogs" method="POST">
+							<button type="submit" class="button is-danger is-outlined">
+							<span class="icon is-small">
+                               <i class="fa fa-trash-o"></i>
+                             </span>
+								<span>Clear logs</span>
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<ul id="logbox">
+				<li v-for="log in filteredLogList">
+					<span style="color:blue; font-size: small;">({{log.time}})</span>
+					<span v-bind:class="setLogClass(log.type)"
+					      style="text-transform: uppercase">{{log.type}}:</span>
+					<span v-bind:class="setLogClass(log.type)">{{log.message}}</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script th:src="@{/webjars/vue/2.5.3-1/vue.js}"></script>
+<script th:src="@{/webjars/axios/0.17.1/dist/axios.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+
+
+</body>
+</html>
