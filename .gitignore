@@ -1,27 +1,15 @@
+# IntelliJ project files
 out/
-target/
-.mvn/
-mvnw
-mvnw.cmd
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+gen/
+.idea/
 *.iml
-*.ipr
 
-### NetBeans ###
-nbproject/private/
-build/
-nbbuild/
+# Maven generated files
+target/
+public/
+
+# Npm and node files
+node/
+node_modules/
 dist/
-nbdist/
-.nb-gradle/
+npm-debug.log

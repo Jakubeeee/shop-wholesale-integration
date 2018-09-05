@@ -1,9 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "enable.method.sequence.monitor",
-      "type": "java.lang.String",
-      "description": "Enables aspect that creates logs every time any method is used."
-    }
-  ]
-}
