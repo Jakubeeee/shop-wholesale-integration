@@ -1,0 +1,32 @@
+/*
+ * Styles used by log messages in DashboardPage and LogsPage
+ *
+ */
+
+@import "text_styles.scss";
+@import "custom_colors.scss";
+
+.errorLog {
+  @extend .bold-text;
+  color: $red-color;
+}
+
+.warnLog {
+  @extend .bold-text;
+  color: $yellow-color;
+}
+
+.updateLog {
+  @extend .bold-text;
+  color: $green-color;
+}
+
+.infoLog {
+  @extend .bold-text;
+  color: $blue-color;
+}
+
+.debugLog {
+  @extend .bold-text;
+  color: $grey-color;
+}

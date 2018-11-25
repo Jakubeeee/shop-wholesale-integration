@@ -23,6 +23,10 @@
         </dependency>
         <dependency>
             <groupId>com.jakubeeee</groupId>
+            <artifactId>tasks</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jakubeeee</groupId>
             <artifactId>integration</artifactId>
         </dependency>
         <dependency>
@@ -60,7 +64,10 @@
             <groupId>org.webjars.npm</groupId>
             <artifactId>bulma</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>material-design-icons</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -71,6 +78,10 @@
         <profile>
             <id>dev</id>
             <dependencies>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-actuator</artifactId>
+                </dependency>
                 <dependency>
                     <groupId>com.h2database</groupId>
                     <artifactId>h2</artifactId>
@@ -129,7 +140,7 @@
             <build>
                 <plugins>
                     <plugin>
-                        <artifactId>maven-clean-plugin</artifactId>
+                        <artifactId>maven-antrun-plugin</artifactId>
                     </plugin>
                     <plugin>
                         <artifactId>maven-resources-plugin</artifactId>

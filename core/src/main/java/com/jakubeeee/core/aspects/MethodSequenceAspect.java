@@ -4,15 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
 /**
- * If activated in common.properties, it creates logs when any method is entered or exited.
- * Moreover it logs every parameter passed to that method.
+ * If activated, this aspect registers every entry and exit from every method in spring beans,
+ * also informing about input parameters and return values
  */
-
 @Slf4j
 @Aspect
 @Component

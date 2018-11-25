@@ -1,10 +1,9 @@
-<!--=========================TEMPLATE=========================-->
 <template>
   <div>
-    <section class="hero is-info welcome is-small">
+    <section class="hero is-info welcome is-small component">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">
+          <h1 class="title white-hsl-text">
             {{msg('heroText', [activeUser])}}
           </h1>
         </div>
@@ -12,117 +11,89 @@
     </section>
     <section class="info-tiles">
       <div class="tile is-ancestor has-text-centered">
-        <template v-for="infoTile in infoTiles">
-          <info-tile :content="infoTile.value" :subtitle="msg(infoTile.title)"></info-tile>
+        <template v-for="infoTileData in infoTilesData">
+          <info-tile :content="infoTileData.value" :subtitle="infoTileData.title"></info-tile>
         </template>
       </div>
     </section>
-    <dashboard-card :title="msg('operationsCardTitle')">
+    <card :title="msg('tasksCardTitle')">
       <template slot="content">
         <table class="table is-fullwidth is-striped">
-          <tbody>
-          <tr>
-            <td width="15%">
-              <button @click="manualUpdate" :class="setUpdateButtonClass()">{{msg("manualUpdateButtonText")}}</button>
+          <tr v-for="task in taskList">
+            <td width="25%">
+              {{taskCodeToMsg(task.code, [task.id])}}
             </td>
-            <td width="85%" style="vertical-align:middle">
-              <progress class="progress is-success" :value="currentProgress" :max="maxProgress"></progress>
+            <td width="15%" style="vertical-align:middle">
+              <button @click="manualLaunch(task.id)" :class="setLaunchButtonClass(task.id)">
+                <span class="bold-text">{{msg("manualLaunchButtonText")}}</span>
+              </button>
+            </td>
+            <td width="60%" style="vertical-align:middle">
+              <progress class="progress is-success"
+                        :value="getProgressTracker(task.id).currentProgress"
+                        :max="getProgressTracker(task.id).maxProgress">
+              </progress>
             </td>
           </tr>
-          </tbody>
-        </table>
-      </template>
-    </dashboard-card>
-    <dashboard-card :title="msg('lastLogsCardTitle')">
-      <template slot="content">
-        <table class="table is-fullwidth is-striped">
-          <tbody>
-          <tr v-for="log in filteredLogList">
-            <td width="25%" style="color:blue; font-size: small;">{{log.time}}</td>
-            <td width="65%" :class="setLogClass(log.type)">{{logCodeToMsg(log.code, log.params)}}</td>
-            <td width="10%" :class="setLogClass(log.type)" style="text-transform: uppercase">{{log.type}}</td>
-          </tr>
-          </tbody>
         </table>
       </template>
       <template slot="footer">
-        <a href="#/logs" class="card-footer-item">{{msg('viewAllCardFooter')}}</a>
+        <a href="#/tasks" class="card-footer-item small-text semi-bold-text">{{msg('viewAllCardFooter')}}</a>
       </template>
-    </dashboard-card>
+    </card>
+    <card :title="msg('lastLogsCardTitle')">
+      <template slot="content">
+        <table class="table is-fullwidth is-striped">
+          <tr v-for="log in filteredLogList">
+            <td width="25%" class="casual-text semi-bold-text blue-text">{{truncateToSeconds(log.time)}}</td>
+            <td width="65%" :class="setLogClass(log.type)">(ID: {{log.taskId}}) {{logCodeToMsg(log.code, log.params)}}
+            </td>
+            <td width="10%" :class="setLogClass(log.type)" style="text-transform: uppercase">{{log.type}}</td>
+          </tr>
+        </table>
+      </template>
+      <template slot="footer">
+        <a href="#/logs" class="card-footer-item small-text semi-bold-text">{{msg('viewAllCardFooter')}}</a>
+      </template>
+    </card>
   </div>
 </template>
 
-<!--=======================TEMPLATE END=======================-->
-
-<!--==========================SCRIPT==========================-->
 <script>
   import axios from 'axios'
   import {mapGetters} from 'vuex'
   import InfoTile from '../../components/InfoTile.vue'
-  import DashboardCard from '../../components/DashboardCard.vue'
+  import Card from '../../components/Card.vue'
+  import {langUtils} from '../../mixins/langUtils'
+  import {dateTimeUtils} from '../../mixins/dateTimeUtils'
   import {messageUtils} from '../../mixins/messageUtils'
-  import {logsUtils} from '../../mixins/logsUtils'
-
+  import {codeToMsgUtils} from '../../mixins/codeToMsgUtils'
 
   export default {
     name: "dashboardPage",
     components: {
       'info-tile': InfoTile,
-      'dashboard-card': DashboardCard
+      'card': Card
     },
-    mixins: [messageUtils, logsUtils],
-    data() {
-      return {
-        infoTiles: [
-          {
-            value: '-',
-            title: 'lastUpdateEndedTile',
-            type: 'LAST_UPDATE',
-          },
-          {
-            value: '-',
-            title: 'productsUpdatedInLastUpdateTile',
-            type: 'PRODUCTS_UPDATED',
-          },
-          {
-            value: '-',
-            title: 'nextUpdateStartsTile',
-            type: 'NEXT_UPDATE',
-          },
-          {
-            value: '-',
-            title: 'updateIntervalTile',
-            type: 'UPDATE_INTERVAL',
-          }
-        ]
-      }
-    },
+    mixins: [langUtils, dateTimeUtils, messageUtils, codeToMsgUtils],
     methods: {
-      manualUpdate() {
-        axios.post('/updateProducts')
-      }
-      ,
-      setUpdateButtonClass() {
+      manualLaunch(taskId) {
+        axios('/launchTaskManually', {
+          method: "post",
+          data: taskId,
+          headers: {
+            'Content-type': 'text/plain'
+          }
+        })
+      },
+      setLaunchButtonClass(taskId) {
+        let taskActive = this.getProgressTracker(taskId).active;
         return {
           'button': true,
           'is-success': true,
-          'is-loading': this.updating === 1,
+          'is-loading': taskActive === true,
         }
-      }
-      ,
-      updateInfoTilesData() {
-        axios.get('/additionalInfo').then((response) => {
-          Object.keys(response.data).forEach((key) => {
-            if (response.data.hasOwnProperty(key)) {
-              let infoTileData = this.infoTiles.filter((infoTile) => infoTile.type === response.data[key].type)[0];
-              let index = this.infoTiles.indexOf(infoTileData);
-              infoTileData.value = response.data[key].information;
-              this.infoTiles[index] = infoTileData;
-            }
-          });
-        });
-      }
-      ,
+      },
       setLogClass(type) {
         return {
           'errorLog': type === 'ERROR',
@@ -131,75 +102,77 @@
           'infoLog': type === 'INFO',
           'debugLog': type === 'DEBUG',
         }
+      },
+      getProgressTracker(taskId) {
+        if (taskId in this.taskProgressMap)
+          return this.taskProgressMap[taskId];
+        else
+          return {
+            active: false,
+            currentProgress: 0,
+            maxProgress: 1
+          };
       }
     },
     computed: {
       ...mapGetters({
         activeUser: 'activeUser',
-        currentProgress: 'currentProgress',
-        maxProgress: 'maxProgress',
-        updating: 'updating',
-        logList: 'logList'
+        taskList: 'taskList',
+        nextScheduledTasksExecutionsMap: 'nextScheduledTasksExecutionsMap',
+        taskLogList: 'taskLogList',
+        taskProgressMap: 'taskProgressMap',
+        pastTasksExecutionsList: 'pastTasksExecutionsList'
       }),
+      infoTilesData() {
+        let activeTasksAmountTileValue = this.taskList.filter((task) => task.scheduledable === true).length;
+        let totalLoggedErrorsTileValue = this.taskLogList.filter(log => log.type === 'ERROR').length;
+        let lastTaskEndedTileValue = this.nvl(this.dateToString(new Date(Math.max.apply(null, this.pastTasksExecutionsList.map(
+          pastTaskExecution => new Date(pastTaskExecution.executionFinishTime))))), '-');
+        let datesArray = [];
+        Object.keys(this.nextScheduledTasksExecutionsMap).forEach(
+          key => {
+            if (this.nextScheduledTasksExecutionsMap[key] !== 'TASKNOSCHED')
+              datesArray.push(new Date(this.nextScheduledTasksExecutionsMap[key]))
+          });
+        let nextTaskStartsTileValue = this.dateToString(Math.min.apply(null, datesArray));
+        return {
+          'activeTasksAmountTile': {
+            value: activeTasksAmountTileValue,
+            title: this.msg('activeTasksAmountTile'),
+          },
+          'totalLoggedErrorsTile': {
+            value: totalLoggedErrorsTileValue,
+            title: this.msg('totalLoggedErrorsTile'),
+          },
+          'lastTaskEndedTile': {
+            value: lastTaskEndedTileValue,
+            title: this.msg('lastTaskEndedTile'),
+          },
+          'nextTaskStartsTile': {
+            value: nextTaskStartsTileValue,
+            title: this.msg('nextTaskStartsTile'),
+          }
+        };
+      },
       filteredLogList() {
-        return this.logList.filter(log => log.type !== 'DEBUG').sort((a,b) => {
+        return this.taskLogList.filter(log => log.type !== 'DEBUG').sort((a, b) => {
           return new Date(b.time) - new Date(a.time);
-        }).slice(0,25);
+        }).slice(0, 15);
       }
-    },
-    watch: {
-      updating(newValue) {
-        // update info tiles at the end of product update
-        if (newValue === 0)
-          this.updateInfoTilesData();
-      }
-    },
-    created() {
-      this.updateInfoTilesData();
     }
   }
 </script>
-<!--=========================SCRIPT END========================-->
 
-<!--===========================STYLE===========================-->
-<style scoped>
+<style lang="scss" scoped>
+  @import '../../assets/styles/logs_styles.scss';
 
   .info-tiles {
-    margin: 1rem 0;
+    margin: 0.75rem 0;
   }
 
-  .hero.welcome.is-info {
-    background: #36D1DC;
-    background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);
-    background: linear-gradient(to right, #5B86E5, #36D1DC);
+  .hero {
+    background: -webkit-linear-gradient(to right, #3273dc, #36d1dc);
+    background: linear-gradient(to right, #3273dc, #36d1dc);
   }
 
-  .hero.welcome .title, .hero.welcome {
-    color: hsl(192, 17%, 99%);
-  }
-
-  .errorLog {
-    color: #ff413e;
-    font-weight: bold;
-    font-size: small;
-  }
-
-  .warnLog {
-    color: #ffba41;
-    font-weight: bold;
-    font-size: small;
-  }
-
-  .updateLog {
-    color: #64ff17;
-    font-weight: bold;
-    font-size: small;
-  }
-
-  .infoLog {
-    color: #1b3aff;
-    font-weight: bold;
-    font-size: small;
-  }
 </style>
-<!--=========================STYLE END=========================-->

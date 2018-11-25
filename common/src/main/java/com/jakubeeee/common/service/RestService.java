@@ -43,15 +43,15 @@ public class RestService {
                 responseType);
     }
 
-    public HttpHeaders generateHeaderWithAuthToken(String token) {
-        HttpHeaders headers = new HttpHeaders();
+    public HttpHeaders generateHeaderWithAuthToken(String tokenValue) {
+        var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.add("Authorization", "Bearer " + token);
+        headers.add("Authorization", "Bearer " + tokenValue);
         return headers;
     }
 
     public HttpHeaders generateHeaderWithUsernameAndPassword(String username, String password) {
-        HttpHeaders headers = new HttpHeaders();
+        var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String userAndPass = username + ":" + password;
         headers.add("Authorization", "Basic " + Base64Utility.encode(userAndPass.getBytes()));

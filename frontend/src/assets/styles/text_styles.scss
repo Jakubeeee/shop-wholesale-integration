@@ -1,0 +1,59 @@
+/*
+ * Unified text styles used throughout the application
+ *
+ */
+
+@import "custom_colors.scss";
+
+.casual-text {
+  font-family: 'Open Sans', serif !important;
+  font-size: 0.85rem !important;
+  font-weight: 300 !important;
+  letter-spacing: normal !important;
+  line-height: 1.5 !important;
+}
+
+.small-text {
+  @extend .casual-text;
+  font-size: 1rem !important;
+}
+
+.medium-text {
+  @extend .casual-text;
+  font-size: 1.25rem !important;
+}
+
+.big-text {
+  @extend .casual-text;
+  font-size: 2rem !important;
+}
+
+.semi-bold-text {
+  @extend .casual-text;
+  font-weight: 500 !important;
+}
+
+.bold-text {
+  @extend .casual-text;
+  font-weight: 700 !important;
+}
+
+.grayed-text {
+  @extend .casual-text;
+  color: $grey-color !important;
+}
+
+.dark-grayed-text {
+  @extend .casual-text;
+  color: $dark-grey-color !important;
+}
+
+.blue-text {
+  @extend .casual-text;
+  color: $blue-color !important;
+}
+
+.white-hsl-text {
+  @extend .big-text, .bold-text;
+  color: hsl(192, 17%, 99%) !important;
+}
