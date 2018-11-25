@@ -7,26 +7,28 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Node;
 
 import java.util.List;
+import java.util.Optional;
 
 @UtilityClass
 public class XmlUtils {
 
-    public static Document stringToXml(String string) {
+    public static Optional<Document> stringToXml(String string) {
+        Document document;
         try {
-            return DocumentHelper.parseText(string);
+            document = DocumentHelper.parseText(string);
         } catch (DocumentException e) {
-            return null;
+            document = null;
         }
+        return Optional.ofNullable(document);
     }
 
     @SuppressWarnings(value = "unchecked")
-    public static List<Node> nodesToList(Document xml, String xpath) {
+    public static List<Node> toNodeList(Document xml, String xpath) {
         return xml.selectNodes(xpath);
     }
 
     public static String getTextValue(Node node, String name) {
         return node.selectSingleNode(name).getText();
     }
-
 
 }

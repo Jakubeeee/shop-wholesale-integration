@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.config;
 
-import com.jakubeeee.integration.service.SchedulerService;
+import com.jakubeeee.integration.service.IntegrationTasksService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +11,8 @@ import org.springframework.context.annotation.PropertySource;
 public class IntegrationConfig {
 
     @Bean
-    public CommandLineRunner setSchedulerTasks(SchedulerService schedulerService) {
-        return (args) -> schedulerService.scheduleUpdates();
+    public CommandLineRunner registerTasks(IntegrationTasksService service) {
+        return args -> service.initializeTasks();
     }
 
 }

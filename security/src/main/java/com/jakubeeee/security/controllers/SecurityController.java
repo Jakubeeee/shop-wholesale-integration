@@ -1,12 +1,11 @@
 package com.jakubeeee.security.controllers;
 
 import com.jakubeeee.security.exceptions.ValidationException;
-import com.jakubeeee.security.persistence.entities.User;
+import com.jakubeeee.security.model.User;
 import com.jakubeeee.security.service.PasswordResetService;
 import com.jakubeeee.security.service.SecurityService;
 import com.jakubeeee.security.service.UserService;
 import com.jakubeeee.security.validation.forms.ChangePasswordForm;
-import com.jakubeeee.security.validation.forms.SignUpForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+
+import static java.util.Objects.isNull;
 
 @Slf4j
 @RestController
@@ -38,12 +39,9 @@ public class SecurityController {
 
     @GetMapping("/activeUser")
     public String getActiveUsername(@AuthenticationPrincipal User activeUser) {
-        return activeUser.getUsername();
-    }
-
-    @PostMapping("/createAccount")
-    public void handleCreateAccountRequest(@Validated @RequestBody SignUpForm form) throws ValidationException {
-        userService.createUser(form);
+        if (!isNull(activeUser))
+            return activeUser.getUsername();
+        else return "";
     }
 
     @PostMapping(path = "/forgotMyPassword", consumes = "text/plain")

@@ -1,0 +1,30 @@
+/*
+ * Styles used by components such as Cards, InfoTiles or Buttons
+ *
+ */
+@import "custom_colors.scss";
+
+.component {
+  box-shadow: 0 0.12rem 0.25rem rgba(0, 0, 0, 0.18);
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+}
+
+.button.is-info:not(.is-outlined):not(:hover) {
+  background-color: $blue_color;
+}
+
+.button.is-info:not(.is-outlined):hover {
+  background-color: $dark-blue-color;
+}
+
+.button.is-info.is-outlined:not(:hover) {
+  border-color: $blue_color;
+  * {
+    color: $blue_color;
+  }
+}
+
+.button.is-info.is-outlined:hover {
+  background-color: $blue_color;
+}

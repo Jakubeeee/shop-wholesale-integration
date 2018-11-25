@@ -1,8 +1,8 @@
 package com.jakubeeee.security.service;
 
-import com.jakubeeee.security.persistence.entities.Role;
-import com.jakubeeee.security.persistence.entities.User;
-import com.jakubeeee.security.persistence.repositories.RoleRepository;
+import com.jakubeeee.security.model.Role;
+import com.jakubeeee.security.model.User;
+import com.jakubeeee.security.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -11,7 +11,6 @@ Vue.use(buefy);
 Vue.use(Vuelidate);
 Vue.use(lodash);
 
-
 Vue.config.devTools = true;
 Vue.config.productionTip = false;
 Vue.config.debug = true;

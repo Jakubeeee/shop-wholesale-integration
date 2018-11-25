@@ -1,9 +1,8 @@
-<!--=========================TEMPLATE=========================-->
 <template>
   <nav class="navbar is-white">
     <div class="container">
       <div class="navbar-brand">
-        <a class="navbar-item brand-text" href="#/dashboard">
+        <a class="navbar-item brand-text bold-text" href="#/dashboard">
           {{ msg('webAppButtonText') }}
         </a>
         <div class="navbar-burger burger" @click="toggleBurger" :class="{'is-active': burgerActive}"
@@ -18,30 +17,23 @@
 
         <div class="navbar-item" v-if="!authenticated && !burgerActive">
           <a class="button is-success is-outlined navbar-item" href="#/login">
-            <span>{{ msg('loginButtonText') }}</span>
+            <span class="bold-text">{{ msg('loginButtonText') }}</span>
             <b-icon icon="login"></b-icon>
           </a>
         </div>
 
         <div class="navbar-item" v-if="authenticated  && !burgerActive">
           <a class="button is-danger is-outlined navbar-item" @click="logout">
-            <span>{{ msg('logoutButtonText') }}</span>
+            <span class="bold-text">{{ msg('logoutButtonText') }}</span>
             <b-icon icon="logout"></b-icon>
           </a>
         </div>
 
-        <div class="navbar-item" v-if="!authenticated  && !burgerActive">
-          <a class="button is-success is-outlined navbar-item" href="#/signup">
-            <span>{{ msg('signupButtonText') }}</span>
-            <b-icon icon="account-plus"></b-icon>
-          </a>
-        </div>
-
         <b-dropdown class="navbar-item" v-if="!burgerActive">
-          <button class="button" slot="trigger">
-            <span>{{ msg('chooseLanguageDropdownText') }}</span>
+          <a class="button is-info is-outlined" slot="trigger">
+            <span class="bold-text">{{ msg('chooseLanguageDropdownText') }}</span>
             <b-icon icon="menu-down"></b-icon>
-          </button>
+          </a>
           <b-dropdown-item @click="changeLanguage('pl')">{{ msg('polishLanguageChoice') }}</b-dropdown-item>
           <b-dropdown-item @click="changeLanguage('en')">{{ msg('englishLanguageChoice') }}</b-dropdown-item>
         </b-dropdown>
@@ -50,12 +42,10 @@
     </div>
   </nav>
 </template>
-<!--=======================TEMPLATE END=======================-->
 
-<!--==========================SCRIPT==========================-->
 <script>
-  import {messageUtils} from '../mixins/messageUtils'
   import {mapGetters} from 'vuex'
+  import {messageUtils} from '../mixins/messageUtils'
 
   export default {
     name: "navbar",
@@ -83,26 +73,17 @@
     }
   }
 </script>
-<!--=========================SCRIPT END========================-->
 
-<!--===========================STYLE===========================-->
-<style scoped>
+<style lang="scss" scoped>
+  @import '../assets/styles/custom_colors.scss';
 
-  nav.navbar {
-    border-top: 4px solid #276cda;
+  .navbar {
+    border-top: 0.25rem solid $blue-color;
     margin-bottom: 1rem;
   }
 
-  .navbar-item.brand-text {
-    font-weight: 300;
-    color: #8F99A3;
-  }
-
   .navbar-item {
-    font-size: 14px;
-    font-weight: 700;
-    padding: 10px;
+    padding: 0.5rem;
   }
 
 </style>
-<!--=========================STYLE END=========================-->
