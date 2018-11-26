@@ -1,3 +1,0 @@
-INSERT INTO roles (name) VALUES ('BASIC_USER');
-INSERT INTO roles (name) VALUES ('PRO_USER');
-INSERT INTO roles (name) VALUES ('ADMIN');

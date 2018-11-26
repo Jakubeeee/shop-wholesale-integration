@@ -4,7 +4,10 @@ package com.jakubeeee.security.model;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -24,8 +27,12 @@ public class Role implements Serializable {
         final long id;
     }
 
+    public Role(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     String name;

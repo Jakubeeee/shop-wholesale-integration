@@ -100,10 +100,13 @@ public class ShoperService implements UpdatableDataSource<ShoperProduct> {
             switch (property) {
                 case STOCK:
                     requestParams.put("stock", commonProduct.getStock());
+                    break;
                 case PRICE:
                     requestParams.put("price", commonProduct.getPrice());
+                    break;
                 case EAN:
                     requestParams.put("ean", commonProduct.getEan());
+                    break;
             }
         }
         return requestParams;
