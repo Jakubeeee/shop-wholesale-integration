@@ -4,7 +4,7 @@ import com.diffplug.common.base.Errors;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jakubeeee.tasks.enums.TaskMode;
 import com.jakubeeee.tasks.enums.TaskStatus;
-import com.jakubeeee.tasks.service.TaskProviderInterface;
+import com.jakubeeee.tasks.service.TaskProvider;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -27,7 +27,7 @@ public class GenericTask {
 
     @JsonIgnore
     @Getter
-    TaskProviderInterface taskProvider;
+    TaskProvider taskProvider;
 
     @Getter
     TaskMode mode;
@@ -55,7 +55,7 @@ public class GenericTask {
     @Getter
     LastTaskExecutionInfo lastTaskExecutionInfo;
 
-    public GenericTask(long id, String code, TaskMode mode, long interval, long delay, TaskProviderInterface taskProvider) {
+    public GenericTask(long id, String code, TaskMode mode, long interval, long delay, TaskProvider taskProvider) {
         this.id = id;
         this.code = code;
         this.mode = mode;

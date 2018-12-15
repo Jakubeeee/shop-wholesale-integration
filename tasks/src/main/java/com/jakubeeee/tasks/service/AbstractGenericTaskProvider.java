@@ -12,10 +12,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.jakubeeee.common.utils.LangUtils.toList;
+import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
 import static java.time.LocalDateTime.now;
 
 @FieldDefaults(level = AccessLevel.PROTECTED)
-public abstract class AbstractGenericTaskProvider<T extends GenericTask> implements TaskProviderInterface<T> {
+public abstract class AbstractGenericTaskProvider<T extends GenericTask> implements TaskProvider<T> {
 
     @Autowired
     TaskService taskService;
@@ -34,7 +35,8 @@ public abstract class AbstractGenericTaskProvider<T extends GenericTask> impleme
         caller.getLastTaskExecutionInfo().setLastStartedExecutionTime(now());
         progressTrackingService.startTrackingProgress(caller);
         loggingService.startPublishingLogs();
-        loggingService.info(caller.getId(), "TASKEXECSTART", toList(caller.getCode(), String.valueOf(caller.getId())));
+        loggingService.info(caller.getId(), "TASKEXECSTART",
+                toList(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));
     }
 
     @Override

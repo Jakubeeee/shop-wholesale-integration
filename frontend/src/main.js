@@ -3,7 +3,7 @@ import App from './App'
 import store from './vuex/store'
 import router from './router/index'
 import buefy from 'buefy'
-import i18n from './language/lang'
+import i18n from './language/i18n'
 import Vuelidate from 'vuelidate'
 import lodash from 'lodash';
 

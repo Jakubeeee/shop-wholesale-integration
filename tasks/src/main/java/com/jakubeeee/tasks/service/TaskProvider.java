@@ -13,7 +13,7 @@ import com.jakubeeee.tasks.model.GenericTask;
  * @see GenericTask
  * @see TaskAspect
  */
-public interface TaskProviderInterface<T extends GenericTask> {
+public interface TaskProvider<T extends GenericTask> {
 
     void beforeTask(T caller) throws DummyServiceException, InvalidParametersException, InvalidTaskStatusException;
 

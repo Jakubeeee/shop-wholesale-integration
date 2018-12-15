@@ -4,7 +4,7 @@ import axios from "axios/index";
 import SockJS from 'sockjs-client'
 import Stomp from 'webstomp-client'
 import router from '../router/index'
-import i18n from '../language/lang'
+import i18n from '../language/i18n'
 import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);

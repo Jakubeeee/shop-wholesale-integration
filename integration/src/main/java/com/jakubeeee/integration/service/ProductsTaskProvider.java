@@ -12,6 +12,7 @@ import com.jakubeeee.integration.model.ProductMatchingResult;
 import com.jakubeeee.integration.model.ProductsTask;
 import com.jakubeeee.tasks.exceptions.InvalidTaskStatusException;
 import com.jakubeeee.tasks.exceptions.ProgressTrackerNotActiveException;
+import com.jakubeeee.tasks.model.LogParam;
 import com.jakubeeee.tasks.service.AbstractGenericTaskProvider;
 import lombok.AccessLevel;
 import lombok.Synchronized;
@@ -32,6 +33,7 @@ import static com.jakubeeee.common.utils.ThreadUtils.sleep;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty.*;
 import static com.jakubeeee.tasks.enums.TaskMode.TESTING;
+import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
 import static java.util.Collections.sort;
 
 @Slf4j
@@ -55,7 +57,6 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void beforeTask(ProductsTask caller) throws DummyServiceException, InvalidTaskStatusException {
         super.beforeTask(caller);
         switchImplementations(
@@ -74,8 +75,8 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
 
     @Override
     public void afterTask(ProductsTask caller) {
-        super.afterTask(caller);
         switchImplementations(DummyUpdatableDataSource.class, DummyDataSource.class);
+        super.afterTask(caller);
     }
 
     private void switchImplementations(Class<? extends Switchable> updatableDataSource,
@@ -94,32 +95,21 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void updateProducts(ProductsTask caller) throws ProgressTrackerNotActiveException {
-        loggingService.info(caller.getId(), "DOWNPRODINFO", toList(updatableDataSource.getServiceName()));
-        List<? extends ExternalProduct> externalShopProducts = updatableDataSource.getExternalProducts();
-        List<CommonProduct> commonShopProducts = updatableDataSource.convertToCommonProducts(externalShopProducts);
-        loggingService.info(caller.getId(), "DOWNPRODAMNT", toList(String.valueOf(commonShopProducts.size()),
-                updatableDataSource.getServiceName()));
-        executionParams.put("UPDS_PRODUCT_AMOUNT", toList(updatableDataSource.getServiceName(), commonShopProducts.size()));
-        loggingService.info(caller.getId(), "DOWNPRODINFO", toList(dataSource.getServiceName()));
-        List<? extends ExternalProduct> externalDataSourceProducts = dataSource.getExternalProducts();
-        List<CommonProduct> commonDataSourceProducts = dataSource.convertToCommonProducts(externalDataSourceProducts);
-        loggingService.info(caller.getId(), "DOWNPRODAMNT", toList(String.valueOf(commonDataSourceProducts.size()),
-                dataSource.getServiceName()));
-        executionParams.put("DS_PRODUCT_AMOUNT", toList(dataSource.getServiceName(), commonDataSourceProducts.size()));
-        loggingService.info(caller.getId(), "STARTMATCHPRD", toList(updatableDataSource.getServiceName(),
-                dataSource.getServiceName()));
-        ProductMatchingResult result = matchProducts(commonShopProducts, commonDataSourceProducts);
+        List<CommonProduct> commonUpdatableDataSourceProducts = getCommonProducts(caller.getId(), updatableDataSource);
+        List<CommonProduct> commonDataSourceProducts = getCommonProducts(caller.getId(), dataSource);
+        loggingService.info(caller.getId(), "STARTMATCHPRD",
+                toList(toLogParam(updatableDataSource.getServiceName()), toLogParam(dataSource.getServiceName())));
+        ProductMatchingResult result = matchProducts(commonUpdatableDataSourceProducts, commonDataSourceProducts);
         executionParams.put("PRODUCTS_MATCHED", toList(result.getMatchedProductsRegistry().size()));
         result.getUnmatchedUpdatableDataSourceProducts().forEach(product ->
-                loggingService.warn(caller.getId(), "PRODNOTINDS", toList(product.getCode(),
-                        updatableDataSource.getServiceName(), dataSource.getServiceName())));
+                loggingService.warn(caller.getId(), "PRODNOTINDS", toList(toLogParam(product.getCode()),
+                        toLogParam(updatableDataSource.getServiceName()), toLogParam(dataSource.getServiceName()))));
         executionParams.put("NOT_MATCHED_UPDS_PRODUCTS_AMOUNT", toList(updatableDataSource.getServiceName(),
                 result.getUnmatchedUpdatableDataSourceProducts().size()));
         result.getUnmatchedDataSourceProducts().forEach(product ->
-                loggingService.warn(caller.getId(), "PRODNOTINDS", toList(product.getCode(),
-                        dataSource.getServiceName(), updatableDataSource.getServiceName())));
+                loggingService.warn(caller.getId(), "PRODNOTINDS", toList(toLogParam(product.getCode()),
+                        toLogParam(dataSource.getServiceName()), toLogParam(updatableDataSource.getServiceName()))));
         executionParams.put("NOT_MATCHED_DS_PRODUCTS_AMOUNT", toList(dataSource.getServiceName(),
                 result.getUnmatchedDataSourceProducts().size()));
         progressTrackingService.setMaxProgress(caller, result.getMatchedProductsRegistry().size());
@@ -127,17 +117,31 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
             CommonProduct oldProduct = registryElement.getOldObject();
             CommonProduct updatedProduct = registryElement.getNewObject();
             List<UpdatableProperty> propertiesToUpdate =
-                    getPreparedPropertiesToUpdate(cloneList(caller.getUpdatableProperties()), oldProduct, updatedProduct, caller.getId());
+                    getPreparedPropertiesToUpdate(cloneList(caller.getUpdatableProperties()),
+                            oldProduct, updatedProduct, caller.getId());
             if (!propertiesToUpdate.isEmpty()) {
                 boolean isTesting = false;
                 if (caller.getMode() == TESTING) isTesting = true;
                 updatableDataSource.updateSingleProduct(updatedProduct, propertiesToUpdate, isTesting);
-                List<String> logParameters = getPreparedUpdateLogParameters(propertiesToUpdate, oldProduct, updatedProduct);
-                loggingService.update(caller.getId(), "PRODUPD", logParameters);
+                List<LogParam> logParameters = getPreparedUpdateLogParams(propertiesToUpdate, oldProduct, updatedProduct);
+                int updateLogDynamicParts = propertiesToUpdate.size() - 1;
+                loggingService.update(caller.getId(), "PRODUPD", logParameters, updateLogDynamicParts);
             }
             progressTrackingService.advanceProgress(caller);
             sleep(50);
         }));
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<CommonProduct> getCommonProducts(Long taskId, DataSource dataSource) {
+        loggingService.info(taskId, "DOWNPRODINFO", toList(toLogParam(dataSource.getServiceName())));
+        List<? extends ExternalProduct> externalDataSourceProducts = dataSource.getExternalProducts();
+        List<CommonProduct> commonDataSourceProducts = dataSource.convertToCommonProducts(externalDataSourceProducts);
+        loggingService.info(taskId, "DOWNPRODAMNT",
+                toList(toLogParam(String.valueOf(commonDataSourceProducts.size())), toLogParam(dataSource.getServiceName())));
+        String executionParamCode = dataSource instanceof UpdatableDataSource ? "UPDS_PRODUCT_AMOUNT" : "DS_PRODUCT_AMOUNT";
+        executionParams.put(executionParamCode, toList(dataSource.getServiceName(), commonDataSourceProducts.size()));
+        return commonDataSourceProducts;
     }
 
     private List<UpdatableProperty> getPreparedPropertiesToUpdate(
@@ -154,34 +158,35 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
     private void preparePropertyToUpdate(List<UpdatableProperty> allProperties, UpdatableProperty property,
                                          String oldValue, String newValue, String productName, Long taskId) {
         if (allProperties.contains(property) && oldValue.equals(newValue)) {
-            loggingService.debug(taskId, "PROPNOTCHNG", toList(productName, property.getCode(), newValue));
+            loggingService.debug(taskId, "PROPNOTCHNG",
+                    toList(toLogParam(productName), toLogParam(property.getCode(), true), toLogParam(newValue)));
             allProperties.remove(property);
         }
     }
 
-    private List<String> getPreparedUpdateLogParameters(
+    private List<LogParam> getPreparedUpdateLogParams(
             List<UpdatableProperty> propertiesToUpdate, CommonProduct oldProduct, CommonProduct updatedProduct) {
-        var logParameters = new ArrayList<String>();
-        logParameters.add(updatedProduct.getName());
+        var logParameters = new ArrayList<LogParam>();
+        logParameters.add(toLogParam(updatedProduct.getName()));
         if (propertiesToUpdate.contains(STOCK)) {
-            logParameters.add(STOCK.getCode());
-            logParameters.add(oldProduct.getStock());
-            logParameters.add(updatedProduct.getStock());
+            logParameters.add(toLogParam(STOCK.getCode(), true));
+            logParameters.add(toLogParam(oldProduct.getStock()));
+            logParameters.add(toLogParam(updatedProduct.getStock()));
         }
         if (propertiesToUpdate.contains(PRICE)) {
-            logParameters.add(PRICE.getCode());
-            logParameters.add(oldProduct.getPrice());
-            logParameters.add(updatedProduct.getPrice());
+            logParameters.add(toLogParam(PRICE.getCode(), true));
+            logParameters.add(toLogParam(oldProduct.getPrice()));
+            logParameters.add(toLogParam(updatedProduct.getPrice()));
         }
         if (propertiesToUpdate.contains(EAN)) {
-            logParameters.add(EAN.getCode());
-            logParameters.add(oldProduct.getEan());
-            logParameters.add(updatedProduct.getEan());
+            logParameters.add(toLogParam(EAN.getCode(), true));
+            logParameters.add(toLogParam(oldProduct.getEan()));
+            logParameters.add(toLogParam(updatedProduct.getEan()));
         }
         return logParameters;
     }
 
-    public ProductMatchingResult matchProducts(
+    ProductMatchingResult matchProducts(
             List<CommonProduct> updatableDataSourceProducts, List<CommonProduct> dataSourceProducts) {
         var result = new ProductMatchingResult();
         sort(dataSourceProducts);

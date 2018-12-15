@@ -48,7 +48,7 @@
         <span class="casual-text semi-bold-text blue-text">({{truncateToSeconds(log.time)}})</span>
         <span :class="setLogClass(log.type)">{{log.type}}:</span>
         <span :class="setLogClass(log.type)"> (ID: {{log.taskId}})</span>
-        <span :class="setLogClass(log.type)">{{logCodeToMsg(log.code, log.params)}}</span>
+        <span :class="setLogClass(log.type)">{{logCodeToMsg(log.code, log.params, log.dynamicParts)}}</span>
       </li>
     </ul>
     <b-pagination id="pagination" :total="logsAmount" :current.sync="currentPage"

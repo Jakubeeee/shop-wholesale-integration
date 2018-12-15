@@ -1,0 +1,21 @@
+{
+  "dummyProductsUpdateTaskName": "Test product update task (ID: {})",
+  "dummyProductsUpdateTaskDescription": "Test product update task",
+  "dummyGenericTaskName": "Test generic task (ID: {})",
+  "dummyGenericTaskDescription": "Test generic task",
+  "taskModeProperty": "Mode",
+  "taskIntervalProperty": "Interval",
+  "taskNextScheduledLaunchProperty": "Next scheduled launch",
+  "taskIsNotScheduled": "-",
+  "taskDescriptionProperty": "Description",
+  "manualLaunchButtonText": "Manual launch",
+  "goToLogsButtonText": "Go to logs",
+  "showLatestExecutionsCardTitle": "Show latest executions",
+  "hideLatestExecutionsCardTitle": "Hide latest executions",
+  "noDataCardContent": "No data",
+  "taskExecutionFinishTimeProperty": "Execution finish time",
+  "taskAdditionalInformationProperty": "Additional information",
+  "dataSourceProductAmountProperty": "Products found in '{}': {}",
+  "productsMatchedProperty": "Total products matched: {}",
+  "dataSourceProductsUnmatchedProperty": "Unmatched products in '{}': {}"
+}

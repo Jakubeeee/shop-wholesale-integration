@@ -5,22 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
-
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
-public class LogMessage {
+public class LogParam {
 
     public enum Type {
-        ERROR, WARN, UPDATE, INFO, DEBUG
+        TEXT, CODE
     }
 
-    long taskId;
-    String code;
+    String value;
     Type type;
-    String time;
-    List<LogParam> params;
-    int dynamicParts;
 
 }

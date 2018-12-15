@@ -1,0 +1,10 @@
+{
+  "header": "Log in",
+  "usernamePlaceholder": "Your username",
+  "passwordPlaceholder": "Your password",
+  "rememberMeLabel": "Remember me",
+  "loginButtonText": "Log in",
+  "forgotMyPasswordLink": "Forgot My Password",
+  "needHelpLink": "Need help?",
+  "invalidUsernameOrPasswordNotification": "Invalid username or password"
+}

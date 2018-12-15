@@ -46,7 +46,8 @@
         <table class="table is-fullwidth is-striped">
           <tr v-for="log in filteredLogList">
             <td width="25%" class="casual-text semi-bold-text blue-text">{{truncateToSeconds(log.time)}}</td>
-            <td width="65%" :class="setLogClass(log.type)">(ID: {{log.taskId}}) {{logCodeToMsg(log.code, log.params)}}
+            <td width="65%" :class="setLogClass(log.type)">
+              (ID: {{log.taskId}}) {{logCodeToMsg(log.code, log.params, log.dynamicParts)}}
             </td>
             <td width="10%" :class="setLogClass(log.type)" style="text-transform: uppercase">{{log.type}}</td>
           </tr>

@@ -1,0 +1,10 @@
+{
+  "header": "Logowanie",
+  "usernamePlaceholder": "Użytkownik",
+  "passwordPlaceholder": "Hasło",
+  "rememberMeLabel": "Zapamiętaj",
+  "loginButtonText": "Zaloguj",
+  "forgotMyPasswordLink": "Przypomnij Hasło",
+  "needHelpLink": "Pomoc",
+  "invalidUsernameOrPasswordNotification": "Nieprawidłowa nazwa użytkownika lub hasło"
+}

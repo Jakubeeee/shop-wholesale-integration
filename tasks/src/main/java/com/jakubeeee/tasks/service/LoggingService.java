@@ -2,12 +2,12 @@ package com.jakubeeee.tasks.service;
 
 import com.jakubeeee.common.service.TimerService;
 import com.jakubeeee.tasks.model.LogMessage;
+import com.jakubeeee.tasks.model.LogParam;
 import com.jakubeeee.tasks.publishers.TaskPublisher;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Synchronized;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -48,47 +48,67 @@ public class LoggingService {
     TimerService timerService;
 
     public void error(long taskId, String code) {
-        error(taskId, code, null);
+        error(taskId, code, null, 0);
     }
 
-    public void error(long taskId, String code, @Nullable List<String> params) {
-        createLogMessage(taskId, code, ERROR, params);
+    public void error(long taskId, String code, @Nullable List<LogParam> params) {
+        error(taskId, code, params, 0);
+    }
+
+    public void error(long taskId, String code, @Nullable List<LogParam> params, int dynamicParts) {
+        createLogMessage(taskId, code, ERROR, params, dynamicParts);
     }
 
     public void warn(long taskId, String code) {
-        warn(taskId, code, null);
+        warn(taskId, code, null, 0);
     }
 
-    public void warn(long taskId, String code, @Nullable List<String> params) {
-        createLogMessage(taskId, code, WARN, params);
+    public void warn(long taskId, String code, @Nullable List<LogParam> params) {
+        warn(taskId, code, params, 0);
+    }
+
+    public void warn(long taskId, String code, @Nullable List<LogParam> params, int dynamicParts) {
+        createLogMessage(taskId, code, WARN, params, dynamicParts);
     }
 
     public void update(long taskId, String code) {
-        update(taskId, code, null);
+        update(taskId, code, null, 0);
     }
 
-    public void update(long taskId, String code, @Nullable List<String> params) {
-        createLogMessage(taskId, code, UPDATE, params);
+    public void update(long taskId, String code, @Nullable List<LogParam> params) {
+        update(taskId, code, params, 0);
+    }
+
+    public void update(long taskId, String code, @Nullable List<LogParam> params, int dynamicParts) {
+        createLogMessage(taskId, code, UPDATE, params, dynamicParts);
     }
 
     public void info(long taskId, String code) {
-        info(taskId, code, null);
+        info(taskId, code, null, 0);
     }
 
-    public void info(long taskId, String code, @Nullable List<String> params) {
-        createLogMessage(taskId, code, INFO, params);
+    public void info(long taskId, String code, @Nullable List<LogParam> params) {
+        info(taskId, code, params, 0);
+    }
+
+    public void info(long taskId, String code, @Nullable List<LogParam> params, int dynamicParts) {
+        createLogMessage(taskId, code, INFO, params, dynamicParts);
     }
 
     public void debug(long taskId, String code) {
-        debug(taskId, code, null);
+        debug(taskId, code, null, 0);
     }
 
-    public void debug(long taskId, String code, @Nullable List<String> params) {
-        createLogMessage(taskId, code, DEBUG, params);
+    public void debug(long taskId, String code, @Nullable List<LogParam> params) {
+        debug(taskId, code, params, 0);
     }
 
-    private void createLogMessage(long taskId, String code, LogMessage.Type type, @Nullable List<String> params) {
-        var log = new LogMessage(taskId, code, type, formatDateTimeWithNanos(now()), nvl(params, new ArrayList<>()));
+    public void debug(long taskId, String code, @Nullable List<LogParam> params, int dynamicParts) {
+        createLogMessage(taskId, code, DEBUG, params, dynamicParts);
+    }
+
+    private void createLogMessage(long taskId, String code, LogMessage.Type type, @Nullable List<LogParam> params, int dynamicParts) {
+        var log = new LogMessage(taskId, code, type, formatDateTimeWithNanos(now()), nvl(params, new ArrayList<>()), dynamicParts);
         cacheLogMessage(log);
     }
 
@@ -98,7 +118,7 @@ public class LoggingService {
         temporaryPendingLogs.add(log);
     }
 
-    public void startPublishingLogs() {
+    void startPublishingLogs() {
         if (isPublishing) return;
         isPublishing = true;
         BooleanSupplier cancelCondition = () -> !progressTrackingService.isAnyProgressTrackerActive();

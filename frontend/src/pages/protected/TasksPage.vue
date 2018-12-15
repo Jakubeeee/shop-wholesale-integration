@@ -30,7 +30,7 @@
                 <tr>
                   <td class="task-property-cell casual-text semi-bold-text">
                     {{msg('taskNextScheduledLaunchProperty')}}:
-                    {{customCodeToMsg(nextScheduledTasksExecutionsMap[task.id])}}
+                    {{taskCodeToMsg(nextScheduledTasksExecutionsMap[task.id])}}
                   </td>
                 </tr>
                 <tr>
@@ -85,7 +85,7 @@
                         </td>
                         <td width="60%" class="casual-text semi-bold-text">
                           <span v-for="(value, key) in sortObject(pastTaskExecution.params)">
-                            {{pastTaskExecutionCodeToMsg(key, [...value])}}<br/></span>
+                            {{taskCodeToMsg(key, [...value])}}<br/></span>
                         </td>
                       </tr>
                     </template>

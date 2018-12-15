@@ -1,0 +1,12 @@
+{
+  "DUMMY_PRODUCTS_UPDATE_TASK": "dummyProductsUpdateTaskName",
+  "DUMMY_PRODUCTS_UPDATE_TASK_DESC": "dummyProductsUpdateTaskDescription",
+  "DUMMY_GENERIC_TASK": "dummyGenericTaskName",
+  "DUMMY_GENERIC_TASK_DESC": "dummyGenericTaskDescription",
+  "DS_PRODUCT_AMOUNT": "dataSourceProductAmountProperty",
+  "UPDS_PRODUCT_AMOUNT": "dataSourceProductAmountProperty",
+  "PRODUCTS_MATCHED": "productsMatchedProperty",
+  "NOT_MATCHED_DS_PRODUCTS_AMOUNT": "dataSourceProductsUnmatchedProperty",
+  "NOT_MATCHED_UPDS_PRODUCTS_AMOUNT": "dataSourceProductsUnmatchedProperty",
+  "TASKNOSCHED": "taskIsNotScheduled"
+}

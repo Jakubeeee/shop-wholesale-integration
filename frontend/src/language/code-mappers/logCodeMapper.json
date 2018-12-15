@@ -1,0 +1,19 @@
+{
+  "TASKEXECSTART": "startingTaskExecution",
+  "DOWNPRODINFO": "downloadingProductsInformation",
+  "DOWNPRODAMNT": "foundProductsAmount",
+  "STARTMATCHPRD": "productsMatchingStarted",
+  "PRODNOTINDS": "productNotFoundInTheDataSource",
+  "PROPNOTCHNG": "productPropertyHasNotChange",
+  "PRODUPD": "productPropertiesHasBeenUpdated",
+  "STOCKPROP": "productStockProperty",
+  "PRICEPROP": "productPriceProperty",
+  "EANPROP": "productEanProperty",
+  "UPDSUCCESS": "updateFinishedSuccessfully",
+  "CONNPROB": "connectionProblem",
+  "UNKNOWNPROB": "unknownProblem",
+  "TASKALRLAUNCH": "taskAlreadyLaunched",
+  "PROVALRINUSE": "taskProviderAlreadyInUse",
+  "TASKEXECSUCC": "taskExecutionEndedSuccessfully",
+  "TASKEXECABORT": "taskExecutionAborted"
+}

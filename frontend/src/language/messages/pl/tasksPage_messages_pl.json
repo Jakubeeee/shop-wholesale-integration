@@ -1,0 +1,21 @@
+{
+  "dummyProductsUpdateTaskName": "Testowe zadanie aktualizacji produktów (ID: {})",
+  "dummyProductsUpdateTaskDescription": "Testowe zadanie aktualizacji produktów",
+  "dummyGenericTaskName": "Ogólne testowe zadanie (ID: {})",
+  "dummyGenericTaskDescription": "Ogólne testowe zadanie",
+  "taskModeProperty": "Tryb",
+  "taskIntervalProperty": "Interwał",
+  "taskNextScheduledLaunchProperty": "Następne zaplanowane wykonanie",
+  "taskIsNotScheduled": "-",
+  "taskDescriptionProperty": "Opis",
+  "manualLaunchButtonText": "Ręczne odpalenie",
+  "goToLogsButtonText": "Przejdź do logów",
+  "showLatestExecutionsCardTitle": "Pokaż ostatnie wykonania",
+  "hideLatestExecutionsCardTitle": "Ukryj ostatnie wykonania",
+  "noDataCardContent": "Brak danych",
+  "taskExecutionFinishTimeProperty": "Czas zakończenia wykonania",
+  "taskAdditionalInformationProperty": "Dodatkowe informacje",
+  "dataSourceProductAmountProperty": "Produkty znalezione w '{}': {}",
+  "productsMatchedProperty": "Łączna ilość dopasowanych produktów: {}",
+  "dataSourceProductsUnmatchedProperty": "Ilość niedopasowanych produktów w '{}': {}"
+}
