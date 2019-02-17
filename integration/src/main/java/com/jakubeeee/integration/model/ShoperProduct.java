@@ -29,13 +29,6 @@ public class ShoperProduct implements ExternalProduct {
     @JsonProperty(value = "ean")
     String ean;
 
-    public ShoperProduct(String id, String code, String stock, String price, String ean) {
-        this.id = id;
-        this.code = code;
-        this.stockDetails = new StockDetails(stock, price);
-        this.ean = ean;
-    }
-
     public String getProductStock() {
         return stockDetails.getStock();
     }

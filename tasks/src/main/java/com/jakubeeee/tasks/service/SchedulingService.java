@@ -1,7 +1,7 @@
 package com.jakubeeee.tasks.service;
 
 import com.jakubeeee.common.service.TimerService;
-import com.jakubeeee.tasks.exceptions.InvalidTaskIdException;
+import com.jakubeeee.tasks.exceptions.NoTaskWithGivenIdException;
 import com.jakubeeee.tasks.model.GenericTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +18,9 @@ public class SchedulingService {
     @Autowired
     TimerService timerService;
 
-    public void launchTaskImmediately(long taskId) throws InvalidTaskIdException {
+    public void launchTaskImmediately(long taskId) throws NoTaskWithGivenIdException {
         GenericTask task = taskService.getTask(taskId).orElseThrow(
-                () -> new InvalidTaskIdException("There is no registered task with id: " + taskId));
+                () -> new NoTaskWithGivenIdException("There is no registered task with id: " + taskId));
         task.getTaskFunction().run();
     }
 

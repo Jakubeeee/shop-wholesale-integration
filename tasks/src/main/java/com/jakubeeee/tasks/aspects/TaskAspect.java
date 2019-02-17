@@ -44,7 +44,7 @@ public class TaskAspect {
                 } catch (ResourceAccessException e) {
                     LOG.error("ResourceAccessException has occurred", e);
                     loggingService.error(caller.getId(), "CONNPROB");
-                } catch (Exception e2) {
+                } catch (Throwable e2) {
                     LOG.error("Unknown Exception has occurred", e2);
                     loggingService.error(caller.getId(), "UNKNOWNPROB");
                 } finally {
@@ -57,9 +57,9 @@ public class TaskAspect {
                         loggingService.info(caller.getId(), "TASKEXECABORT",
                                 toList(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));
                     }
+                    taskProvider.afterTask(caller);
+                    taskService.changeStatus(caller, WAITING);
                 }
-                taskProvider.afterTask(caller);
-                taskService.changeStatus(caller, WAITING);
             } else {
                 loggingService.warn(caller.getId(), "TASKALRLAUNCH",
                         toList(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));

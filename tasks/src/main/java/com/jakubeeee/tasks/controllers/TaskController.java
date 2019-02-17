@@ -1,6 +1,6 @@
 package com.jakubeeee.tasks.controllers;
 
-import com.jakubeeee.tasks.exceptions.InvalidTaskIdException;
+import com.jakubeeee.tasks.exceptions.NoTaskWithGivenIdException;
 import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.model.LogMessage;
 import com.jakubeeee.tasks.model.PastTaskExecution;
@@ -63,7 +63,7 @@ public class TaskController {
     }
 
     @PostMapping(path = "launchTaskManually", consumes = "text/plain")
-    public void launchTaskManually(@RequestBody String taskId) throws InvalidTaskIdException {
+    public void launchTaskManually(@RequestBody String taskId) throws NoTaskWithGivenIdException {
         schedulingService.launchTaskImmediately(Long.valueOf(taskId));
         taskPublisher.publishTasksProgress(progressTrackingService.getProgressTrackers());
     }

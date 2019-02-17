@@ -6,6 +6,7 @@ import com.jakubeeee.common.misc.Switchable;
 import com.jakubeeee.common.model.ChangeRegistry;
 import com.jakubeeee.common.service.DummyService;
 import com.jakubeeee.common.service.ImplementationSwitcher;
+import com.jakubeeee.integration.enums.ProductMappingKey;
 import com.jakubeeee.integration.model.CommonProduct;
 import com.jakubeeee.integration.model.ExternalProduct;
 import com.jakubeeee.integration.model.ProductMatchingResult;
@@ -29,7 +30,7 @@ import java.util.Map;
 
 import static com.diffplug.common.base.Errors.rethrow;
 import static com.jakubeeee.common.utils.LangUtils.*;
-import static com.jakubeeee.common.utils.ThreadUtils.sleep;
+import static com.jakubeeee.integration.enums.ProductMappingKey.*;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty.*;
 import static com.jakubeeee.tasks.enums.TaskMode.TESTING;
@@ -100,15 +101,15 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
         List<CommonProduct> commonDataSourceProducts = getCommonProducts(caller.getId(), dataSource);
         loggingService.info(caller.getId(), "STARTMATCHPRD",
                 toList(toLogParam(updatableDataSource.getServiceName()), toLogParam(dataSource.getServiceName())));
-        ProductMatchingResult result = matchProducts(commonUpdatableDataSourceProducts, commonDataSourceProducts);
+        ProductMatchingResult result = matchProducts(commonUpdatableDataSourceProducts, commonDataSourceProducts, caller.getMappingKey());
         executionParams.put("PRODUCTS_MATCHED", toList(result.getMatchedProductsRegistry().size()));
         result.getUnmatchedUpdatableDataSourceProducts().forEach(product ->
-                loggingService.warn(caller.getId(), "PRODNOTINDS", toList(toLogParam(product.getCode()),
+                loggingService.warn(caller.getId(), "PRODNOTINDS", toList(toLogParam(product.getMappingKeyValue()),
                         toLogParam(updatableDataSource.getServiceName()), toLogParam(dataSource.getServiceName()))));
         executionParams.put("NOT_MATCHED_UPDS_PRODUCTS_AMOUNT", toList(updatableDataSource.getServiceName(),
                 result.getUnmatchedUpdatableDataSourceProducts().size()));
         result.getUnmatchedDataSourceProducts().forEach(product ->
-                loggingService.warn(caller.getId(), "PRODNOTINDS", toList(toLogParam(product.getCode()),
+                loggingService.warn(caller.getId(), "PRODNOTINDS", toList(toLogParam(product.getMappingKeyValue()),
                         toLogParam(dataSource.getServiceName()), toLogParam(updatableDataSource.getServiceName()))));
         executionParams.put("NOT_MATCHED_DS_PRODUCTS_AMOUNT", toList(dataSource.getServiceName(),
                 result.getUnmatchedDataSourceProducts().size()));
@@ -122,14 +123,14 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
             if (!propertiesToUpdate.isEmpty()) {
                 boolean isTesting = false;
                 if (caller.getMode() == TESTING) isTesting = true;
-                updatableDataSource.updateSingleProduct(updatedProduct, propertiesToUpdate, isTesting);
+                updatableDataSource.handleSingleProductUpdate(updatedProduct, propertiesToUpdate, isTesting);
                 List<LogParam> logParameters = getPreparedUpdateLogParams(propertiesToUpdate, oldProduct, updatedProduct);
                 int updateLogDynamicParts = propertiesToUpdate.size() - 1;
                 loggingService.update(caller.getId(), "PRODUPD", logParameters, updateLogDynamicParts);
             }
             progressTrackingService.advanceProgress(caller);
-            sleep(50);
         }));
+        updatableDataSource.afterHandlingFinishedAction();
     }
 
     @SuppressWarnings("unchecked")
@@ -148,7 +149,7 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
             List<UpdatableProperty> propertiesToUpdate, CommonProduct oldProduct, CommonProduct updatedProduct, Long taskId) {
         preparePropertyToUpdate(propertiesToUpdate, STOCK, oldProduct.getStock(), updatedProduct.getStock(),
                 updatedProduct.getName(), taskId);
-        preparePropertyToUpdate(propertiesToUpdate, PRICE, oldProduct.getPrice(), updatedProduct.getPrice(),
+        preparePropertyToUpdate(propertiesToUpdate, PRICE, oldProduct.getPriceBrutto(), updatedProduct.getPriceBrutto(),
                 updatedProduct.getName(), taskId);
         preparePropertyToUpdate(propertiesToUpdate, EAN, oldProduct.getEan(), updatedProduct.getEan(),
                 updatedProduct.getName(), taskId);
@@ -175,8 +176,8 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
         }
         if (propertiesToUpdate.contains(PRICE)) {
             logParameters.add(toLogParam(PRICE.getCode(), true));
-            logParameters.add(toLogParam(oldProduct.getPrice()));
-            logParameters.add(toLogParam(updatedProduct.getPrice()));
+            logParameters.add(toLogParam(oldProduct.getPriceBrutto()));
+            logParameters.add(toLogParam(updatedProduct.getPriceBrutto()));
         }
         if (propertiesToUpdate.contains(EAN)) {
             logParameters.add(toLogParam(EAN.getCode(), true));
@@ -186,20 +187,23 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
         return logParameters;
     }
 
-    ProductMatchingResult matchProducts(
-            List<CommonProduct> updatableDataSourceProducts, List<CommonProduct> dataSourceProducts) {
+    private ProductMatchingResult matchProducts(
+            List<CommonProduct> updatableDataSourceProducts, List<CommonProduct> dataSourceProducts, ProductMappingKey mappingKey) {
         var result = new ProductMatchingResult();
+        prepareMappingKeyValues(dataSourceProducts, mappingKey);
+        prepareMappingKeyValues(updatableDataSourceProducts, mappingKey);
         sort(dataSourceProducts);
         for (var updatableDataSourceProduct : updatableDataSourceProducts) {
             findMatchInList(dataSourceProducts, updatableDataSourceProduct).ifPresent(dataSourceProduct -> {
                 updatableDataSourceProduct.addProperty("MATCHED");
                 CommonProduct mergedProduct = CommonProduct.builder()
-                        .code(updatableDataSourceProduct.getCode())
+                        .mappingKeyValue(dataSourceProduct.getMappingKeyValue())
+                        .code(dataSourceProduct.getCode())
                         .name(dataSourceProduct.getName())
                         .stock(dataSourceProduct.getStock())
-                        .price(dataSourceProduct.getPrice())
+                        .priceBrutto(dataSourceProduct.getPriceBrutto())
                         .ean(dataSourceProduct.getEan())
-                        .params(updatableDataSourceProduct.getMergedParams(dataSourceProduct))
+                        .params(dataSourceProduct.getMergedParams(updatableDataSourceProduct))
                         .build();
                 result.getMatchedProductsRegistry().add(new ChangeRegistry<>(updatableDataSourceProduct, mergedProduct));
                 dataSourceProducts.remove(dataSourceProduct);
@@ -209,6 +213,15 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
         result.setUnmatchedUpdatableDataSourceProducts(updatableDataSourceProducts);
         result.setUnmatchedDataSourceProducts(dataSourceProducts);
         return result;
+    }
+
+    private void prepareMappingKeyValues(List<CommonProduct> products, ProductMappingKey mappingKey) {
+        products.forEach(product -> {
+            if (mappingKey == CODE)
+                product.setMappingKeyValue(product.getCode());
+            else if (mappingKey == NAME)
+                product.setMappingKeyValue(product.getName());
+        });
     }
 
     @Override

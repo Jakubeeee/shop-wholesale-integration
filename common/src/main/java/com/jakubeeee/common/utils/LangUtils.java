@@ -13,6 +13,7 @@ import static java.time.LocalDateTime.now;
 import static java.util.Collections.binarySearch;
 import static java.util.Collections.sort;
 import static java.util.Objects.requireNonNull;
+import static org.apache.commons.lang3.StringUtils.*;
 
 @UtilityClass
 public class LangUtils {
@@ -29,6 +30,12 @@ public class LangUtils {
         return nullableObject != null ? nullableObject : requireNonNull(reserveObject);
     }
 
+    public static String removeLastChar(String string) {
+        if (isNotEmpty(string))
+            return string.substring(0, string.length() - 1);
+        else throw new NullPointerException("String cannot be null nor empty");
+    }
+
     public static <T> List<T> cloneList(List<T> list) {
         return new ArrayList<>(list);
     }
@@ -36,6 +43,11 @@ public class LangUtils {
     @SafeVarargs
     public static <T> List<T> toList(T... objects) {
         return Arrays.asList(objects);
+    }
+
+    @SafeVarargs
+    public static <T> Set<T> toSet(T... objects) {
+        return new HashSet<>(Arrays.asList(objects));
     }
 
     public static <T> List<T> extractList(List<T> list) {

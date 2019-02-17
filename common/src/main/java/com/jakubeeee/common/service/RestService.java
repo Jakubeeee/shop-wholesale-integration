@@ -4,7 +4,10 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.apache.cxf.common.util.Base64Utility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -45,14 +48,12 @@ public class RestService {
 
     public HttpHeaders generateHeaderWithAuthToken(String tokenValue) {
         var headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Authorization", "Bearer " + tokenValue);
         return headers;
     }
 
     public HttpHeaders generateHeaderWithUsernameAndPassword(String username, String password) {
         var headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
         String userAndPass = username + ":" + password;
         headers.add("Authorization", "Basic " + Base64Utility.encode(userAndPass.getBytes()));
         return headers;

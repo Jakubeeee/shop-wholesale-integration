@@ -3,6 +3,8 @@
   "DUMMY_PRODUCTS_UPDATE_TASK_DESC": "dummyProductsUpdateTaskDescription",
   "DUMMY_GENERIC_TASK": "dummyGenericTaskName",
   "DUMMY_GENERIC_TASK_DESC": "dummyGenericTaskDescription",
+  "DUMMY_GENERIC_TASK2": "dummyGenericTaskName",
+  "DUMMY_GENERIC_TASK2_DESC": "dummyGenericTaskDescription",
   "DS_PRODUCT_AMOUNT": "dataSourceProductAmountProperty",
   "UPDS_PRODUCT_AMOUNT": "dataSourceProductAmountProperty",
   "PRODUCTS_MATCHED": "productsMatchedProperty",

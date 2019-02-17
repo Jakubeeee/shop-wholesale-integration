@@ -2,7 +2,6 @@ package com.jakubeeee.tasks.service;
 
 import com.jakubeeee.common.exceptions.DummyServiceException;
 import com.jakubeeee.tasks.aspects.TaskAspect;
-import com.jakubeeee.tasks.exceptions.InvalidParametersException;
 import com.jakubeeee.tasks.exceptions.InvalidTaskStatusException;
 import com.jakubeeee.tasks.exceptions.ProgressTrackerNotActiveException;
 import com.jakubeeee.tasks.model.GenericTask;
@@ -15,7 +14,7 @@ import com.jakubeeee.tasks.model.GenericTask;
  */
 public interface TaskProvider<T extends GenericTask> {
 
-    void beforeTask(T caller) throws DummyServiceException, InvalidParametersException, InvalidTaskStatusException;
+    void beforeTask(T caller) throws DummyServiceException, InvalidTaskStatusException;
 
     void executeTask(T caller) throws ProgressTrackerNotActiveException;
 

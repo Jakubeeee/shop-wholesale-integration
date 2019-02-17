@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 import static com.jakubeeee.tasks.enums.TaskStatus.WAITING;
 
 /**
- * Class whose instances represent a single task that can be scheduled and executed by this application
+ * Class whose instance represent a single task that can be scheduled and executed by this application
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor

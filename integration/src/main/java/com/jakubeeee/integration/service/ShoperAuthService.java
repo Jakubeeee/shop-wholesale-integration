@@ -1,7 +1,7 @@
 package com.jakubeeee.integration.service;
 
 import com.jakubeeee.common.service.RestService;
-import com.jakubeeee.integration.model.ShoperAuthenticationToken;
+import com.jakubeeee.integration.model.ShoperAuthToken;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -20,28 +20,28 @@ import static java.util.Objects.requireNonNull;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Service
-public class ShoperAuthenticationService {
+public class ShoperAuthService extends AbstractAuthService<ShoperAuthToken> {
 
     @Value("${shoperAuthUri}")
     String SHOPER_AUTH_URI;
-    @Value("${adminUsername}")
+    @Value("${shoperAdminUsername}")
     String SHOPER_USERNAME;
-    @Value("${adminPassword}")
+    @Value("${shoperAdminPassword}")
     String SHOPER_PASSWORD;
 
-    ShoperAuthenticationToken token;
     @Autowired
     RestService restService;
 
-    String getTokenValue() {
+    @Override
+    protected String getTokenValue() {
         if (token == null || isTokenExpiringSoon()) refreshToken();
         return token.getValue();
     }
 
     private void refreshToken() {
         HttpHeaders headers = restService.generateHeaderWithUsernameAndPassword(SHOPER_USERNAME, SHOPER_PASSWORD);
-        ResponseEntity<ShoperAuthenticationToken> response =
-                restService.postJsonObject(SHOPER_AUTH_URI, new HttpEntity<>(headers), ShoperAuthenticationToken.class);
+        ResponseEntity<ShoperAuthToken> response =
+                restService.postJsonObject(SHOPER_AUTH_URI, new HttpEntity<>(headers), ShoperAuthToken.class);
         token = requireNonNull(response.getBody());
     }
 

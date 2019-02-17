@@ -1,9 +1,11 @@
 package com.jakubeeee.integration.service;
 
+import com.jakubeeee.common.annotations.ReflectionTarget;
 import com.jakubeeee.integration.model.CommonProduct;
 import com.jakubeeee.integration.model.ExternalProduct;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty;
 
@@ -13,6 +15,10 @@ import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty;
  */
 public interface UpdatableDataSource<T extends ExternalProduct> extends DataSource<T> {
 
-    void updateSingleProduct(CommonProduct commonProducts, List<UpdatableProperty> properties, boolean isTesting);
+    @ReflectionTarget
+    Set<UpdatableProperty> getAllowedUpdatableProperties();
 
+    void handleSingleProductUpdate(CommonProduct commonProducts, List<UpdatableProperty> properties, boolean isTesting);
+
+    void afterHandlingFinishedAction();
 }

@@ -1,0 +1,55 @@
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="offers">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="o" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element type="xs:string" name="cat"/>
+                            <xs:element type="xs:string" name="name"/>
+                            <xs:element name="imgs">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="main">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                    <xs:extension base="xs:string">
+                                                        <xs:attribute type="xs:anyURI" name="url"/>
+                                                    </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element type="xs:string" name="desc"/>
+                            <xs:element name="attrs">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="a" maxOccurs="unbounded" minOccurs="0">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                    <xs:extension base="xs:string">
+                                                        <xs:attribute type="xs:string" name="name"/>
+                                                    </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute type="xs:byte" name="avail"/>
+                        <xs:attribute type="xs:int" name="id"/>
+                        <xs:attribute type="xs:float" name="price"/>
+                        <xs:attribute type="xs:byte" name="set"/>
+                        <xs:attribute type="xs:byte" name="stock"/>
+                        <xs:attribute type="xs:string" name="url"/>
+                        <xs:attribute type="xs:float" name="weight"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:byte" name="version"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

@@ -18,7 +18,7 @@ public class IntegrationController {
         Document document = DocumentHelper.createDocument();
         Element productsElement = document.addElement("products").addAttribute("created_at", formatDateTime(now()));
         Element productElement = productsElement.addElement("product");
-        productElement.addElement("index").addText("prod-2");
+        productElement.addElement("index").addText("prod-1");
         productElement.addElement("availability").addText("50");
         productElement.addElement("name").addText("Product 1");
         productElement.addElement("tax").addText("23");

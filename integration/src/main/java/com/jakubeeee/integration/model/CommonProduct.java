@@ -23,17 +23,18 @@ import static com.jakubeeee.common.utils.LangUtils.nvl;
 @AllArgsConstructor
 public class CommonProduct implements Comparable<CommonProduct>, Parameterizable {
 
+    String mappingKeyValue;
     String code;
     String name;
     String stock;
-    String price;
+    String priceBrutto;
     String ean;
 
     Map<String, Object> params;
 
     @Override
     public int compareTo(CommonProduct other) {
-        return code.compareTo(other.getCode());
+        return mappingKeyValue.compareTo(other.getMappingKeyValue());
     }
 
     @Override
