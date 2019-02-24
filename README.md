@@ -2,7 +2,7 @@
 A spring application used for integrating the state of data between online shop platforms. 
 
 Used technologies:
-- java 10
+- java 11
 - spring (boot, security, mvc, jpa (with hibernate), websockets, mail, aop) for backend
 - html, css (bulma, buefy), vue.js (vuex, vue-router, i18n, vuelidate) for frontend
 - h2 embedded database (for development), postgresql database (for production)
