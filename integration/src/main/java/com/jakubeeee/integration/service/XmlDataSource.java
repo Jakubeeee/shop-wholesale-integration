@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.service;
 
-import com.jakubeeee.common.service.RestService;
+import com.jakubeeee.core.service.RestService;
 import com.jakubeeee.integration.model.ExternalProduct;
 import org.dom4j.Document;
 import org.springframework.beans.factory.annotation.Autowired;

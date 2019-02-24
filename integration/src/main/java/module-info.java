@@ -1,5 +1,6 @@
 module integration {
     requires common;
+    requires core;
     requires tasks;
 
     requires static lombok;

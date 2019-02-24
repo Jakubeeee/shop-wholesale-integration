@@ -1,7 +1,7 @@
-package com.jakubeeee.common.service;
+package com.jakubeeee.core.service;
 
-import com.jakubeeee.common.misc.Reloadable;
-import com.jakubeeee.common.misc.Switchable;
+import com.jakubeeee.core.mixins.Reloadable;
+import com.jakubeeee.core.mixins.Switchable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;

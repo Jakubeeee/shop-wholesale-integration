@@ -1,7 +1,7 @@
 package com.jakubeeee.security.service;
 
-import com.jakubeeee.common.service.EmailService;
-import com.jakubeeee.common.service.LocaleService;
+import com.jakubeeee.core.service.EmailService;
+import com.jakubeeee.core.service.LocaleService;
 import com.jakubeeee.security.exceptions.ValidationException;
 import com.jakubeeee.security.model.PasswordResetToken;
 import com.jakubeeee.security.model.User;

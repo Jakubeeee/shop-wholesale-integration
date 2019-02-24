@@ -15,8 +15,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-import static com.jakubeeee.common.utils.BeanUtils.getBean;
 import static com.jakubeeee.common.utils.ReflectUtils.getMethod;
+import static com.jakubeeee.core.utils.BeanUtils.getBean;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

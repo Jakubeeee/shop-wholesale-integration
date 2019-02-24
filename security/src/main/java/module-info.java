@@ -1,4 +1,5 @@
 module security {
+    requires core;
     requires common;
 
     requires static lombok;

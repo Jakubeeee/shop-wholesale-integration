@@ -1,4 +1,4 @@
-package com.jakubeeee.common.misc;
+package com.jakubeeee.common.mixins;
 
 import lombok.NonNull;
 

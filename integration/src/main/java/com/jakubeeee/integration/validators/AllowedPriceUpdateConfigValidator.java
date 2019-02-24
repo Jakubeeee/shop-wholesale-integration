@@ -16,8 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import static com.jakubeeee.common.utils.BeanUtils.getBean;
 import static com.jakubeeee.common.utils.ReflectUtils.getMethod;
+import static com.jakubeeee.core.utils.BeanUtils.getBean;
 import static com.jakubeeee.integration.enums.DataSourceType.SHOP_PLATFORM;
 import static com.jakubeeee.integration.enums.DataSourceType.WAREHOUSE;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty.PRICE;

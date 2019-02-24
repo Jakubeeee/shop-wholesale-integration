@@ -1,10 +1,10 @@
-package com.jakubeeee.common.controllers;
+package com.jakubeeee.core.controllers;
 
+import com.jakubeeee.core.service.LocaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.jakubeeee.common.service.LocaleService;
 
 @RestController
 public class LocaleController {

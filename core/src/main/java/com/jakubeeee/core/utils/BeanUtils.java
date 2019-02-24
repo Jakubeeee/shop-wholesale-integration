@@ -1,4 +1,4 @@
-package com.jakubeeee.common.utils;
+package com.jakubeeee.core.utils;
 
 import lombok.Getter;
 import org.springframework.context.ApplicationContext;

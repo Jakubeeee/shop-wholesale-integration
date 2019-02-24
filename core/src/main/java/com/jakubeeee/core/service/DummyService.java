@@ -1,6 +1,6 @@
-package com.jakubeeee.common.service;
+package com.jakubeeee.core.service;
 
-import com.jakubeeee.common.misc.Switchable;
+import com.jakubeeee.core.mixins.Switchable;
 import org.springframework.stereotype.Service;
 
 @Service

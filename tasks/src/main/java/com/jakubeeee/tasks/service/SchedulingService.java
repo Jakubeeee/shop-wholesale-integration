@@ -1,6 +1,6 @@
 package com.jakubeeee.tasks.service;
 
-import com.jakubeeee.common.service.TimerService;
+import com.jakubeeee.core.service.TimerService;
 import com.jakubeeee.tasks.exceptions.NoTaskWithGivenIdException;
 import com.jakubeeee.tasks.model.GenericTask;
 import org.springframework.beans.factory.annotation.Autowired;

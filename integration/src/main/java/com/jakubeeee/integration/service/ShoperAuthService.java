@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.service;
 
-import com.jakubeeee.common.service.RestService;
+import com.jakubeeee.core.service.RestService;
 import com.jakubeeee.integration.model.ShoperAuthToken;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;

@@ -1,6 +1,6 @@
 package com.jakubeeee.tasks.service;
 
-import com.jakubeeee.common.service.TimerService;
+import com.jakubeeee.core.service.TimerService;
 import com.jakubeeee.tasks.model.LogMessage;
 import com.jakubeeee.tasks.model.LogParam;
 import com.jakubeeee.tasks.publishers.TaskPublisher;

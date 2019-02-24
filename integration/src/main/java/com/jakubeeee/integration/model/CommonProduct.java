@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.model;
 
-import com.jakubeeee.common.misc.Parameterizable;
+import com.jakubeeee.common.mixins.Parameterizable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

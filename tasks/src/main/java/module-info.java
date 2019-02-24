@@ -1,4 +1,5 @@
 module tasks {
+    requires core;
     requires common;
 
     requires static lombok;

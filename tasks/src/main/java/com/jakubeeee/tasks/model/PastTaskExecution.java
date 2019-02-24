@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jakubeeee.common.converters.JsonObjectConverter;
 import com.jakubeeee.common.converters.LocalDateTimeConverter;
-import com.jakubeeee.common.misc.Parameterizable;
+import com.jakubeeee.common.mixins.Parameterizable;
 import com.jakubeeee.common.serializers.LocalDateTimeSerializer;
 import lombok.AccessLevel;
 import lombok.Getter;

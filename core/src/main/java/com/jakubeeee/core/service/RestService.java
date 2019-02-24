@@ -1,4 +1,4 @@
-package com.jakubeeee.common.service;
+package com.jakubeeee.core.service;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;

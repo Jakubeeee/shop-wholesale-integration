@@ -1,4 +1,4 @@
-package com.jakubeeee.common.service;
+package com.jakubeeee.core.service;
 
 import org.springframework.stereotype.Service;
 

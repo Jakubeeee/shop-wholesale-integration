@@ -1,6 +1,7 @@
-package com.jakubeeee.common.misc;
+package com.jakubeeee.core.mixins;
 
-import com.jakubeeee.common.service.ImplementationSwitcher;
+
+import com.jakubeeee.core.service.ImplementationSwitcher;
 
 /**
  * An interface extended by service interfaces having the ability to dynamically switch their implementations
