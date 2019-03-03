@@ -1,7 +1,7 @@
 package com.jakubeeee.common.utils;
 
 
-import com.jakubeeee.common.model.TestObject;
+import com.jakubeeee.testutils.model.TestSubject;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,97 +14,90 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import static com.jakubeeee.common.utils.LangUtils.*;
+import static com.jakubeeee.testutils.utils.TestSubjectUtils.getTestSubject;
+import static com.jakubeeee.testutils.utils.TestSubjectUtils.getTestSubjects;
 import static java.util.Collections.sort;
-import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringRunner.class)
 public class LangUtilsTest {
 
-    private static List<TestObject> testObjectList;
-    private static List<TestObject> sortedTestObjectList;
+    private static List<TestSubject> testSubjectList;
+    private static List<TestSubject> sortedTestSubjectList;
+
+    private final static int TEST_LIST_SIZE = 10;
 
     @BeforeClass
     public static void setUp() {
-        testObjectList = new ArrayList<>();
-        testObjectList.add(new TestObject("aaa", "bbb", 25));
-        testObjectList.add(new TestObject("555", "666", 10));
-        testObjectList.add(new TestObject("ccc", "ddd", 67));
-        testObjectList.add(new TestObject("bbb", "aaa", 3435));
-        testObjectList.add(new TestObject("333", "222", -28));
-        testObjectList.add(new TestObject("ttt", "uuu", 50));
-        testObjectList.add(new TestObject("ooo", "ppp", 43));
-        testObjectList.add(new TestObject("ggg", "fff", 0));
-        testObjectList.add(new TestObject("mmm", "nnn", -4));
-        sortedTestObjectList = new ArrayList<>();
-        sortedTestObjectList.addAll(testObjectList);
-        sort(sortedTestObjectList);
+        testSubjectList = new ArrayList<>();
+        testSubjectList.addAll(getTestSubjects(1, TEST_LIST_SIZE));
+        sortedTestSubjectList = new ArrayList<>(testSubjectList);
+        sort(sortedTestSubjectList);
     }
 
     @Test
     public void nvlTest_shouldReturnNullable() {
-        var nullableObject = new TestObject("a", "b", 0);
-        var reserveObject = new TestObject("c", "d", 0);
+        var nullableObject = getTestSubject(1);
+        var reserveObject = getTestSubject(2);
         var result = nvl(nullableObject, reserveObject);
         assertThat(result, is(equalTo(nullableObject)));
     }
 
     @Test
     public void nvlTest_shouldReturnReserve() {
-        TestObject nullableObject = null;
-        var reserveObject = new TestObject("c", "d", 0);
+        TestSubject nullableObject = null;
+        var reserveObject = getTestSubject(1);
         var result = nvl(nullableObject, reserveObject);
         assertThat(result, is(equalTo(reserveObject)));
     }
 
     @Test
     public void filterListTest() {
-        Predicate<TestObject> predicate = testObject -> testObject.getIntField() > 20;
-        List<TestObject> localTestObjectList = filterList(testObjectList, predicate);
-        assertThat(localTestObjectList, everyItem(hasProperty("intField", greaterThan(20))));
+        Predicate<TestSubject> predicate = testSubject -> testSubject.getUniqueId() > 3;
+        List<TestSubject> localTestSubjectList = filterList(testSubjectList, predicate);
+        assertThat(localTestSubjectList, everyItem(hasProperty("uniqueId", greaterThan(3))));
     }
 
     @Test
     public void findMatchInListTest_shouldFind() {
-        var testObject = new TestObject("ttt", "uuu", 50);
-        Optional<TestObject> expectedStringO = Optional.of(testObject);
-        Optional<TestObject> methodResult = findMatchInList(testObjectList, testObject, true);
-        assertThat(methodResult, is(equalTo(expectedStringO)));
+        var testSubject = getTestSubject(5);
+        Optional<TestSubject> expectedResultO = Optional.of(testSubject);
+        Optional<TestSubject> result = findMatchInList(testSubjectList, testSubject, true);
+        assertThat(result, is(equalTo(expectedResultO)));
     }
 
     @Test
     public void findMatchInListTest_shouldNotFind() {
-        var testObject = new TestObject("vvv", "www", 12);
-        Optional<TestObject> expectedStringO = Optional.empty();
-        Optional<TestObject> methodResult = findMatchInList(testObjectList, testObject, true);
-        assertThat(methodResult, is(equalTo(expectedStringO)));
+        var testSubject = getTestSubject(12);
+        Optional<TestSubject> expectedResult = Optional.empty();
+        Optional<TestSubject> result = findMatchInList(testSubjectList, testSubject, true);
+        assertThat(result, is(equalTo(expectedResult)));
     }
 
     @Test
     public void isListSortedTest_shouldReturnTrue() {
-        boolean isListSorted = isListSorted(sortedTestObjectList);
+        boolean isListSorted = isListSorted(sortedTestSubjectList);
         assertThat(isListSorted, is(equalTo(true)));
     }
 
     @Test
     public void isListSortedTest_shouldReturnFalse() {
-        boolean isListSorted = isListSorted(testObjectList);
+        boolean isListSorted = isListSorted(testSubjectList);
         assertThat(isListSorted, is(equalTo(false)));
     }
 
     @Test
     public void mergeMapsTest_shouldMerge() {
         var map1 = new HashMap<String, Object>();
-        map1.put("KEY1", "VALUE1");
+        map1.put("KEY1", getTestSubject(1));
         var map2 = new HashMap<String, Object>();
-        map2.put("KEY2", "VALUE2");
-        map2.put("KEY3", "VALUE3");
+        map2.put("KEY2", getTestSubject(2));
+        map2.put("KEY3", getTestSubject(3));
         var map3 = new HashMap<String, Object>();
-        map3.put("KEY4", "VALUE4");
-        map3.put("KEY5", "VALUE5");
-        map3.put("KEY6", "VALUE6");
+        map3.put("KEY4", getTestSubject(4));
+        map3.put("KEY5", getTestSubject(5));
+        map3.put("KEY6", getTestSubject(6));
         var result = mergeMaps(map1, map2, map3);
         assertThat(result.keySet(), hasItems("KEY1", "KEY2", "KEY3", "KEY4", "KEY5", "KEY6"));
     }
@@ -112,10 +105,10 @@ public class LangUtilsTest {
     @Test(expected = AssertionError.class)
     public void mergeMapsTest_shouldThrowException() {
         var map1 = new HashMap<String, Object>();
-        map1.put("KEY1", "VALUE1");
+        map1.put("KEY1", getTestSubject(1));
         var map2 = new HashMap<String, Object>();
-        map2.put("KEY1", "VALUE1");
-        var result = mergeMaps(map1, map2);
+        map2.put("KEY1", getTestSubject(2));
+        mergeMaps(map1, map2);
     }
 
 }

@@ -30,6 +30,7 @@
     </scm>
 
     <modules>
+        <module>testutils</module>
         <module>core</module>
         <module>common</module>
         <module>security</module>
@@ -96,6 +97,13 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>com.jakubeeee</groupId>
+                <artifactId>testutils</artifactId>
+                <version>1.0</version>
+                <scope>test</scope>
+            </dependency>
             <dependency>
                 <groupId>com.jakubeeee</groupId>
                 <artifactId>core</artifactId>
