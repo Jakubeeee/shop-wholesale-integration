@@ -5,7 +5,7 @@ import com.jakubeeee.integration.model.ExternalProduct;
 import org.dom4j.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static com.jakubeeee.common.utils.XmlUtils.stringToXml;
+import static com.jakubeeee.common.util.XmlUtils.stringToXml;
 
 public abstract class XmlDataSource<T extends ExternalProduct> implements DataSource<T> {
 

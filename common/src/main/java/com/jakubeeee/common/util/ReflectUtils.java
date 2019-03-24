@@ -1,4 +1,4 @@
-package com.jakubeeee.common.utils;
+package com.jakubeeee.common.util;
 
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
@@ -7,8 +7,11 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+/**
+ * Utility class providing useful static methods related to reflection mechanism.
+ */
 @UtilityClass
-public class ReflectUtils {
+public final class ReflectUtils {
 
     @SuppressWarnings({"unchecked", "unused"})
     public static <T> T getFieldValue(Field field, Object fieldOwnerObject, @NonNull Class<T> fieldValueType)

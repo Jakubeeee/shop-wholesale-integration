@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.validators;
 
-import com.jakubeeee.common.exceptions.IncorrectClassStructureException;
+import com.jakubeeee.common.exception.UnexpectedClassStructureException;
 import com.jakubeeee.integration.enums.ProductMappingKey;
 import com.jakubeeee.integration.model.ProductsTask;
 import com.jakubeeee.integration.service.DataSource;
@@ -17,7 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-import static com.jakubeeee.common.utils.ReflectUtils.getMethod;
+import static com.jakubeeee.common.util.ReflectUtils.getMethod;
 import static com.jakubeeee.core.utils.BeanUtils.getBean;
 
 @Slf4j
@@ -28,7 +28,7 @@ public class AllowedMappingKeysValidator implements TaskValidator {
     static AllowedMappingKeysValidator instance = new AllowedMappingKeysValidator();
 
     @Override
-    public void validate(GenericTask validatedTask) throws InvalidTaskDefinitionException, IncorrectClassStructureException {
+    public void validate(GenericTask validatedTask) throws InvalidTaskDefinitionException, UnexpectedClassStructureException {
         ProductsTask validatedProductsTask = (ProductsTask) validatedTask;
         Class<? extends DataSource> dataSource = validatedProductsTask.getDataSourceImplementation();
         Class<? extends UpdatableDataSource> updatableDataSource = validatedProductsTask.getUpdatableDataSourceImplementation();
@@ -45,7 +45,7 @@ public class AllowedMappingKeysValidator implements TaskValidator {
                 throw new InvalidTaskDefinitionException(
                         "Updatable data source \"" + updatableDataSource + "\" does not allow to use mapping key: " + validatedMappingKey);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new IncorrectClassStructureException("Either \"" + dataSource + "\" or \"" + updatableDataSource + "\" " +
+            throw new UnexpectedClassStructureException("Either \"" + dataSource + "\" or \"" + updatableDataSource + "\" " +
                     "It is impossible to access its set of allowed mapping keys. " +
                     "Detailed message: \"" + e.getClass() + "\": \"" + e.getMessage());
         }

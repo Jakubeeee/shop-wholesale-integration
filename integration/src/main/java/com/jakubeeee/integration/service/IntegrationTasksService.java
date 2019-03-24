@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import static com.jakubeeee.common.utils.LangUtils.toList;
+import java.util.List;
+
 import static com.jakubeeee.integration.enums.ProductMappingKey.NAME;
-import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty.*;
+import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty.STOCK;
 import static com.jakubeeee.tasks.enums.TaskMode.TESTING;
 
 @Service
@@ -35,7 +36,7 @@ public class IntegrationTasksService {
 
     public void initializeTasks() {
         var dummyProductsUpdateTask = new ProductsTask(1, "DUMMY_PRODUCTS_UPDATE_TASK", TESTING, 0, 0,
-                productsTaskProvider, NAME, dummyBasicXmlDataSource.getClass(), ShoperDataSource.class, toList(STOCK));
+                productsTaskProvider, NAME, dummyBasicXmlDataSource.getClass(), ShoperDataSource.class, List.of(STOCK));
         taskService.registerTask(dummyProductsUpdateTask);
 
         var dummyGenericTask = new GenericTask(3, "DUMMY_GENERIC_TASK", TESTING, 15, 60, dummyTaskProvider);

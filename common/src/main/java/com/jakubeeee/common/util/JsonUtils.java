@@ -1,4 +1,4 @@
-package com.jakubeeee.common.utils;
+package com.jakubeeee.common.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,15 +10,19 @@ import java.text.SimpleDateFormat;
 import java.util.Optional;
 
 import static com.jakubeeee.common.model.MessageWrapper.Action;
+import static com.jakubeeee.common.util.DateTimeUtils.DATE_TIME_FORMAT;
 
+/**
+ * Utility class providing useful static methods related to parsing and processing of json files.
+ */
 @UtilityClass
-public class JsonUtils {
+public final class JsonUtils {
 
     private static ObjectMapper objectMapper;
 
     static {
         objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        objectMapper.setDateFormat(new SimpleDateFormat(DATE_TIME_FORMAT));
     }
 
     public static <T> Optional<String> objectToJson(T object) {

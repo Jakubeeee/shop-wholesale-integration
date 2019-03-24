@@ -1,17 +1,18 @@
 package com.jakubeeee.common.model;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 
+/**
+ * Class whose objects are used to wrap other objects before sending them using
+ * rest or a websocket. It allows to attach additional information to the payload.
+ */
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class MessageWrapper {
 
-    Object payload;
-    Action action;
+    private Object payload;
+    private Action action;
 
     public enum Action {
         ADD_TO_STATE, SWAP_STATE

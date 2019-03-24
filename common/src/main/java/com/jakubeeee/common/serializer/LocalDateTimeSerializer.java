@@ -1,4 +1,4 @@
-package com.jakubeeee.common.serializers;
+package com.jakubeeee.common.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -7,8 +7,11 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-import static com.jakubeeee.common.utils.DateTimeUtils.formatDateTime;
+import static com.jakubeeee.common.util.DateTimeUtils.formatDateTime;
 
+/**
+ * Class used to serialize {@link LocalDateTime} objects.
+ */
 public class LocalDateTimeSerializer extends JsonSerializer<LocalDateTime> {
 
     @Override

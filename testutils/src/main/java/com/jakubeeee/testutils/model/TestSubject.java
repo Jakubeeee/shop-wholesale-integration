@@ -4,8 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.experimental.Wither;
+import org.dom4j.Document;
+import org.dom4j.Element;
+
+import java.util.Map;
 
 import static java.util.Comparator.comparing;
+import static org.dom4j.DocumentHelper.createDocument;
 
 /**
  * Class whose instances are used as value containers during testing.
@@ -27,11 +32,39 @@ public class TestSubject implements Comparable<TestSubject> {
     @NonNull
     private final String stringField3;
 
-    public TestSubject(TestSubject subject) {
-        uniqueId = subject.getUniqueId();
-        stringField1 = subject.getStringField1();
-        stringField2 = subject.getStringField2();
-        stringField3 = subject.getStringField3();
+    public String asJson() {
+        return "{" +
+                "\"uniqueId\":" + uniqueId + "," +
+                "\"stringField1\":\"" + stringField1 + "\"," +
+                "\"stringField2\":\"" + stringField2 + "\"," +
+                "\"stringField3\":\"" + stringField3 + "\"" +
+                "}";
+    }
+
+    public String asXml() {
+        return "<testSubject>" +
+                "<uniqueId>" + uniqueId + "</uniqueId>" +
+                "<stringField1>" + stringField1 + "</stringField1>" +
+                "<stringField2>" + stringField2 + "</stringField2>" +
+                "<stringField3>" + stringField3 + "</stringField3>" +
+                "</testSubject>";
+    }
+
+    public Document asDom4jDocument() {
+        Document document = createDocument();
+        Element rootElement = document.addElement("testSubject");
+        rootElement.addElement("uniqueId").addText(String.valueOf(uniqueId));
+        rootElement.addElement("stringField1").addText(stringField1);
+        rootElement.addElement("stringField2").addText(stringField2);
+        rootElement.addElement("stringField3").addText(stringField3);
+        return document;
+    }
+
+    public Map<String, Object> asMap() {
+        return Map.of("uniqueId", uniqueId,
+                "stringField1", stringField1,
+                "stringField2", stringField2,
+                "stringField3", stringField3);
     }
 
     @Override
@@ -41,4 +74,5 @@ public class TestSubject implements Comparable<TestSubject> {
                 .thenComparing(TestSubject::getStringField3)
                 .compare(this, other);
     }
+
 }

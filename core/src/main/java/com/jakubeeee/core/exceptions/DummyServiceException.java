@@ -1,4 +1,4 @@
-package com.jakubeeee.common.exceptions;
+package com.jakubeeee.core.exceptions;
 
 public class DummyServiceException extends Exception {
 

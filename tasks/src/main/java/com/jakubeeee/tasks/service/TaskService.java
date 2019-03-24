@@ -1,6 +1,6 @@
 package com.jakubeeee.tasks.service;
 
-import com.jakubeeee.common.exceptions.IncorrectClassStructureException;
+import com.jakubeeee.common.exception.UnexpectedClassStructureException;
 import com.jakubeeee.tasks.annotations.InitialTaskValidator;
 import com.jakubeeee.tasks.enums.TaskStatus;
 import com.jakubeeee.tasks.exceptions.InvalidTaskDefinitionException;
@@ -24,9 +24,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Predicate;
 
-import static com.jakubeeee.common.utils.DateTimeUtils.*;
-import static com.jakubeeee.common.utils.LangUtils.filterList;
-import static com.jakubeeee.common.utils.ReflectUtils.getFieldValue;
+import static com.jakubeeee.common.util.CollectionUtils.filterList;
+import static com.jakubeeee.common.util.DateTimeUtils.*;
+import static com.jakubeeee.common.util.ReflectUtils.getFieldValue;
 import static com.jakubeeee.tasks.enums.TaskStatus.*;
 import static java.time.LocalDateTime.now;
 import static java.util.Objects.isNull;
@@ -87,7 +87,7 @@ public class TaskService {
             LOG.error(exceptionMessageFirstPart +
                     "There where errors in it's configuration. " +
                     exceptionMessageSecondPart + "\"" + e.getClass() + "\": " + e.getMessage());
-        } catch (IncorrectClassStructureException e2) {
+        } catch (UnexpectedClassStructureException e2) {
             LOG.error(exceptionMessageFirstPart +
                     "There where errors in class structure. " +
                     exceptionMessageSecondPart + "\"" + e2.getClass() + "\": " + e2.getMessage());
@@ -99,7 +99,7 @@ public class TaskService {
     }
 
     private void validateTaskDefinitionCorrectness(GenericTask task)
-            throws InvalidTaskDefinitionException, IncorrectClassStructureException, IllegalAccessException {
+            throws InvalidTaskDefinitionException, UnexpectedClassStructureException, IllegalAccessException {
         validateUsingGenericTaskValidator(task);
         validateUsingSpecificTaskValidators(task);
     }
@@ -124,7 +124,7 @@ public class TaskService {
     }
 
     public void validateUsingSpecificTaskValidators(GenericTask task)
-            throws InvalidTaskDefinitionException, IncorrectClassStructureException, IllegalAccessException {
+            throws InvalidTaskDefinitionException, UnexpectedClassStructureException, IllegalAccessException {
         List<Field> taskValidatorFields = getFieldsListWithAnnotation(task.getClass(), InitialTaskValidator.class);
         if (!taskValidatorFields.isEmpty()) {
             for (var taskValidatorField : taskValidatorFields) {

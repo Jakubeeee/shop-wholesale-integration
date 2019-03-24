@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.validators;
 
-import com.jakubeeee.common.exceptions.IncorrectClassStructureException;
+import com.jakubeeee.common.exception.UnexpectedClassStructureException;
 import com.jakubeeee.integration.enums.DataSourceType;
 import com.jakubeeee.integration.model.ProductsTask;
 import com.jakubeeee.integration.service.DataSource;
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import static com.jakubeeee.common.utils.ReflectUtils.getMethod;
+import static com.jakubeeee.common.util.ReflectUtils.getMethod;
 import static com.jakubeeee.core.utils.BeanUtils.getBean;
 import static com.jakubeeee.integration.enums.DataSourceType.SHOP_PLATFORM;
 import static com.jakubeeee.integration.enums.DataSourceType.WAREHOUSE;
@@ -30,7 +30,7 @@ public class AllowedPriceUpdateConfigValidator implements TaskValidator {
     static AllowedPriceUpdateConfigValidator instance = new AllowedPriceUpdateConfigValidator();
 
     @Override
-    public void validate(GenericTask validatedTask) throws InvalidTaskDefinitionException, IncorrectClassStructureException {
+    public void validate(GenericTask validatedTask) throws InvalidTaskDefinitionException, UnexpectedClassStructureException {
         ProductsTask validatedProductsTask = (ProductsTask) validatedTask;
         if (validatedProductsTask.getUpdatableProperties().contains(PRICE)) {
             Class<? extends DataSource> dataSource = validatedProductsTask.getDataSourceImplementation();
@@ -45,7 +45,7 @@ public class AllowedPriceUpdateConfigValidator implements TaskValidator {
                             "datasource that is a shop platform is not supported. " +
                             "Incorrect configuration consists of following classes: \"" + dataSource + "\" -> \"" + updatableDataSource + "\"");
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new IncorrectClassStructureException("Either \"" + dataSource + "\" or \"" + updatableDataSource + "\" " +
+                throw new UnexpectedClassStructureException("Either \"" + dataSource + "\" or \"" + updatableDataSource + "\" " +
                         "class structure is incorrect. It is impossible to access its types. " +
                         "Detailed message: \"" + e.getClass() + "\": " + e.getMessage());
             }

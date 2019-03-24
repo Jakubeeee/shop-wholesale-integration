@@ -24,8 +24,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.jakubeeee.common.utils.LangUtils.removeLastChar;
-import static com.jakubeeee.common.utils.LangUtils.toSet;
+import static com.jakubeeee.common.util.StringUtils.removeLastChar;
 import static com.jakubeeee.integration.enums.DataSourceType.SHOP_PLATFORM;
 import static com.jakubeeee.integration.enums.ProductMappingKey.NAME;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty;
@@ -59,8 +58,8 @@ public class BaseLinkerDataSource implements UpdatableDataSource<BaseLinkerProdu
 
     @PostConstruct
     void initialize() {
-        allowedProductMappingKeys = toSet(NAME);
-        allowedUpdatableProperties = toSet(STOCK);
+        allowedProductMappingKeys = Set.of(NAME);
+        allowedUpdatableProperties = Set.of(STOCK);
     }
 
     @Override

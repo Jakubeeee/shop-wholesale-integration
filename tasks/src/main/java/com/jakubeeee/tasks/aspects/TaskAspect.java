@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
 
-import static com.jakubeeee.common.utils.LangUtils.toList;
+import java.util.List;
+
 import static com.jakubeeee.tasks.enums.TaskStatus.*;
 import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
 
@@ -51,23 +52,23 @@ public class TaskAspect {
                     if (isExecutedSuccessfully) {
                         taskService.changeStatus(caller, EXECUTED);
                         loggingService.info(caller.getId(), "TASKEXECSUCC",
-                                toList(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));
+                                List.of(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));
                     } else {
                         taskService.changeStatus(caller, ABORTED);
                         loggingService.info(caller.getId(), "TASKEXECABORT",
-                                toList(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));
+                                List.of(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));
                     }
                     taskProvider.afterTask(caller);
                     taskService.changeStatus(caller, WAITING);
                 }
             } else {
                 loggingService.warn(caller.getId(), "TASKALRLAUNCH",
-                        toList(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));
+                        List.of(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));
                 LOG.warn("Tried to launch " + caller.getCode() + " but this task is currently running");
             }
         } else {
             loggingService.warn(caller.getId(), "PROVALRINUSE",
-                    toList(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));
+                    List.of(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));
             LOG.warn("Tried to launch " + caller.getCode() + " but another task already locked it's provider");
         }
         taskService.updateNextScheduledTaskExecution(caller.getId());

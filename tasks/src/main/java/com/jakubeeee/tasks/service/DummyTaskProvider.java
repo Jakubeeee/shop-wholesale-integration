@@ -4,7 +4,7 @@ import com.jakubeeee.tasks.exceptions.ProgressTrackerNotActiveException;
 import com.jakubeeee.tasks.model.GenericTask;
 import org.springframework.stereotype.Service;
 
-import static com.jakubeeee.common.utils.ThreadUtils.sleep;
+import static com.jakubeeee.common.util.ThreadUtils.sleep;
 
 @Service
 public class DummyTaskProvider extends AbstractGenericTaskProvider {

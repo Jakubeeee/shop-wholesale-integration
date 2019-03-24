@@ -11,11 +11,11 @@ module common {
     requires spring.context;
     requires spring.core;
 
-    exports com.jakubeeee.common.annotations;
-    exports com.jakubeeee.common.converters;
-    exports com.jakubeeee.common.exceptions;
-    exports com.jakubeeee.common.mixins;
+    exports com.jakubeeee.common.annotation;
+    exports com.jakubeeee.common.converter;
+    exports com.jakubeeee.common.exception;
+    exports com.jakubeeee.common.mixin;
     exports com.jakubeeee.common.model;
-    exports com.jakubeeee.common.serializers;
-    exports com.jakubeeee.common.utils;
+    exports com.jakubeeee.common.serializer;
+    exports com.jakubeeee.common.util;
 }

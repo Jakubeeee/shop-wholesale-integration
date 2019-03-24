@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Set;
 
-import static com.jakubeeee.common.utils.LangUtils.toSet;
 import static com.jakubeeee.integration.enums.DataSourceType.WAREHOUSE;
 import static com.jakubeeee.integration.enums.ProductMappingKey.NAME;
 
@@ -39,7 +38,7 @@ public class DataSourceConfig {
 
             @Override
             public Set<ProductMappingKey> getAllowedProductMappingKeys() {
-                return toSet(NAME);
+                return Set.of(NAME);
             }
         };
     }

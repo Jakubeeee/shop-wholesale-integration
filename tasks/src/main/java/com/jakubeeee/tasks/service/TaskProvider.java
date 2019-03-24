@@ -1,6 +1,6 @@
 package com.jakubeeee.tasks.service;
 
-import com.jakubeeee.common.exceptions.DummyServiceException;
+import com.jakubeeee.core.exceptions.DummyServiceException;
 import com.jakubeeee.tasks.aspects.TaskAspect;
 import com.jakubeeee.tasks.exceptions.InvalidTaskStatusException;
 import com.jakubeeee.tasks.exceptions.ProgressTrackerNotActiveException;

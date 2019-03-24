@@ -2,10 +2,10 @@ package com.jakubeeee.tasks.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.jakubeeee.common.converters.JsonObjectConverter;
-import com.jakubeeee.common.converters.LocalDateTimeConverter;
-import com.jakubeeee.common.mixins.Parameterizable;
-import com.jakubeeee.common.serializers.LocalDateTimeSerializer;
+import com.jakubeeee.common.converter.JsonObjectConverter;
+import com.jakubeeee.common.converter.LocalDateTimeConverter;
+import com.jakubeeee.common.mixin.Parameterizable;
+import com.jakubeeee.common.serializer.LocalDateTimeSerializer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

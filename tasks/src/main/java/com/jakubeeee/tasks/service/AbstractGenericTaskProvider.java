@@ -1,6 +1,6 @@
 package com.jakubeeee.tasks.service;
 
-import com.jakubeeee.common.exceptions.DummyServiceException;
+import com.jakubeeee.core.exceptions.DummyServiceException;
 import com.jakubeeee.tasks.exceptions.InvalidTaskStatusException;
 import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.model.PastTaskExecution;
@@ -9,9 +9,9 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import static com.jakubeeee.common.utils.LangUtils.toList;
 import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
 import static java.time.LocalDateTime.now;
 
@@ -36,7 +36,7 @@ public abstract class AbstractGenericTaskProvider<T extends GenericTask> impleme
         progressTrackingService.startTrackingProgress(caller);
         loggingService.startPublishingLogs();
         loggingService.info(caller.getId(), "TASKEXECSTART",
-                toList(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));
+                List.of(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));
     }
 
     @Override

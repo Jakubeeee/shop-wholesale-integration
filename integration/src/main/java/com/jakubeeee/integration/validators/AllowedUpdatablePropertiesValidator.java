@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.validators;
 
-import com.jakubeeee.common.exceptions.IncorrectClassStructureException;
+import com.jakubeeee.common.exception.UnexpectedClassStructureException;
 import com.jakubeeee.integration.model.ProductsTask;
 import com.jakubeeee.integration.service.UpdatableDataSource;
 import com.jakubeeee.tasks.exceptions.InvalidTaskDefinitionException;
@@ -15,7 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-import static com.jakubeeee.common.utils.ReflectUtils.getMethod;
+import static com.jakubeeee.common.util.ReflectUtils.getMethod;
 import static com.jakubeeee.core.utils.BeanUtils.getBean;
 
 @Slf4j
@@ -26,7 +26,7 @@ public class AllowedUpdatablePropertiesValidator implements TaskValidator {
     static AllowedUpdatablePropertiesValidator instance = new AllowedUpdatablePropertiesValidator();
 
     @Override
-    public void validate(GenericTask validatedTask) throws InvalidTaskDefinitionException, IncorrectClassStructureException {
+    public void validate(GenericTask validatedTask) throws InvalidTaskDefinitionException, UnexpectedClassStructureException {
         ProductsTask validatedProductsTask = (ProductsTask) validatedTask;
         Class<? extends UpdatableDataSource> updatableDataSource = validatedProductsTask.getUpdatableDataSourceImplementation();
         try {
@@ -37,7 +37,7 @@ public class AllowedUpdatablePropertiesValidator implements TaskValidator {
                     throw new InvalidTaskDefinitionException("Updatable data source \"" +
                             updatableDataSource + "\" does not allow to update property: " + property);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new IncorrectClassStructureException("The \"" + updatableDataSource + "\" class structure is incorrect. " +
+            throw new UnexpectedClassStructureException("The \"" + updatableDataSource + "\" class structure is incorrect. " +
                     "It is impossible to access its set of allowed updatable properties. " +
                     "Detailed message: \"" + e.getClass() + "\": \"" + e.getMessage());
         }

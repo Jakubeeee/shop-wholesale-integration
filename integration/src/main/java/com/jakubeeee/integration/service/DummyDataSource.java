@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 
-import static com.jakubeeee.common.utils.LangUtils.toSet;
-import static com.jakubeeee.integration.enums.DataSourceType.*;
+import static com.jakubeeee.integration.enums.DataSourceType.WAREHOUSE;
 import static com.jakubeeee.integration.enums.ProductMappingKey.NAME;
 import static java.util.Collections.emptyList;
 
@@ -40,6 +39,6 @@ public class DummyDataSource implements DataSource<DummyProduct>, DummyService {
 
     @Override
     public Set<ProductMappingKey> getAllowedProductMappingKeys() {
-        return toSet(NAME);
+        return Set.of(NAME);
     }
 }

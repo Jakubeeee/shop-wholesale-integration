@@ -12,8 +12,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import static com.jakubeeee.common.utils.DateTimeUtils.getTimeDifferenceInMillis;
-import static com.jakubeeee.common.utils.DateTimeUtils.minutesToMillis;
+import static com.jakubeeee.common.util.DateTimeUtils.getTimeDifferenceInMillis;
+import static com.jakubeeee.common.util.DateTimeUtils.minutesToMillis;
 import static java.time.LocalDateTime.now;
 import static java.util.Objects.requireNonNull;
 

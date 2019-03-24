@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.jakubeeee.common.utils.LangUtils.toSet;
 import static com.jakubeeee.integration.enums.DataSourceType.SHOP_PLATFORM;
 import static com.jakubeeee.integration.enums.ProductMappingKey.NAME;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty;
@@ -63,6 +62,6 @@ public class DummyUpdatableDataSource implements UpdatableDataSource<DummyProduc
 
     @Override
     public Set<ProductMappingKey> getAllowedProductMappingKeys() {
-        return toSet(NAME);
+        return Set.of(NAME);
     }
 }

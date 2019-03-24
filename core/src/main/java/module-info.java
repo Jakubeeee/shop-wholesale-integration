@@ -14,6 +14,7 @@ module core {
     requires spring.web;
     requires spring.websocket;
 
+    exports com.jakubeeee.core.exceptions;
     exports com.jakubeeee.core.mixins;
     exports com.jakubeeee.core.service;
     exports com.jakubeeee.core.utils;

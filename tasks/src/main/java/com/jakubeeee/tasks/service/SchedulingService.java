@@ -6,7 +6,7 @@ import com.jakubeeee.tasks.model.GenericTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.jakubeeee.common.utils.DateTimeUtils.millisUnitNextFullMinute;
+import static com.jakubeeee.common.util.DateTimeUtils.millisUnitNextFullMinute;
 import static java.time.LocalDateTime.now;
 
 @Service

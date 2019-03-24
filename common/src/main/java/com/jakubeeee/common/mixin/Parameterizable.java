@@ -1,13 +1,13 @@
-package com.jakubeeee.common.mixins;
+package com.jakubeeee.common.mixin;
 
 import lombok.NonNull;
 
 import java.util.Map;
 
-import static com.jakubeeee.common.utils.LangUtils.mergeMaps;
+import static com.jakubeeee.common.util.CollectionUtils.mergeMaps;
 
 /**
- * An interface implemented by model classes having the ability to possess additional parameters
+ * Interface implemented by model classes having the ability to possess additional parameters.
  */
 public interface Parameterizable {
 
@@ -19,15 +19,15 @@ public interface Parameterizable {
         getParams().put(key, value);
     }
 
-    default boolean hasProperty(String key) {
+    default boolean hasProperty(@NonNull String key) {
         return getParams().containsKey(key);
     }
 
-    default Object getParam(String key) {
+    default Object getParam(@NonNull String key) {
         return getParams().get(key);
     }
 
-    default Map<String, Object> getMergedParams(Parameterizable otherParameterizable) {
+    default Map<String, Object> mergeParamsWith(@NonNull Parameterizable otherParameterizable) {
         return mergeMaps(getParams(), otherParameterizable.getParams());
     }
 

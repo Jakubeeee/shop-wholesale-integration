@@ -18,8 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
 
-import static com.jakubeeee.common.utils.DateTimeUtils.*;
-import static com.jakubeeee.common.utils.LangUtils.*;
+import static com.jakubeeee.common.util.CollectionUtils.extractList;
+import static com.jakubeeee.common.util.CollectionUtils.filterList;
+import static com.jakubeeee.common.util.DateTimeUtils.*;
+import static com.jakubeeee.common.util.LangUtils.nvl;
 import static com.jakubeeee.tasks.model.LogMessage.Type.*;
 import static java.time.LocalDateTime.now;
 
@@ -145,7 +147,7 @@ public class LoggingService {
             int excess = allCachedLogs.size() - LOG_LIST_MAX_SIZE;
             allCachedLogs = allCachedLogs.subList(excess, allCachedLogs.size());
         }
-        allCachedLogs = filterList(allCachedLogs, (log -> !isTimeAfter(timeHoursAgo, stringToTime(log.getTime()))));
+        allCachedLogs = filterList(allCachedLogs, (log -> !isTimeAfter(timeHoursAgo, parseStringToDateTime(log.getTime()))));
         taskPublisher.publishAllTasksLogs(allCachedLogs);
     }
 

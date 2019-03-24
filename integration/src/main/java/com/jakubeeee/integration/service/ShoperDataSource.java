@@ -18,8 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.*;
 
-import static com.jakubeeee.common.utils.LangUtils.toSet;
-import static com.jakubeeee.common.utils.ThreadUtils.sleep;
+import static com.jakubeeee.common.util.ThreadUtils.sleep;
 import static com.jakubeeee.integration.enums.DataSourceType.SHOP_PLATFORM;
 import static com.jakubeeee.integration.enums.ProductMappingKey.CODE;
 import static com.jakubeeee.integration.enums.ProductMappingKey.NAME;
@@ -51,8 +50,8 @@ public class ShoperDataSource implements UpdatableDataSource<ShoperProduct> {
 
     @PostConstruct
     void initialize() {
-        allowedProductMappingKeys = toSet(NAME, CODE);
-        allowedUpdatableProperties = toSet(STOCK, PRICE, EAN);
+        allowedProductMappingKeys = Set.of(NAME, CODE);
+        allowedUpdatableProperties = Set.of(STOCK, PRICE, EAN);
     }
 
     @Override

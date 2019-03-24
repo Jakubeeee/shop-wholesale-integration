@@ -13,8 +13,8 @@ import java.util.Optional;
 
 import static com.jakubeeee.common.model.MessageWrapper.Action.ADD_TO_STATE;
 import static com.jakubeeee.common.model.MessageWrapper.Action.SWAP_STATE;
-import static com.jakubeeee.common.utils.JsonUtils.objectToJson;
-import static com.jakubeeee.common.utils.JsonUtils.wrap;
+import static com.jakubeeee.common.util.JsonUtils.objectToJson;
+import static com.jakubeeee.common.util.JsonUtils.wrap;
 
 @Component
 public class TaskPublisher {

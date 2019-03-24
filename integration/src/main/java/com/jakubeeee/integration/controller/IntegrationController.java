@@ -6,7 +6,7 @@ import org.dom4j.Element;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.jakubeeee.common.utils.DateTimeUtils.formatDateTime;
+import static com.jakubeeee.common.util.DateTimeUtils.formatDateTime;
 import static java.time.LocalDateTime.now;
 import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 
