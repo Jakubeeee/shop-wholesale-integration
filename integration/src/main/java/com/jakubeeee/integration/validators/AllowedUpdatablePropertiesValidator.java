@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 import java.util.Set;
 
 import static com.jakubeeee.common.util.ReflectUtils.getMethod;
-import static com.jakubeeee.core.utils.BeanUtils.getBean;
+import static com.jakubeeee.core.util.BeanUtils.getBean;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

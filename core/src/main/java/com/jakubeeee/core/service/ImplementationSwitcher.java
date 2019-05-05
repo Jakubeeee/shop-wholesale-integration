@@ -1,22 +1,27 @@
 package com.jakubeeee.core.service;
 
-import com.jakubeeee.core.mixins.Reloadable;
-import com.jakubeeee.core.mixins.Switchable;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.jakubeeee.core.mixin.Reloadable;
+import com.jakubeeee.core.mixin.Switchable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Component class used to switch {@link Switchable} implementations in {@link Reloadable} objects.
+ */
 @Component
 public class ImplementationSwitcher {
 
-    @Autowired
-    Map<String, Reloadable> reloaders;
+    private final Map<String, Reloadable> reloaders;
 
-    @Autowired
-    ApplicationContext context;
+    private final ApplicationContext context;
+
+    public ImplementationSwitcher(ApplicationContext context, Map<String, Reloadable> reloaders) {
+        this.context = context;
+        this.reloaders = reloaders;
+    }
 
     public void switchImplementations(String reloaderCode, Map<String, Class<? extends Switchable>> implementationTypesMap) {
         Map<String, Switchable> implementationsMap = new HashMap<>();

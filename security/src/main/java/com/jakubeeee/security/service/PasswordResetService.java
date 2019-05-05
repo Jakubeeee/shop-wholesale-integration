@@ -1,7 +1,7 @@
 package com.jakubeeee.security.service;
 
 import com.jakubeeee.core.service.EmailService;
-import com.jakubeeee.core.service.LocaleService;
+import com.jakubeeee.core.service.MessageService;
 import com.jakubeeee.security.exceptions.ValidationException;
 import com.jakubeeee.security.model.PasswordResetToken;
 import com.jakubeeee.security.model.User;
@@ -16,9 +16,12 @@ import org.springframework.util.StringUtils;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.jakubeeee.core.util.EmailUtils.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -31,7 +34,7 @@ public class PasswordResetService {
     EmailService emailService;
 
     @Autowired
-    LocaleService localeService;
+    MessageService messageService;
 
     @Autowired
     PasswordResetTokenRepository passwordResetTokenRepository;
@@ -40,11 +43,11 @@ public class PasswordResetService {
     private int TOKEN_LIFETIME_IN_MINUTES;
 
     @Transactional
-    public void handleForgotMyPasswordProcess(String email, String origin) {
+    public void handleForgotMyPasswordProcess(String email, String origin, String localeCode) {
         PasswordResetToken resetToken = createPasswordResetToken(email);
         User tokenOwner = resetToken.getUser();
         String resetPasswordUrl = createResetPasswordUrl(origin, tokenOwner.getId(), resetToken.getValue());
-        sendEmailWithResetToken(tokenOwner, resetPasswordUrl);
+        sendEmailWithResetToken(tokenOwner, resetPasswordUrl, new Locale(localeCode));
     }
 
     @Transactional
@@ -67,12 +70,12 @@ public class PasswordResetService {
                 + token;
     }
 
-    private void sendEmailWithResetToken(User user, String resetPasswordUrl) {
-        String emailContent = localeService.getMessage("passwordResetEmailContent")
+    private void sendEmailWithResetToken(User user, String resetPasswordUrl, Locale locale) {
+        String emailContent = messageService.getMessage("passwordResetEmailContent", locale)
                 + "\r\n" + resetPasswordUrl;
-        String emailSubject = localeService.getMessage("passwordResetEmailSubject");
+        String emailSubject = messageService.getMessage("passwordResetEmailSubject", locale);
         SimpleMailMessage mailMessage =
-                emailService.createMailMessage(user.getEmail(), emailContent, emailSubject);
+                createMailMessage(user.getEmail(), emailContent, emailSubject);
         emailService.sendMailMessage(mailMessage);
     }
 

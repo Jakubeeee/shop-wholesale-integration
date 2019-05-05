@@ -17,7 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static com.jakubeeee.common.util.ReflectUtils.getMethod;
-import static com.jakubeeee.core.utils.BeanUtils.getBean;
+import static com.jakubeeee.core.util.BeanUtils.getBean;
 import static com.jakubeeee.integration.enums.DataSourceType.SHOP_PLATFORM;
 import static com.jakubeeee.integration.enums.DataSourceType.WAREHOUSE;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty.PRICE;

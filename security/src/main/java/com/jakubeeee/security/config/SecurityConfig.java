@@ -88,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    @Profile("dev")
+    @Profile("local")
     public CommandLineRunner createExampleUsers(UserService userService) {
         return args -> {
             userService.createUser("test1", "password1", "testmail1@mail.com");

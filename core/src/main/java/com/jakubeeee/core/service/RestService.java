@@ -1,22 +1,23 @@
 package com.jakubeeee.core.service;
 
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
-import org.apache.cxf.common.util.Base64Utility;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
+/**
+ * Service class for operations related to rest communication.
+ */
 @Service
 public class RestService {
 
-    @Autowired
-    RestTemplate template;
+    private final RestTemplate template;
+
+    public RestService(RestTemplateBuilder restTemplateBuilder) {
+        this.template = restTemplateBuilder.build();
+    }
 
     public String getString(String uri) {
         return template.getForObject(uri, String.class);
@@ -46,16 +47,4 @@ public class RestService {
                 responseType);
     }
 
-    public HttpHeaders generateHeaderWithAuthToken(String tokenValue) {
-        var headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + tokenValue);
-        return headers;
-    }
-
-    public HttpHeaders generateHeaderWithUsernameAndPassword(String username, String password) {
-        var headers = new HttpHeaders();
-        String userAndPass = username + ":" + password;
-        headers.add("Authorization", "Basic " + Base64Utility.encode(userAndPass.getBytes()));
-        return headers;
-    }
 }

@@ -6,6 +6,9 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+/**
+ * Java spring configuration file for application's web socket communication.
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
@@ -19,7 +22,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/websocket-endpoint").setAllowedOrigins("*").withSockJS()
                 .setClientLibraryUrl("//cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js");
-
     }
 
 }

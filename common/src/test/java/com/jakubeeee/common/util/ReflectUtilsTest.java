@@ -21,15 +21,25 @@ public class ReflectUtilsTest {
     }
 
     @Test
-    public void getFieldValueTest_shouldAccess() throws IllegalAccessException {
+    public void getFieldValueTest_shouldAccess_1() throws IllegalAccessException {
         Field field = FieldUtils.getField(TEST_SUBJECT_CLASS, "uniqueId", true);
         getFieldValue(field, getTestSubject(1), TEST_SUBJECT_CLASS);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getFieldValueTest_shouldNotAccess() throws IllegalAccessException {
+    public void getFieldValueTest_shouldNotAccess_1() throws IllegalAccessException {
         Field field = FieldUtils.getField(TEST_SUBJECT_CLASS, "nonExistingField", true);
         getFieldValue(field, getTestSubject(1), TEST_SUBJECT_CLASS);
+    }
+
+    @Test
+    public void getFieldValueTest_shouldAccess_2() throws IllegalAccessException {
+        getFieldValue("uniqueId", getTestSubject(1), TEST_SUBJECT_CLASS);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getFieldValueTest_shouldNotAccess_2() throws IllegalAccessException {
+        getFieldValue("nonExistingField", getTestSubject(1), TEST_SUBJECT_CLASS);
     }
 
     @Test

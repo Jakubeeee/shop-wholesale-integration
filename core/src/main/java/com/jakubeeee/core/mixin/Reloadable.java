@@ -1,4 +1,4 @@
-package com.jakubeeee.core.mixins;
+package com.jakubeeee.core.mixin;
 
 
 import com.jakubeeee.core.service.ImplementationSwitcher;
@@ -6,7 +6,7 @@ import com.jakubeeee.core.service.ImplementationSwitcher;
 import java.util.Map;
 
 /**
- * An interface extended by service classes that have dependencies with dynamically switched types
+ * Interface extended by service classes that have dependencies with dynamically switched types.
  *
  * @see ImplementationSwitcher
  */

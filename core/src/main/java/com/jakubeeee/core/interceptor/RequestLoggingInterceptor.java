@@ -1,4 +1,4 @@
-package com.jakubeeee.core.interceptors;
+package com.jakubeeee.core.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpRequest;
@@ -15,7 +15,9 @@ import java.net.UnknownHostException;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
- * If activated, this interceptor watches every http request and response and logs information about them
+ * Http interceptor that watches every request and response and logs useful information about them.<br>
+ * This interceptor should be enabled only in development environment as a helpful tool in code debugging.<br>
+ * To enable this interceptor, the flag property in resources/core.properties file must be switched to true.
  */
 @Slf4j
 @Component
@@ -23,10 +25,7 @@ public class RequestLoggingInterceptor implements ClientHttpRequestInterceptor {
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        try {
-            infoRequest(request, body);
-        } catch (UnknownHostException ignored) {
-        }
+        infoRequest(request, body);
         ClientHttpResponse response = execution.execute(request, body);
         try {
             infoResponse(response);
@@ -35,7 +34,7 @@ public class RequestLoggingInterceptor implements ClientHttpRequestInterceptor {
         return response;
     }
 
-    private void infoRequest(HttpRequest request, byte[] body) throws IOException {
+    private void infoRequest(HttpRequest request, byte[] body) {
         LOG.info("===========================request begin================================================");
         LOG.info("URI         : {}", request.getURI());
         LOG.info("Method      : {}", request.getMethod());

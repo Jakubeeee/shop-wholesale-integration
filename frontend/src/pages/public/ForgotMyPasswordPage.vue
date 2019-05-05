@@ -67,7 +67,8 @@
           method: "post",
           data: this.email,
           headers: {
-            'Content-type': 'text/plain'
+            'Content-type': 'text/plain',
+            'Accept-language': this.language
           },
         }).then(() => {
             this.isLoading = false;
@@ -83,6 +84,7 @@
     },
     computed: {
       ...mapGetters({
+        language: 'language',
         cooldownActive: 'resetEmailCooldownActive'
       }),
     },

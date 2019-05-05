@@ -10,10 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,9 +42,10 @@ public class SecurityController {
     }
 
     @PostMapping(path = "/forgotMyPassword", consumes = "text/plain")
-    public void handleForgotMyPasswordRequest(@RequestBody String email, HttpServletRequest request) {
+    public void handleForgotMyPasswordRequest(
+            @RequestBody String email, @RequestHeader("Accept-language") String localeCode, HttpServletRequest request) {
         String origin = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-        passwordResetService.handleForgotMyPasswordProcess(email, origin);
+        passwordResetService.handleForgotMyPasswordProcess(email, origin, localeCode);
     }
 
     @PostMapping("/changePassword")

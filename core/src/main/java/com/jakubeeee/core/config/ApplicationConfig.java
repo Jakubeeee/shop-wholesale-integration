@@ -8,6 +8,9 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * Main java spring configuration file.
+ */
 @Configuration
 @PropertySource("classpath:core.properties")
 @EnableScheduling

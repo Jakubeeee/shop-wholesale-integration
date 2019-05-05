@@ -6,10 +6,13 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
+/**
+ * Java spring configuration file for <b>local</b> profile.
+ */
 @Configuration
-@Profile("dev")
-@PropertySource("classpath:application-dev.properties")
-public class DevelopmentConfig {
+@Profile("local")
+@PropertySource("classpath:application-local.properties")
+public class LocalProfileConfig {
 
     @Bean
     public CommonsRequestLoggingFilter requestLoggingFilter() {

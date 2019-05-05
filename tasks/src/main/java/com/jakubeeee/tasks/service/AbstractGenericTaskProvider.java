@@ -1,6 +1,6 @@
 package com.jakubeeee.tasks.service;
 
-import com.jakubeeee.core.exceptions.DummyServiceException;
+import com.jakubeeee.core.exception.DummyServiceException;
 import com.jakubeeee.tasks.exceptions.InvalidTaskStatusException;
 import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.model.PastTaskExecution;

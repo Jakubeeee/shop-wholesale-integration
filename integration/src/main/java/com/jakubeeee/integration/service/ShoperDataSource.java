@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 
 import static com.jakubeeee.common.util.ThreadUtils.sleep;
+import static com.jakubeeee.core.util.RestUtils.generateHeaderWithAuthToken;
 import static com.jakubeeee.integration.enums.DataSourceType.SHOP_PLATFORM;
 import static com.jakubeeee.integration.enums.ProductMappingKey.CODE;
 import static com.jakubeeee.integration.enums.ProductMappingKey.NAME;
@@ -67,7 +68,7 @@ public class ShoperDataSource implements UpdatableDataSource<ShoperProduct> {
     }
 
     private List<ShoperProduct> getAllProductsFromPage(int page) {
-        HttpHeaders headers = restService.generateHeaderWithAuthToken(authService.getTokenValue());
+        HttpHeaders headers = generateHeaderWithAuthToken(authService.getTokenValue());
         ResponseEntity<ShoperProductsCollection> response = restService.getJsonObject(
                 SHOPER_ALL_PRODUCTS_URI + "?limit=50&page=" + page,
                 new HttpEntity<>(headers), ShoperProductsCollection.class);
@@ -75,7 +76,7 @@ public class ShoperDataSource implements UpdatableDataSource<ShoperProduct> {
     }
 
     private int getPageAmount() {
-        HttpHeaders headers = restService.generateHeaderWithAuthToken(authService.getTokenValue());
+        HttpHeaders headers = generateHeaderWithAuthToken(authService.getTokenValue());
         ResponseEntity<ShoperProductsCollection> response = restService.getJsonObject(
                 SHOPER_ALL_PRODUCTS_URI + "?limit=50",
                 new HttpEntity<>(headers), ShoperProductsCollection.class);
@@ -102,7 +103,7 @@ public class ShoperDataSource implements UpdatableDataSource<ShoperProduct> {
     @Override
     public void handleSingleProductUpdate(CommonProduct commonProduct, List<UpdatableProperty> properties, boolean isTesting) {
         if (!isTesting) {
-            HttpHeaders headers = restService.generateHeaderWithAuthToken(authService.getTokenValue());
+            HttpHeaders headers = generateHeaderWithAuthToken(authService.getTokenValue());
             var requestParams = getRequestParamsForUpdate(commonProduct, properties);
             restService.putJsonObject(
                     SHOPER_PRODUCT_STOCK_URI + "/" + commonProduct.getParam("SHOPER_ID"),

@@ -14,13 +14,13 @@ Used technologies:
 #### Building and configuration:
 
 This project is built using maven. There are two groups of profiles used during build:
-- environmental (dev, prod): determines whether the application should be deployed locally or on a remote heroku server
+- environmental (local, heroku): determines whether the application should be deployed locally or on a remote heroku server
 - build type (full-build, back-build): determines whether it should build the entire application from scratch 
 or skip refreshing the frontend resources (choose if nothing has changed in them for faster build)
 
 Build requires selection of one profile from each group, 
 otherwise it will fail. Example command:<br/>
-`mvn clean install -P dev -P full-build`<br/>
+`mvn clean install -P local -P full-build`<br/>
 The above command will build a local version of the application from scratch
 
 Deploying on a remote server requires:
@@ -28,12 +28,12 @@ Deploying on a remote server requires:
 - creatng heroku application and setting its name in the configuration of heroku-maven-plugin
  located in webapp-template/pom.xml file
 - configuring heroku postgres database (https://devcenter.heroku.com/articles/heroku-postgresql)
-- setting heroku config vars needed in resources/application-prod.properties file 
+- setting heroku config vars needed in resources/application-heroku.properties file 
 (eg SPRING_MAIL_SENDER_USERNAME and more)
 - installing heroku cli and logging in to your account (https://devcenter.heroku.com/articles/heroku-cli)
-- launching the build with the appropriate profile (eg `mvn clean install -P prod -P full-build`)
+- launching the build with the appropriate profile (eg `mvn clean install -P heroku -P full-build`)
 
-In order for mailing features to work, you need to add your email account credentials in resources/application-dev.properties
+In order for mailing features to work, you need to add your email account credentials in resources/application-local.properties
 Moreover, you may need to change your email account configuration in order for spring mail to use it.  
 Here you can find how to do that with gmail account:  
 https://sanaulla.info/2017/09/15/using-gmail-as-smtp-server-from-java-spring-boot-apps/  

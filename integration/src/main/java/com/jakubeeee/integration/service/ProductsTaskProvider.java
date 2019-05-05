@@ -1,9 +1,9 @@
 package com.jakubeeee.integration.service;
 
 import com.jakubeeee.common.model.ChangeRegistry;
-import com.jakubeeee.core.exceptions.DummyServiceException;
-import com.jakubeeee.core.mixins.Reloadable;
-import com.jakubeeee.core.mixins.Switchable;
+import com.jakubeeee.core.exception.DummyServiceException;
+import com.jakubeeee.core.mixin.Reloadable;
+import com.jakubeeee.core.mixin.Switchable;
 import com.jakubeeee.core.service.DummyService;
 import com.jakubeeee.core.service.ImplementationSwitcher;
 import com.jakubeeee.integration.enums.ProductMappingKey;
@@ -20,6 +20,7 @@ import lombok.Synchronized;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -43,6 +44,7 @@ import static java.util.Collections.sort;
 @Service
 public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTask> implements Reloadable {
 
+    @Lazy
     @Autowired
     ImplementationSwitcher implementationSwitcher;
 

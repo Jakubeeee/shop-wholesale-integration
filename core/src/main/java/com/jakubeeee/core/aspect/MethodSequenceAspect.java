@@ -1,4 +1,4 @@
-package com.jakubeeee.core.aspects;
+package com.jakubeeee.core.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * If activated, this aspect registers every entry and exit from every method in spring beans,
- * also informing about input parameters and return values
+ * also informing about input parameters and return values.<br>
+ * This aspect should be enabled only in development environment as a helpful tool in code debugging.<br>
+ * To enable this aspect, the flag property in resources/core.properties file must be switched to true.
  */
 @Slf4j
 @Aspect
@@ -31,4 +33,5 @@ public class MethodSequenceAspect {
                 " with return value: \"" + result + "\"");
         return result;
     }
+
 }

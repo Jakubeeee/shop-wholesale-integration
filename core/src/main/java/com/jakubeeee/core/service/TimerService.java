@@ -6,6 +6,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.BooleanSupplier;
 
+/**
+ * Service class for operations related scheduling recurrent jobs.
+ */
 @Service
 public class TimerService {
 

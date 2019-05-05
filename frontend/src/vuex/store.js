@@ -133,13 +133,6 @@ const actions = {
   changeLanguage: (context, locale) => {
     context.commit('SET_LANGUAGE', locale);
     i18n.locale = locale;
-    axios('/changeLocale', {
-      method: "post",
-      data: context.getters.language,
-      headers: {
-        'Content-type': 'text/plain'
-      }
-    })
   },
   beginResetEmailCooldown: (context) => {
     context.commit('SET_RESET_EMAIL_COOLDOWN_ACTIVE', true);

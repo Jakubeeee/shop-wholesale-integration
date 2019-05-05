@@ -1,8 +1,8 @@
 package com.jakubeeee.core.config;
 
-import com.jakubeeee.core.interceptors.RequestLoggingInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.jakubeeee.core.interceptor.RequestLoggingInterceptor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -18,22 +18,28 @@ import java.util.ArrayList;
 
 import static java.util.Arrays.asList;
 
+/**
+ * Java spring configuration file for application's rest communication.
+ */
 @Configuration
 public class RestConfig {
 
-    @Autowired
-    RequestLoggingInterceptor requestLoggingInterceptor;
-
     @Value("${enable.request.logging.interceptor}")
-    boolean IS_REQUEST_LOGGER_INTERCEPTOR_ENABLED;
+    boolean REQUEST_LOGGER_INTERCEPTOR_ENABLED;
+
+    private final RequestLoggingInterceptor requestLoggingInterceptor;
+
+    public RestConfig(RequestLoggingInterceptor requestLoggingInterceptor) {
+        this.requestLoggingInterceptor = requestLoggingInterceptor;
+    }
 
     @Bean
-    public RestTemplate restTemplate() {
+    public RestTemplateBuilder restTemplateBuilder() {
         var requestFactory = new SimpleClientHttpRequestFactory();
         requestFactory.setOutputStreaming(false);
         var restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(requestFactory));
         var interceptors = new ArrayList<ClientHttpRequestInterceptor>();
-        if (IS_REQUEST_LOGGER_INTERCEPTOR_ENABLED) interceptors.add(requestLoggingInterceptor);
+        if (REQUEST_LOGGER_INTERCEPTOR_ENABLED) interceptors.add(requestLoggingInterceptor);
         restTemplate.setInterceptors(interceptors);
         var jacksonConverter = new MappingJackson2HttpMessageConverter();
         jacksonConverter.setDefaultCharset(Charset.forName("UTF-8"));
@@ -42,7 +48,9 @@ public class RestConfig {
         var stringConverter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
         stringConverter.setSupportedMediaTypes(asList(MediaType.APPLICATION_XML, new MediaType("application", "force-download")));
         restTemplate.getMessageConverters().add(0, stringConverter);
-        return restTemplate;
+        var builder = new RestTemplateBuilder();
+        builder.configure(restTemplate);
+        return builder;
     }
 
 }

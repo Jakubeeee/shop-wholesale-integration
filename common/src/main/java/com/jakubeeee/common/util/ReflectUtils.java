@@ -19,6 +19,12 @@ public final class ReflectUtils {
         return (T) FieldUtils.readField(field, fieldOwnerObject, true);
     }
 
+    @SuppressWarnings({"unchecked", "unused"})
+    public static <T> T getFieldValue(String fieldName, Object fieldOwnerObject, @NonNull Class<T> fieldValueType)
+            throws IllegalAccessException {
+        return (T) FieldUtils.readField(fieldOwnerObject, fieldName, true);
+    }
+
     @SuppressWarnings({"unchecked"})
     public static Method getMethod(Class clazz, String name) throws NoSuchMethodException {
         Method method = clazz.getMethod(name);

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import static com.jakubeeee.common.util.DateTimeUtils.getTimeDifferenceInMillis;
 import static com.jakubeeee.common.util.DateTimeUtils.minutesToMillis;
+import static com.jakubeeee.core.util.RestUtils.*;
 import static java.time.LocalDateTime.now;
 import static java.util.Objects.requireNonNull;
 
@@ -39,7 +40,7 @@ public class ShoperAuthService extends AbstractAuthService<ShoperAuthToken> {
     }
 
     private void refreshToken() {
-        HttpHeaders headers = restService.generateHeaderWithUsernameAndPassword(SHOPER_USERNAME, SHOPER_PASSWORD);
+        HttpHeaders headers = generateHeaderWithUsernameAndPassword(SHOPER_USERNAME, SHOPER_PASSWORD);
         ResponseEntity<ShoperAuthToken> response =
                 restService.postJsonObject(SHOPER_AUTH_URI, new HttpEntity<>(headers), ShoperAuthToken.class);
         token = requireNonNull(response.getBody());

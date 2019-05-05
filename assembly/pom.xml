@@ -56,7 +56,7 @@
     <profiles>
 
         <profile>
-            <id>dev</id>
+            <id>local</id>
             <dependencies>
                 <dependency>
                     <groupId>com.h2database</groupId>
@@ -82,7 +82,7 @@
         </profile>
 
         <profile>
-            <id>prod</id>
+            <id>heroku</id>
             <dependencies>
                 <dependency>
                     <groupId>org.postgresql</groupId>
