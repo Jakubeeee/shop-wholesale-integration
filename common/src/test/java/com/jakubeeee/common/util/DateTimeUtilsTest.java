@@ -1,6 +1,8 @@
 package com.jakubeeee.common.util;
 
+import com.jakubeeee.testutils.marker.BehaviourUnitTest;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -8,7 +10,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.time.LocalDateTime;
 
 import static com.jakubeeee.common.util.DateTimeUtils.*;
-import static com.jakubeeee.testutils.constants.DateTimeTestConstants.*;
+import static com.jakubeeee.testutils.constant.DateTimeTestConstants.*;
 import static java.time.LocalDateTime.now;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -16,6 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
+@Category(BehaviourUnitTest.class)
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(DateTimeUtils.class)
 public class DateTimeUtilsTest {

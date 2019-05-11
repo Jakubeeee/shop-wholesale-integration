@@ -1,8 +1,10 @@
 package com.jakubeeee.core.service;
 
 import com.jakubeeee.testutils.model.TestSubject;
+import com.jakubeeee.testutils.marker.SliceUnitTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
@@ -10,18 +12,19 @@ import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
 
-import static com.jakubeeee.testutils.utils.TestSubjectUtils.getTestSubject;
+import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubject;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.http.HttpMethod.*;
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.TEXT_PLAIN;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
+@Category(SliceUnitTest.class)
 @RunWith(SpringRunner.class)
 @RestClientTest(RestService.class)
 public class RestServiceTest {
@@ -31,7 +34,7 @@ public class RestServiceTest {
     private static TestSubject POST_JSON_OBJECT_RESPONSE;
     private static TestSubject PUT_JSON_OBJECT_RESPONSE;
     private static HttpEntity<?> TEST_HTTP_ENTITY;
-    
+
     @BeforeClass
     public static void setUp() {
         GET_STRING_RESPONSE = "test";

@@ -1,7 +1,9 @@
 package com.jakubeeee.core.util;
 
+import com.jakubeeee.testutils.marker.BehaviourUnitTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.springframework.http.HttpHeaders;
 
 import static com.jakubeeee.core.util.RestUtils.generateHeaderWithAuthToken;
@@ -11,6 +13,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@Category(BehaviourUnitTest.class)
 public class RestUtilsTest {
 
     private static String TEST_TOKEN_VALUE;

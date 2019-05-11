@@ -1,18 +1,21 @@
 package com.jakubeeee.common.util;
 
+import com.jakubeeee.testutils.marker.BehaviourUnitTest;
 import org.dom4j.Document;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.util.Optional;
 
 import static com.jakubeeee.common.util.XmlUtils.stringToXml;
-import static com.jakubeeee.testutils.utils.TestSubjectUtils.getTestSubject;
+import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubject;
 import static org.dom4j.DocumentHelper.createDocument;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+@Category(BehaviourUnitTest.class)
 public class XmlUtilsTest {
 
     private static String TEST_XML;

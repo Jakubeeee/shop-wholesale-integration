@@ -1,16 +1,19 @@
 package com.jakubeeee.common.converter;
 
+import com.jakubeeee.testutils.marker.BehaviourUnitTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.time.LocalDateTime;
 
-import static com.jakubeeee.testutils.constants.DateTimeTestConstants.TEST_DATE_TIME;
-import static com.jakubeeee.testutils.constants.DateTimeTestConstants.TEST_DATE_TIME_AS_STRING;
+import static com.jakubeeee.testutils.constant.DateTimeTestConstants.TEST_DATE_TIME;
+import static com.jakubeeee.testutils.constant.DateTimeTestConstants.TEST_DATE_TIME_AS_STRING;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+@Category(BehaviourUnitTest.class)
 public class LocalDateTimeConverterTest {
 
     private static LocalDateTimeConverter CONVERTER;

@@ -1,16 +1,19 @@
 package com.jakubeeee.common.util;
 
 import com.jakubeeee.testutils.model.TestSubject;
+import com.jakubeeee.testutils.marker.BehaviourUnitTest;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.lang.reflect.Field;
 
 import static com.jakubeeee.common.util.ReflectUtils.getFieldValue;
 import static com.jakubeeee.common.util.ReflectUtils.getMethod;
-import static com.jakubeeee.testutils.utils.TestSubjectUtils.getTestSubject;
+import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubject;
 
+@Category(BehaviourUnitTest.class)
 public class ReflectUtilsTest {
 
     private static Class<TestSubject> TEST_SUBJECT_CLASS;

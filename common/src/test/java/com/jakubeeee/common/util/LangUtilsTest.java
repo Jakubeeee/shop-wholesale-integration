@@ -1,14 +1,17 @@
 package com.jakubeeee.common.util;
 
 import com.jakubeeee.testutils.model.TestSubject;
+import com.jakubeeee.testutils.marker.BehaviourUnitTest;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import static com.jakubeeee.common.util.LangUtils.nvl;
-import static com.jakubeeee.testutils.utils.TestSubjectUtils.getTestSubject;
+import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubject;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@Category(BehaviourUnitTest.class)
 public class LangUtilsTest {
 
     @Test

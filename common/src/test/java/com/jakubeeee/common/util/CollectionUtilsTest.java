@@ -1,8 +1,10 @@
 package com.jakubeeee.common.util;
 
 import com.jakubeeee.testutils.model.TestSubject;
+import com.jakubeeee.testutils.marker.BehaviourUnitTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,12 +13,13 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import static com.jakubeeee.common.util.CollectionUtils.*;
-import static com.jakubeeee.testutils.utils.TestSubjectUtils.getTestSubject;
-import static com.jakubeeee.testutils.utils.TestSubjectUtils.getTestSubjects;
+import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubject;
+import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubjects;
 import static java.util.Collections.sort;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+@Category(BehaviourUnitTest.class)
 public class CollectionUtilsTest {
 
     private static List<TestSubject> TEST_SUBJECT_LIST;

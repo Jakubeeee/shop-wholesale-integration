@@ -1,9 +1,12 @@
-package com.jakubeeee.testutils.constants;
+package com.jakubeeee.testutils.constant;
 
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;
 
+/**
+ * Utility class providing useful constants used in date and time related tests.
+ */
 @UtilityClass
 public final class DateTimeTestConstants {
 

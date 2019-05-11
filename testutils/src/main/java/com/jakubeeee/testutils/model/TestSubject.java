@@ -13,7 +13,7 @@ import static java.util.Comparator.comparing;
 import static org.dom4j.DocumentHelper.createDocument;
 
 /**
- * Class whose instances are used as value containers during testing.
+ * Immutable class whose instances are used as value containers during testing.
  */
 @Value
 @Wither

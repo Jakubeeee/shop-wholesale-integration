@@ -1,14 +1,17 @@
 package com.jakubeeee.common.converter;
 
 import com.jakubeeee.common.exception.ConversionError;
+import com.jakubeeee.testutils.marker.BehaviourUnitTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
-import static com.jakubeeee.testutils.utils.TestSubjectUtils.getTestSubject;
+import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubject;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+@Category(BehaviourUnitTest.class)
 public class JsonObjectConverterTest {
 
     private static JsonObjectConverter CONVERTER;

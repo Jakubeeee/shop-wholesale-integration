@@ -1,6 +1,8 @@
 package com.jakubeeee.core.service;
 
+import com.jakubeeee.testutils.marker.FlowControlUnitTest;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -15,6 +17,7 @@ import static com.jakubeeee.core.util.EmailUtils.createMailMessage;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
+@Category(FlowControlUnitTest.class)
 @RunWith(SpringRunner.class)
 public class EmailServiceTest {
 

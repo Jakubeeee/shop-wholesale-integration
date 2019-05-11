@@ -1,7 +1,9 @@
 package com.jakubeeee.core.util;
 
+import com.jakubeeee.testutils.marker.BehaviourUnitTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.springframework.mail.SimpleMailMessage;
 
 import static com.jakubeeee.core.util.EmailUtils.createMailMessage;
@@ -10,6 +12,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
+@Category(BehaviourUnitTest.class)
 public class EmailUtilsTest {
 
     private static String TEST_RECEIVER_EMAIL_ADDRESS;
