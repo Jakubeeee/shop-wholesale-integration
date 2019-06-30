@@ -6,8 +6,8 @@ import com.jakubeeee.tasks.model.GenericTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
 import static com.jakubeeee.common.util.DateTimeUtils.millisUnitNextFullMinute;
-import static java.time.LocalDateTime.now;
 
 @Service
 public class SchedulingService {
@@ -32,9 +32,9 @@ public class SchedulingService {
 
     private Runnable getPreparedTaskFunction(GenericTask task) {
         return () -> {
-            task.getLastTaskExecutionInfo().setLastScheduledStartedExecutionTime(now());
+            task.getLastTaskExecutionInfo().setLastScheduledStartedExecutionTime(getCurrentDateTime());
             task.getTaskFunction().run();
-            task.getLastTaskExecutionInfo().setLastScheduledFinishedExecutionTime(now());
+            task.getLastTaskExecutionInfo().setLastScheduledFinishedExecutionTime(getCurrentDateTime());
         };
     }
 

@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
 import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
-import static java.time.LocalDateTime.now;
 
 @FieldDefaults(level = AccessLevel.PROTECTED)
 public abstract class AbstractGenericTaskProvider<T extends GenericTask> implements TaskProvider<T> {
@@ -32,7 +32,7 @@ public abstract class AbstractGenericTaskProvider<T extends GenericTask> impleme
     @Override
     public void beforeTask(T caller) throws DummyServiceException, InvalidTaskStatusException {
         taskService.lockTaskProvider(getProviderName());
-        caller.getLastTaskExecutionInfo().setLastStartedExecutionTime(now());
+        caller.getLastTaskExecutionInfo().setLastStartedExecutionTime(getCurrentDateTime());
         progressTrackingService.startTrackingProgress(caller);
         loggingService.startPublishingLogs();
         loggingService.info(caller.getId(), "TASKEXECSTART",
@@ -47,7 +47,7 @@ public abstract class AbstractGenericTaskProvider<T extends GenericTask> impleme
         executionParams.clear();
         loggingService.removeUnnecessaryLogs();
         progressTrackingService.resetProgress(caller);
-        caller.getLastTaskExecutionInfo().setLastFinishedExecutionTime(now());
+        caller.getLastTaskExecutionInfo().setLastFinishedExecutionTime(getCurrentDateTime());
         taskService.unlockTaskProvider(getProviderName());
     }
 

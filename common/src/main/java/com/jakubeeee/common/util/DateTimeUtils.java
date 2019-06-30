@@ -20,6 +20,10 @@ public final class DateTimeUtils {
 
     public static final String DATE_TIME_FORMAT_WITH_NANOS = "yyyy-MM-dd HH:mm:ss.SSSSSSSS";
 
+    public static LocalDateTime getCurrentDateTime() {
+        return now().truncatedTo(MILLIS);
+    }
+
     public static LocalDateTime parseStringToDateTime(String dateTimeAsString) {
         return parse(dateTimeAsString.replace(" ", "T"));
     }
@@ -45,7 +49,7 @@ public final class DateTimeUtils {
     }
 
     public static long millisUnitNextFullMinute() {
-        LocalDateTime now = now();
+        LocalDateTime now = getCurrentDateTime();
         return Duration.between(now, roundTimeToNextFullMinute(now)).toMillis();
     }
 

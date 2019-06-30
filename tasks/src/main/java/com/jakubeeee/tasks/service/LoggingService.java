@@ -23,7 +23,6 @@ import static com.jakubeeee.common.util.CollectionUtils.filterList;
 import static com.jakubeeee.common.util.DateTimeUtils.*;
 import static com.jakubeeee.common.util.LangUtils.nvl;
 import static com.jakubeeee.tasks.model.LogMessage.Type.*;
-import static java.time.LocalDateTime.now;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Service
@@ -109,8 +108,10 @@ public class LoggingService {
         createLogMessage(taskId, code, DEBUG, params, dynamicParts);
     }
 
-    private void createLogMessage(long taskId, String code, LogMessage.Type type, @Nullable List<LogParam> params, int dynamicParts) {
-        var log = new LogMessage(taskId, code, type, formatDateTimeWithNanos(now()), nvl(params, new ArrayList<>()), dynamicParts);
+    private void createLogMessage(long taskId, String code, LogMessage.Type type, @Nullable List<LogParam> params,
+                                  int dynamicParts) {
+        var log = new LogMessage(taskId, code, type, formatDateTimeWithNanos(getCurrentDateTime()), nvl(params,
+                new ArrayList<>()), dynamicParts);
         cacheLogMessage(log);
     }
 
@@ -142,12 +143,13 @@ public class LoggingService {
     @Synchronized
     @Scheduled(fixedRate = 1200000)
     public void removeUnnecessaryLogs() {
-        LocalDateTime timeHoursAgo = now().minusHours(LOG_REMOVAL_HOURS_THRESHOLD);
+        LocalDateTime timeHoursAgo = getCurrentDateTime().minusHours(LOG_REMOVAL_HOURS_THRESHOLD);
         if (allCachedLogs.size() > LOG_LIST_MAX_SIZE) {
             int excess = allCachedLogs.size() - LOG_LIST_MAX_SIZE;
             allCachedLogs = allCachedLogs.subList(excess, allCachedLogs.size());
         }
-        allCachedLogs = filterList(allCachedLogs, (log -> !isTimeAfter(timeHoursAgo, parseStringToDateTime(log.getTime()))));
+        allCachedLogs = filterList(allCachedLogs, (log -> !isTimeAfter(timeHoursAgo,
+                parseStringToDateTime(log.getTime()))));
         taskPublisher.publishAllTasksLogs(allCachedLogs);
     }
 

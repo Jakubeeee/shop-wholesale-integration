@@ -194,7 +194,7 @@ public class TaskService {
     @Transactional
     @Scheduled(fixedRate = 30000)
     public void removeUnnecessaryPastTasksExecutions() {
-        LocalDateTime timeHoursAgo = now().minusHours(PAST_TASKS_EXECUTIONS_REMOVAL_HOURS_THRESHOLD);
+        LocalDateTime timeHoursAgo = getCurrentDateTime().minusHours(PAST_TASKS_EXECUTIONS_REMOVAL_HOURS_THRESHOLD);
         List<PastTaskExecution> allPastTasksExecutions = getPastTaskExecutions();
         Predicate<PastTaskExecution> obsoletePredicate =
                 pastTaskExecution -> isTimeAfter(timeHoursAgo, pastTaskExecution.getExecutionFinishTime());
@@ -225,7 +225,7 @@ public class TaskService {
             if (!task.isScheduledable())
                 return "TASKNOSCHED";
             long delay = task.getDelayInMillis();
-            return formatDateTime(roundTimeToNextFullMinute(now().plusMinutes(millisToMinutes(delay))));
+            return formatDateTime(roundTimeToNextFullMinute(getCurrentDateTime().plusMinutes(millisToMinutes(delay))));
         }).orElse("");
     }
 

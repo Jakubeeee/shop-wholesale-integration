@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 
 import static com.jakubeeee.common.util.DateTimeUtils.*;
 import static com.jakubeeee.testutils.constant.DateTimeTestConstants.*;
-import static java.time.LocalDateTime.now;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -72,7 +71,7 @@ public class DateTimeUtilsTest {
     @Test
     public void millisUntilNextFullMinuteTest_shouldCalculateProperly() {
         mockStatic(LocalDateTime.class);
-        when(now()).thenReturn(TEST_DATE_TIME_HALF_MINUTE_EARLIER);
+        when(getCurrentDateTime()).thenReturn(TEST_DATE_TIME_HALF_MINUTE_EARLIER);
         assertThat(millisUnitNextFullMinute(), is(equalTo(30000L)));
     }
 
@@ -83,7 +82,8 @@ public class DateTimeUtilsTest {
 
     @Test
     public void formatDateTimeTestWithNanos_shouldReturnFormattedString() {
-        assertThat(formatDateTimeWithNanos(TEST_DATE_TIME_WITH_NANOS), is(equalTo(TEST_DATE_TIME_AS_STRING_WITH_NANOS)));
+        assertThat(formatDateTimeWithNanos(TEST_DATE_TIME_WITH_NANOS),
+                is(equalTo(TEST_DATE_TIME_AS_STRING_WITH_NANOS)));
     }
 
 }

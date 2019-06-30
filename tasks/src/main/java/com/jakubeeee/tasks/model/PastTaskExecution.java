@@ -3,7 +3,6 @@ package com.jakubeeee.tasks.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jakubeeee.common.converter.JsonObjectConverter;
-import com.jakubeeee.common.converter.LocalDateTimeConverter;
 import com.jakubeeee.common.mixin.Parameterizable;
 import com.jakubeeee.common.serializer.LocalDateTimeSerializer;
 import lombok.AccessLevel;
@@ -17,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.time.LocalDateTime.now;
+import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
 
 @Getter
 @Setter
@@ -44,7 +43,7 @@ public class PastTaskExecution implements Parameterizable {
     public PastTaskExecution(long taskId) {
         this.taskId = taskId;
         this.params = new HashMap<>();
-        this.executionFinishTime = now();
+        this.executionFinishTime = getCurrentDateTime();
     }
 
 }

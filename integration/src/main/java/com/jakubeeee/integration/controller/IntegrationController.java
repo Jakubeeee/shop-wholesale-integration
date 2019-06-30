@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.jakubeeee.common.util.DateTimeUtils.formatDateTime;
-import static java.time.LocalDateTime.now;
+import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
 import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 
 @RestController
@@ -16,7 +16,8 @@ public class IntegrationController {
     @GetMapping(path = "dummyProductsXml", produces = {APPLICATION_XML_VALUE})
     public String getDummyProductsXml() {
         Document document = DocumentHelper.createDocument();
-        Element productsElement = document.addElement("products").addAttribute("created_at", formatDateTime(now()));
+        Element productsElement = document.addElement("products").addAttribute("created_at",
+                formatDateTime(getCurrentDateTime()));
         Element productElement = productsElement.addElement("product");
         productElement.addElement("index").addText("prod-1");
         productElement.addElement("availability").addText("50");
