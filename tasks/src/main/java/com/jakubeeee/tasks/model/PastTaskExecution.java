@@ -34,7 +34,6 @@ public class PastTaskExecution implements Parameterizable {
     long taskId;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @Convert(converter = LocalDateTimeConverter.class)
     LocalDateTime executionFinishTime;
 
     @Convert(converter = JsonObjectConverter.class)
