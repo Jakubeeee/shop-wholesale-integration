@@ -66,6 +66,10 @@ public final class CollectionUtils {
         return mergedMap;
     }
 
+    public static SortedMap<String, Object> sortedMapOf(@NonNull Map<String, Object> map) {
+        return new TreeMap<>(map);
+    }
+
 }
 
 

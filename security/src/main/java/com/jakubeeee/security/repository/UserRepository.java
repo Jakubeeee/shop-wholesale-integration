@@ -1,6 +1,6 @@
-package com.jakubeeee.security.repositories;
+package com.jakubeeee.security.repository;
 
-import com.jakubeeee.security.model.User;
+import com.jakubeeee.security.entity.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * Spring data jpa repository for crud operations on {@link User} objects.
+ */
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 
@@ -20,5 +23,4 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query("UPDATE User u SET u.password = :password WHERE u.id = :userId")
     void updateUserPassword(@Param("userId") long userId, @Param("password") String password);
 
-    Optional<User> findById(long id);
 }

@@ -19,7 +19,7 @@
       this.$store.dispatch('launchListener', 'TASKS_PROGRESS');
       this.$store.dispatch('launchListener', 'PAST_TASKS_EXECUTIONS');
       let groupedRequests = () => {
-        axios.get('/activeUser').then((response) => {
+        axios.get('/get-current-username').then((response) => {
           this.$store.dispatch('registerActiveUser', response.data);
         });
         axios.get('/tasks').then((response) => {

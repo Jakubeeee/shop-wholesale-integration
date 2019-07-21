@@ -105,7 +105,7 @@ const actions = {
     }).then(() => {
       context.commit('SET_AUTHENTICATED', true);
       router.push({path: '/dashboard'});
-      axios.get('/activeUser').then((response) => {
+      axios.get('/get-current-username').then((response) => {
         context.commit('SET_ACTIVE_USER', response.data);
       })
     }).catch(() => {
@@ -120,7 +120,7 @@ const actions = {
     )
   },
   checkAuthenticated: async (context) => {
-    await axios.get('/isAuthenticated').then((response) => {
+    await axios.get('/is-authenticated').then((response) => {
       context.commit('SET_AUTHENTICATED', response.data)
     })
   },

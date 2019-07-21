@@ -78,12 +78,11 @@
           return;
         }
         this.isLoading = true;
-        axios('/changePassword', {
+        axios('/change-password', {
           method: "post",
           data: JSON.stringify(this.credentials),
           withCredentials: true,
           headers: {
-            'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
         }).then(() => {

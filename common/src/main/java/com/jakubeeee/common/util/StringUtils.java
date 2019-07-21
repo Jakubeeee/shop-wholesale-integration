@@ -10,6 +10,11 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 @UtilityClass
 public final class StringUtils {
 
+    public static StringBuilder removeLastChar(StringBuilder stringBuilder) {
+        String string = removeLastChar(stringBuilder.toString());
+        return new StringBuilder(string);
+    }
+
     public static String removeLastChar(String string) {
         if (isNotEmpty(string))
             return string.substring(0, string.length() - 1);

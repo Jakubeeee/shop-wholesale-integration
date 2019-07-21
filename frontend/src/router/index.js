@@ -20,13 +20,13 @@ const router = new Router({
       meta: {protected: false}
     },
     {
-      path: '/forgotmypassword',
+      path: '/forgot-my-password',
       name: 'forgotMyPasswordPage',
       component: ForgotMyPasswordPage,
       meta: {protected: false}
     },
     {
-      path: '/changepassword',
+      path: '/change-password',
       name: 'changePasswordPage',
       component: ChangePasswordPage,
       meta: {protected: false}

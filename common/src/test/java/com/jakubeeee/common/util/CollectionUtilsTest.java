@@ -6,10 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
 
 import static com.jakubeeee.common.util.CollectionUtils.*;
@@ -110,6 +107,14 @@ public class CollectionUtilsTest {
         var map2 = new HashMap<String, Object>();
         map2.put("KEY1", getTestSubject(2));
         mergeMaps(map1, map2);
+    }
+
+    @Test
+    public void sortedMapOfTest_shouldReturnSortedMap() {
+        var map = new HashMap<String, Object>();
+        map.put("KEY1", getTestSubject(1));
+        Map<String, Object> sortedMap = sortedMapOf(map);
+        assertThat(sortedMap, is(instanceOf(SortedMap.class)));
     }
 
 }

@@ -4,7 +4,7 @@ import {req} from 'vuelidate/lib/validators/common'
 export default async function (value) {
   if (!req(value)) return true;
   let usernameUnique = true;
-   await axios('/isUsernameUnique', {
+   await axios('/is-username-unique', {
     method: "post",
     data: value,
     headers: {'Content-type': 'text/plain'}

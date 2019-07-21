@@ -63,7 +63,7 @@
           return;
         }
         this.isLoading = true;
-        axios('/forgotMyPassword', {
+        axios('/forgot-my-password', {
           method: "post",
           data: this.email,
           headers: {

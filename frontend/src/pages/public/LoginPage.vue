@@ -20,7 +20,7 @@
             </button>
           </div>
           <p class="small-text bold-text dark-grayed-text">
-            <a href="#/forgotmypassword">{{ msg('forgotMyPasswordLink') }}</a>
+            <a href="#/forgot-my-password">{{ msg('forgotMyPasswordLink') }}</a>
           </p>
         </div>
       </div>
