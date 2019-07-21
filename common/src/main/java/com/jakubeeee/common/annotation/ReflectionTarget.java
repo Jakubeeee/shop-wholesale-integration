@@ -1,5 +1,6 @@
 package com.jakubeeee.common.annotation;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -13,6 +14,7 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 @SuppressWarnings("unused")
 @Target({TYPE, METHOD, FIELD})
 @Retention(SOURCE)
+@Documented
 public @interface ReflectionTarget {
 
 }
