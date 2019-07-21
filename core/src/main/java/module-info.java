@@ -18,6 +18,7 @@ module core {
     requires spring.webmvc;
     requires spring.websocket;
 
+    exports com.jakubeeee;
     exports com.jakubeeee.core.exception;
     exports com.jakubeeee.core.mixin;
     exports com.jakubeeee.core.service;
