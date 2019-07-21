@@ -43,8 +43,8 @@
     <properties>
         <maven.version>3.6.0</maven.version>
         <java.version>11</java.version>
-        <node.version>v8.11.3</node.version>
-        <npm.version>5.6.0</npm.version>
+        <node.version>v10.16.0</node.version>
+        <npm.version>6.9.0</npm.version>
         <project.encoding>UTF-8</project.encoding>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
