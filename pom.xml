@@ -274,7 +274,7 @@
                     <configuration>
                         <forkCount>0</forkCount>
                         <argLine>--illegal-access=permit</argLine>
-                        <groups>com.jakubeeee.testutils.marker.UnitTest</groups>
+                        <groups>com.jakubeeee.testutils.marker.LightTestCategory</groups>
                     </configuration>
                 </plugin>
 
@@ -304,7 +304,7 @@
                     <configuration>
                         <forkCount>0</forkCount>
                         <argLine>--illegal-access=permit</argLine>
-                        <groups>com.jakubeeee.testutils.marker.IntegrationTest</groups>
+                        <groups>com.jakubeeee.testutils.marker.HeavyTestCategory</groups>
                     </configuration>
                 </plugin>
 

@@ -1,6 +1,6 @@
 package com.jakubeeee.core.util;
 
-import com.jakubeeee.testutils.marker.BehaviourUnitTest;
+import com.jakubeeee.testutils.marker.BehavioralUnitTestCategory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -13,7 +13,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@Category(BehaviourUnitTest.class)
+@Category(BehavioralUnitTestCategory.class)
 public class RestUtilsTest {
 
     private static String TEST_TOKEN_VALUE;

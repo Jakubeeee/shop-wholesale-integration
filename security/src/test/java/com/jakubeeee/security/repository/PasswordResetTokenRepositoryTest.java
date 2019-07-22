@@ -2,7 +2,7 @@ package com.jakubeeee.security.repository;
 
 import com.jakubeeee.security.entity.PasswordResetToken;
 import com.jakubeeee.security.entity.User;
-import com.jakubeeee.testutils.marker.SliceUnitTest;
+import com.jakubeeee.testutils.marker.SpringSliceTestCategory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -26,7 +26,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @SuppressWarnings("all")
-@Category(SliceUnitTest.class)
+@Category(SpringSliceTestCategory.class)
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class PasswordResetTokenRepositoryTest {

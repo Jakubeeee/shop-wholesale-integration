@@ -1,7 +1,7 @@
 package com.jakubeeee.common.util;
 
 import com.jakubeeee.testutils.model.TestSubject;
-import com.jakubeeee.testutils.marker.BehaviourUnitTest;
+import com.jakubeeee.testutils.marker.BehavioralUnitTestCategory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -16,7 +16,7 @@ import static java.util.Collections.sort;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-@Category(BehaviourUnitTest.class)
+@Category(BehavioralUnitTestCategory.class)
 public class CollectionUtilsTest {
 
     private static List<TestSubject> TEST_SUBJECT_LIST;

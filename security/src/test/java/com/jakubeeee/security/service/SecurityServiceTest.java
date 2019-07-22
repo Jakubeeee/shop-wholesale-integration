@@ -6,7 +6,7 @@ import com.jakubeeee.security.entity.User;
 import com.jakubeeee.security.exception.EmailNotUniqueException;
 import com.jakubeeee.security.exception.UsernameNotUniqueException;
 import com.jakubeeee.security.repository.UserRepository;
-import com.jakubeeee.testutils.marker.FlowControlUnitTest;
+import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -30,7 +30,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 @SuppressWarnings("all")
-@Category(FlowControlUnitTest.class)
+@Category(FlowControlUnitTestCategory.class)
 @RunWith(SpringRunner.class)
 public class SecurityServiceTest {
 

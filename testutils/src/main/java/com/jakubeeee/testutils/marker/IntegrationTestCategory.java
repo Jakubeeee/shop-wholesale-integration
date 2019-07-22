@@ -7,5 +7,5 @@ import org.junit.experimental.categories.Category;
  * Indicates that a test case consists of integration tests that require the creation
  * of a full test environment and check the compatibility of multiple components.
  */
-public interface IntegrationTest {
+public interface IntegrationTestCategory extends HeavyTestCategory {
 }

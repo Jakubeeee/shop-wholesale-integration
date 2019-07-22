@@ -1,7 +1,7 @@
 package com.jakubeeee.core.service;
 
 import com.jakubeeee.testutils.model.TestSubject;
-import com.jakubeeee.testutils.marker.SliceUnitTest;
+import com.jakubeeee.testutils.marker.SpringSliceTestCategory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
-@Category(SliceUnitTest.class)
+@Category(SpringSliceTestCategory.class)
 @RunWith(SpringRunner.class)
 @RestClientTest(RestService.class)
 public class RestServiceTest {

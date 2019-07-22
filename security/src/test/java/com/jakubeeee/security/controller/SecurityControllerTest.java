@@ -3,7 +3,7 @@ package com.jakubeeee.security.controller;
 import com.jakubeeee.security.model.ChangePasswordForm;
 import com.jakubeeee.security.service.PasswordResetService;
 import com.jakubeeee.security.service.SecurityService;
-import com.jakubeeee.testutils.marker.SliceUnitTest;
+import com.jakubeeee.testutils.marker.SpringSliceTestCategory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Category(SliceUnitTest.class)
+@Category(SpringSliceTestCategory.class)
 @RunWith(SpringRunner.class)
 @WebMvcTest(SecurityController.class)
 public class SecurityControllerTest {

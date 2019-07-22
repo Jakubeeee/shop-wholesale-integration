@@ -1,6 +1,6 @@
 package com.jakubeeee.common.util;
 
-import com.jakubeeee.testutils.marker.BehaviourUnitTest;
+import com.jakubeeee.testutils.marker.BehavioralUnitTestCategory;
 import org.dom4j.Document;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,7 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-@Category(BehaviourUnitTest.class)
+@Category(BehavioralUnitTestCategory.class)
 public class XmlUtilsTest {
 
     private static String TEST_XML;

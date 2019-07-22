@@ -1,6 +1,6 @@
 package com.jakubeeee.core.service;
 
-import com.jakubeeee.testutils.marker.FlowControlUnitTest;
+import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -16,7 +16,7 @@ import static java.util.Locale.ENGLISH;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
-@Category(FlowControlUnitTest.class)
+@Category(FlowControlUnitTestCategory.class)
 @RunWith(SpringRunner.class)
 public class MessageServiceTest {
 

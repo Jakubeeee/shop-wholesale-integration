@@ -4,7 +4,7 @@ import com.jakubeeee.common.exception.DatabaseResultEmptyException;
 import com.jakubeeee.security.entity.Role;
 import com.jakubeeee.security.entity.User;
 import com.jakubeeee.security.repository.RoleRepository;
-import com.jakubeeee.testutils.marker.FlowControlUnitTest;
+import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +29,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.Mockito.*;
 
-@Category(FlowControlUnitTest.class)
+@Category(FlowControlUnitTestCategory.class)
 @RunWith(SpringRunner.class)
 public class RoleServiceTest {
 

@@ -10,7 +10,7 @@ import com.jakubeeee.security.exception.DifferentPasswordResetTokenOwnerExceptio
 import com.jakubeeee.security.exception.PasswordResetTokenExpiredException;
 import com.jakubeeee.security.model.ChangePasswordForm;
 import com.jakubeeee.security.repository.PasswordResetTokenRepository;
-import com.jakubeeee.testutils.marker.FlowControlUnitTest;
+import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,7 +46,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 @SuppressWarnings("all")
-@Category(FlowControlUnitTest.class)
+@Category(FlowControlUnitTestCategory.class)
 @TestPropertySource(locations = "classpath:security-test.properties")
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(SpringRunner.class)

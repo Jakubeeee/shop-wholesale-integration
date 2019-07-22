@@ -1,6 +1,6 @@
 package com.jakubeeee.testutils.factory;
 
-import com.jakubeeee.testutils.marker.BehaviourUnitTest;
+import com.jakubeeee.testutils.marker.BehavioralUnitTestCategory;
 import com.jakubeeee.testutils.model.TestSubject;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -13,7 +13,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@Category(BehaviourUnitTest.class)
+@Category(BehavioralUnitTestCategory.class)
 public class TestSubjectFactoryTest {
 
     @Test

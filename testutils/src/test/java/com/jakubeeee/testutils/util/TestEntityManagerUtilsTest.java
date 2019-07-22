@@ -1,6 +1,6 @@
 package com.jakubeeee.testutils.util;
 
-import com.jakubeeee.testutils.marker.FlowControlUnitTest;
+import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,7 +30,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
-@Category(FlowControlUnitTest.class)
+@Category(FlowControlUnitTestCategory.class)
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(TestEntityManager.class)
 public class TestEntityManagerUtilsTest {
