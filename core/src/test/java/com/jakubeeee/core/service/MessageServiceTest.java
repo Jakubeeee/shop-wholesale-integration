@@ -40,7 +40,7 @@ public class MessageServiceTest {
     public void getMessageTest() throws IllegalAccessException {
         String testMessageKey = "testMessageKey";
         messageService.getMessage(testMessageKey, ENGLISH);
-        MessageSource messageSource = getFieldValue("messageSource", messageService, MessageSource.class);
+        MessageSource messageSource = getFieldValue(messageService, MessageSource.class);
         verify(messageSource, times(1)).getMessage(testMessageKey, null, ENGLISH);
     }
 

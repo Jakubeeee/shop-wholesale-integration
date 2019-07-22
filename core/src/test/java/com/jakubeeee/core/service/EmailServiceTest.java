@@ -41,7 +41,7 @@ public class EmailServiceTest {
     public void sendMailMessageTest() throws IllegalAccessException {
         SimpleMailMessage message = createMailMessage("test@test.com", "test content", "test subject");
         emailService.sendMailMessage(message);
-        MailSender mailSender = getFieldValue("mailSender", emailService, MailSender.class);
+        MailSender mailSender = getFieldValue( emailService, MailSender.class);
         verify(mailSender, times(1)).send(message);
     }
 

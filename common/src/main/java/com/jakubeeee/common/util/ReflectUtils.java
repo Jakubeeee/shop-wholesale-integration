@@ -19,6 +19,20 @@ public final class ReflectUtils {
         return (T) FieldUtils.readField(field, fieldOwnerObject, true);
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> T getFieldValue(Object fieldOwnerObject, @NonNull Class<T> fieldValueType)
+            throws IllegalAccessException {
+        String guessedFieldName = guessFieldName(fieldValueType);
+        return (T) FieldUtils.readField(fieldOwnerObject, guessedFieldName, true);
+    }
+
+    private static String guessFieldName(Class<?> fieldValueType) {
+        String className = fieldValueType.getSimpleName();
+        String firstCharacter = className.substring(0, 1);
+        firstCharacter = firstCharacter.toLowerCase();
+        return firstCharacter + className.substring(1);
+    }
+
     @SuppressWarnings({"unchecked", "unused"})
     public static <T> T getFieldValue(String fieldName, Object fieldOwnerObject, @NonNull Class<T> fieldValueType)
             throws IllegalAccessException {

@@ -99,11 +99,10 @@ public class PasswordResetServiceTest {
 
     @Before
     public void setUpForEveryTest() throws Exception {
-        securityService = getFieldValue("securityService", passwordResetService, SecurityService.class);
-        emailService = getFieldValue("emailService", passwordResetService, EmailService.class);
-        messageService = getFieldValue("messageService", passwordResetService, MessageService.class);
-        passwordResetTokenRepository = getFieldValue("passwordResetTokenRepository", passwordResetService,
-                PasswordResetTokenRepository.class);
+        securityService = getFieldValue(passwordResetService, SecurityService.class);
+        emailService = getFieldValue(passwordResetService, EmailService.class);
+        messageService = getFieldValue(passwordResetService, MessageService.class);
+        passwordResetTokenRepository = getFieldValue(passwordResetService, PasswordResetTokenRepository.class);
         testEmail = "testEmail";
         testUser = new User("testUsername", "testPassword", testEmail);
         setField(testUser, "id", 1L);

@@ -55,7 +55,7 @@ public class RoleServiceTest {
 
     @Before
     public void setUpForEveryTest() throws Exception {
-        roleRepository = getFieldValue("roleRepository", roleService, RoleRepository.class);
+        roleRepository = getFieldValue(roleService, RoleRepository.class);
         testUser = new User("testUsername", "testPassword", "testEmail");
     }
 

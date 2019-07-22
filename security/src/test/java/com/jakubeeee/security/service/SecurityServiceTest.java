@@ -79,9 +79,9 @@ public class SecurityServiceTest {
 
     @Before
     public void setUpForEveryTest() throws Exception {
-        roleService = getFieldValue("roleService", securityService, RoleService.class);
-        userRepository = getFieldValue("userRepository", securityService, UserRepository.class);
-        passwordEncoder = getFieldValue("passwordEncoder", securityService, PasswordEncoder.class);
+        roleService = getFieldValue(securityService, RoleService.class);
+        userRepository = getFieldValue(securityService, UserRepository.class);
+        passwordEncoder = getFieldValue(securityService, PasswordEncoder.class);
     }
 
     @Test
