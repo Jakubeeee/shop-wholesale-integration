@@ -26,7 +26,9 @@ public class Role extends IdentifiableEntity {
     @Enumerated(EnumType.STRING)
     private Type type;
 
-    @EqualsAndHashCode.Exclude // exclude from equals and hashCode methods to prevent cyclic references with users
+    // exclude from equals, hashCode and toString methods to prevent cyclic references with users
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
 

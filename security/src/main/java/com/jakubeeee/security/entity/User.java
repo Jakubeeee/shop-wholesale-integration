@@ -44,8 +44,9 @@ public class User extends IdentifiableEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID", nullable = false, updatable = false))
     private Set<Role> roles = new HashSet<>();
 
-    // exclude from equals and hashCode methods to prevent cyclic references with password reset tokens
+    // exclude from equals, hashCode and toString methods to prevent cyclic references with password reset tokens
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<PasswordResetToken> passwordResetTokens = new HashSet<>();
 
