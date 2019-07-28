@@ -420,4 +420,15 @@
 
     </profiles>
 
+    <repositories>
+        <repository>
+            <id>custom-maven-repository</id>
+            <name>In-project integrated maven repository for custom libraries</name>
+            <url>file://${maven.multiModuleProjectDirectory}/tools/custom-maven-repository</url>
+            <releases>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </repository>
+    </repositories>
+
 </project>
