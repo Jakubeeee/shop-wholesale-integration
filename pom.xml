@@ -55,7 +55,7 @@
         <heroku.appname><!-- heroku application name here --></heroku.appname>
         <heroku.artifact.path>target/${project.build.finalName}.${project.packaging}</heroku.artifact.path>
 
-        <frontend.sources.output.directory>${project.parent.basedir}/assembly/src/main/resources/public
+        <frontend.sources.output.directory>${maven.multiModuleProjectDirectory}/assembly/src/main/resources/public
         </frontend.sources.output.directory>
 
         <frontend.maven.plugin.version>1.6</frontend.maven.plugin.version>

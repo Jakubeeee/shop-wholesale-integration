@@ -1,0 +1,1 @@
+Empty .mvn directory added so maven properly resolves ${maven.multiModuleProjectDirectory} property as the path to the parent project.
