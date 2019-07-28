@@ -38,7 +38,7 @@ public class User extends IdentifiableEntity implements UserDetails {
     @Column(name = "ENABLED", nullable = false)
     private boolean enabled = true;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "USER_ID", nullable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID", nullable = false, updatable = false))
