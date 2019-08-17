@@ -6,10 +6,8 @@ module testutils {
     requires java.sql;
     requires spring.boot.test.autoconfigure;
     requires spring.core;
-    requires testcontainers.merged;
 
     exports com.jakubeeee.testutils.constant;
-    exports com.jakubeeee.testutils.container;
     exports com.jakubeeee.testutils.factory;
     exports com.jakubeeee.testutils.marker;
     exports com.jakubeeee.testutils.model;

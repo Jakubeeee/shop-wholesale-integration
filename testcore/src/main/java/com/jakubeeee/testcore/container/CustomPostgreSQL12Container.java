@@ -1,4 +1,4 @@
-package com.jakubeeee.testutils.container;
+package com.jakubeeee.testcore.container;
 
 import org.testcontainers.containers.PostgreSQLContainer;
 
@@ -26,14 +26,14 @@ public class CustomPostgreSQL12Container extends PostgreSQLContainer<CustomPostg
     @Override
     public void start() {
         super.start();
-        System.setProperty("TEST_POSTGRE_SQL_URL", container.getJdbcUrl());
-        System.setProperty("TEST_POSTGRE_SQL_USERNAME", container.getUsername());
-        System.setProperty("TEST_POSTGRE_SQL_PASSWORD", container.getPassword());
+        System.setProperty("TEST_POSTGRESQL_URL", container.getJdbcUrl());
+        System.setProperty("TEST_POSTGRESQL_USERNAME", container.getUsername());
+        System.setProperty("TEST_POSTGRESQL_PASSWORD", container.getPassword());
     }
 
     @Override
     public void stop() {
-        // do nothing
+        // do nothing - the container will be destroyed along with jvm instance
     }
 
 }
