@@ -4,8 +4,10 @@ gen/
 .idea/
 *.iml
 
-# Maven generated files
+# Generated files
 target/
+generated/*
+!generated/.gitkeep
 resources/public/
 
 # Npm and node files
