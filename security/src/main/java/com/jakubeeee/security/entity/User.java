@@ -39,7 +39,7 @@ public class User extends IdentifiableEntity implements UserDetails {
     private boolean enabled = true;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "USER_ROLE",
+    @JoinTable(name = "USERS_ROLES",
             joinColumns = @JoinColumn(name = "USER_ID", nullable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID", nullable = false, updatable = false))
     private Set<Role> roles = new HashSet<>();
