@@ -3,6 +3,8 @@ import groovy.transform.Field
 import org.springframework.util.DefaultPropertiesPersister
 import org.testcontainers.containers.JdbcDatabaseContainer
 
+@Grab(group='com.jakubeeee', module='testcore', version='1.0')
+
 @Field final JdbcDatabaseContainer container = CustomPostgreSQL12Container.instance
 @Field final Properties propertiesToWrite = new Properties()
 @Field final TEMPORARY_FILE_LOCATION = "generated/testdatabase-generated.properties"
