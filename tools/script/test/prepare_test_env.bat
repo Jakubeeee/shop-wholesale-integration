@@ -1,3 +1,5 @@
+@echo off
+
 rem change directory to the resources of testcore module
 cd ../../../testcore/src/main/resources
 
