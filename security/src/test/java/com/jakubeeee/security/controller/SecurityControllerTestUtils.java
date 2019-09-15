@@ -25,6 +25,13 @@ final class SecurityControllerTestUtils {
     static final String TEST_TOKEN = "testToken";
     static final String TEST_EMAIL_ADDRESS = "testmail1@mail.com";
 
+    static ResultActions performForgotMyPasswordRequest(MockMvc mockMvc, String language) throws Exception {
+        return mockMvc.perform(post("/forgot-my-password")
+                .content(TEST_EMAIL_ADDRESS)
+                .contentType(MediaType.TEXT_PLAIN)
+                .header("Accept-language", language));
+    }
+
     static ResultActions performChangePasswordRequest(MockMvc mockMvc, String requestBody) throws Exception {
         return mockMvc.perform(post("/change-password")
                 .content(requestBody)

@@ -48,14 +48,9 @@ public class SecurityControllerTest {
 
     @Test
     public void handleForgotMyPasswordRequestTest_shouldReturn200() throws Exception {
-        String testLocaleCode = "en";
-        mockMvc.perform(post("/forgot-my-password")
-                .content(TEST_EMAIL_ADDRESS)
-                .contentType(MediaType.TEXT_PLAIN)
-                .header("Accept-language", testLocaleCode))
-                .andExpect(status().isOk());
+        performForgotMyPasswordRequest(mockMvc, "en");
         verify(passwordResetService, times(1)).handleForgotMyPasswordProcess(eq(TEST_EMAIL_ADDRESS),
-                any(String.class), eq(testLocaleCode));
+                any(String.class), eq("en"));
     }
 
     @Test
