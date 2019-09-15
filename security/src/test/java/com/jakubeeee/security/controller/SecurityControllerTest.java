@@ -14,9 +14,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 
-import static com.jakubeeee.common.util.StringUtils.removeLastChar;
+import static com.jakubeeee.security.controller.SecurityControllerTestUtils.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -35,27 +34,6 @@ public class SecurityControllerTest {
 
     @MockBean
     private PasswordResetService passwordResetService;
-
-    private static String VALID_TEST_PASSWORD_1;
-    private static String VALID_TEST_PASSWORD_2;
-    private static String INVALID_TEST_PASSWORD_WITHOUT_DIGIT;
-    private static String INVALID_TEST_PASSWORD_WITHOUT_CAPITAL_LETTER;
-    private static String INVALID_TEST_PASSWORD_WITHOUT_LOWER_CASE;
-    private static String INVALID_TEST_PASSWORD_TOO_SHORT;
-    private static String INVALID_TEST_PASSWORD_TOO_LONG;
-    private static String TEST_TOKEN;
-
-    @BeforeClass
-    public static void setUp() {
-        VALID_TEST_PASSWORD_1 = "testPassword1";
-        VALID_TEST_PASSWORD_2 = "testPassword2";
-        INVALID_TEST_PASSWORD_WITHOUT_DIGIT = "testPassword";
-        INVALID_TEST_PASSWORD_WITHOUT_CAPITAL_LETTER = "testpassword1";
-        INVALID_TEST_PASSWORD_WITHOUT_LOWER_CASE = "PASSWORD1";
-        INVALID_TEST_PASSWORD_TOO_SHORT = "pass";
-        INVALID_TEST_PASSWORD_TOO_LONG = "testPasswordtestPasswordtestPassword";
-        TEST_TOKEN = "testToken";
-    }
 
     @Test
     public void isAuthenticatedTest_shouldReturn200() throws Exception {
@@ -86,7 +64,7 @@ public class SecurityControllerTest {
     public void handleChangePasswordRequest_shouldReturn200() throws Exception {
         Long testUserId = 1L;
         String requestBody = getChangePasswordRequestBody(VALID_TEST_PASSWORD_1, testUserId, TEST_TOKEN);
-        performChangePasswordRequest(requestBody).andExpect(status().isOk());
+        performChangePasswordRequest(mockMvc, requestBody).andExpect(status().isOk());
         var testForm = new ChangePasswordForm(VALID_TEST_PASSWORD_1, VALID_TEST_PASSWORD_1, testUserId, TEST_TOKEN);
         verify(passwordResetService, times(1)).changePassword(testForm);
     }
@@ -94,70 +72,70 @@ public class SecurityControllerTest {
     @Test
     public void handleChangePasswordRequest_passwordsNotMatching_shouldReturn400() throws Exception {
         String requestBody = getChangePasswordRequestBody(VALID_TEST_PASSWORD_1, VALID_TEST_PASSWORD_2, 1L, TEST_TOKEN);
-        performChangePasswordRequest(requestBody).andExpect(status().isBadRequest());
+        performChangePasswordRequest(mockMvc, requestBody).andExpect(status().isBadRequest());
         verifyZeroInteractions(passwordResetService);
     }
 
     @Test
     public void handleChangePasswordRequest_invalidPasswordWithoutDigit_shouldReturn400() throws Exception {
         String requestBody = getChangePasswordRequestBody(INVALID_TEST_PASSWORD_WITHOUT_DIGIT, 1L, TEST_TOKEN);
-        performChangePasswordRequest(requestBody).andExpect(status().isBadRequest());
+        performChangePasswordRequest(mockMvc, requestBody).andExpect(status().isBadRequest());
         verifyZeroInteractions(passwordResetService);
     }
 
     @Test
     public void handleChangePasswordRequest_invalidPasswordWithoutCapitalLetter_shouldReturn400() throws Exception {
         String requestBody = getChangePasswordRequestBody(INVALID_TEST_PASSWORD_WITHOUT_CAPITAL_LETTER, 1L, TEST_TOKEN);
-        performChangePasswordRequest(requestBody).andExpect(status().isBadRequest());
+        performChangePasswordRequest(mockMvc, requestBody).andExpect(status().isBadRequest());
         verifyZeroInteractions(passwordResetService);
     }
 
     @Test
     public void handleChangePasswordRequest_invalidPasswordWithoutLowerCase_shouldReturn400() throws Exception {
         String requestBody = getChangePasswordRequestBody(INVALID_TEST_PASSWORD_WITHOUT_LOWER_CASE, 1L, TEST_TOKEN);
-        performChangePasswordRequest(requestBody).andExpect(status().isBadRequest());
+        performChangePasswordRequest(mockMvc, requestBody).andExpect(status().isBadRequest());
         verifyZeroInteractions(passwordResetService);
     }
 
     @Test
     public void handleChangePasswordRequest_invalidPasswordTooShort_shouldReturn400() throws Exception {
         String requestBody = getChangePasswordRequestBody(INVALID_TEST_PASSWORD_TOO_SHORT, 1L, TEST_TOKEN);
-        performChangePasswordRequest(requestBody).andExpect(status().isBadRequest());
+        performChangePasswordRequest(mockMvc, requestBody).andExpect(status().isBadRequest());
         verifyZeroInteractions(passwordResetService);
     }
 
     @Test
     public void handleChangePasswordRequest_invalidPasswordTooLong_shouldReturn400() throws Exception {
         String requestBody = getChangePasswordRequestBody(INVALID_TEST_PASSWORD_TOO_LONG, 1L, TEST_TOKEN);
-        performChangePasswordRequest(requestBody).andExpect(status().isBadRequest());
+        performChangePasswordRequest(mockMvc, requestBody).andExpect(status().isBadRequest());
         verifyZeroInteractions(passwordResetService);
     }
 
     @Test
     public void handleChangePasswordRequest_missingUserId_shouldReturn400() throws Exception {
         String requestBody = getChangePasswordRequestBody(VALID_TEST_PASSWORD_1, null, TEST_TOKEN);
-        performChangePasswordRequest(requestBody).andExpect(status().isBadRequest());
+        performChangePasswordRequest(mockMvc, requestBody).andExpect(status().isBadRequest());
         verifyZeroInteractions(passwordResetService);
     }
 
     @Test
     public void handleChangePasswordRequest_missingResetToken_shouldReturn400() throws Exception {
         String requestBody = getChangePasswordRequestBody(VALID_TEST_PASSWORD_1, 1L, null);
-        performChangePasswordRequest(requestBody).andExpect(status().isBadRequest());
+        performChangePasswordRequest(mockMvc, requestBody).andExpect(status().isBadRequest());
         verifyZeroInteractions(passwordResetService);
     }
 
     @Test
     public void handleChangePasswordRequest_missingPassword_shouldReturn400() throws Exception {
         String requestBody = getChangePasswordRequestBody(null, VALID_TEST_PASSWORD_1, 1L, TEST_TOKEN);
-        performChangePasswordRequest(requestBody).andExpect(status().isBadRequest());
+        performChangePasswordRequest(mockMvc, requestBody).andExpect(status().isBadRequest());
         verifyZeroInteractions(passwordResetService);
     }
 
     @Test
     public void handleChangePasswordRequest_missingPasswordConfirm_shouldReturn400() throws Exception {
         String requestBody = getChangePasswordRequestBody(VALID_TEST_PASSWORD_1, null, 1L, TEST_TOKEN);
-        performChangePasswordRequest(requestBody).andExpect(status().isBadRequest());
+        performChangePasswordRequest(mockMvc, requestBody).andExpect(status().isBadRequest());
         verifyZeroInteractions(passwordResetService);
     }
 
@@ -179,33 +157,6 @@ public class SecurityControllerTest {
                 .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk());
         verify(securityService, times(1)).isEmailUnique(testEmail);
-    }
-
-    private String getChangePasswordRequestBody(String password, Long userId, String resetToken) {
-        return getChangePasswordRequestBody(password, password, userId, resetToken);
-    }
-
-    private String getChangePasswordRequestBody(String password,
-                                                String passwordConfirm,
-                                                Long userId,
-                                                String resetToken) {
-        var builder = new StringBuilder("{ ");
-        if (userId != null)
-            builder.append("\"userId\": ").append(userId).append(",");
-        if (resetToken != null)
-            builder.append("\"resetToken\": ").append("\"").append(resetToken).append("\"").append(",");
-        if (password != null)
-            builder.append("\"password\": ").append("\"").append(password).append("\"").append(",");
-        if (passwordConfirm != null)
-            builder.append("\"passwordConfirm\": ").append("\"").append(passwordConfirm).append("\"").append(",");
-        builder = removeLastChar(builder);
-        return builder.append(" }").toString();
-    }
-
-    private ResultActions performChangePasswordRequest(String requestBody) throws Exception {
-        return mockMvc.perform(post("/change-password")
-                .content(requestBody)
-                .contentType(MediaType.APPLICATION_JSON));
     }
 
 }
