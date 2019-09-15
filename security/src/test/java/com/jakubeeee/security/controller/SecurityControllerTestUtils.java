@@ -15,14 +15,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @UtilityClass
 final class SecurityControllerTestUtils {
 
-    static String VALID_TEST_PASSWORD_1 = "testPassword1";
-    static String VALID_TEST_PASSWORD_2 = "testPassword2";
-    static String INVALID_TEST_PASSWORD_WITHOUT_DIGIT = "testPassword";
-    static String INVALID_TEST_PASSWORD_WITHOUT_CAPITAL_LETTER = "testpassword1";
-    static String INVALID_TEST_PASSWORD_WITHOUT_LOWER_CASE = "PASSWORD1";
-    static String INVALID_TEST_PASSWORD_TOO_SHORT = "pass";
-    static String INVALID_TEST_PASSWORD_TOO_LONG = "testPasswordtestPasswordtestPassword";
-    static String TEST_TOKEN = "testToken";
+    static final String VALID_TEST_PASSWORD_1 = "testPassword1";
+    static final String VALID_TEST_PASSWORD_2 = "testPassword2";
+    static final String INVALID_TEST_PASSWORD_WITHOUT_DIGIT = "testPassword";
+    static final String INVALID_TEST_PASSWORD_WITHOUT_CAPITAL_LETTER = "testpassword1";
+    static final String INVALID_TEST_PASSWORD_WITHOUT_LOWER_CASE = "PASSWORD1";
+    static final String INVALID_TEST_PASSWORD_TOO_SHORT = "pass";
+    static final String INVALID_TEST_PASSWORD_TOO_LONG = "testPasswordtestPasswordtestPassword";
+    static final String TEST_TOKEN = "testToken";
 
     static ResultActions performChangePasswordRequest(MockMvc mockMvc, String requestBody) throws Exception {
         return mockMvc.perform(post("/change-password")
