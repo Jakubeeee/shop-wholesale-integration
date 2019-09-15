@@ -52,6 +52,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>com.icegreen</groupId>
+            <artifactId>greenmail-spring</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers-merged</artifactId>
             <scope>compile</scope>

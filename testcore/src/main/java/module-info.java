@@ -8,6 +8,7 @@ module testcore {
     requires org.codehaus.groovy;
     requires spring.core;
     requires testcontainers.merged;
+    requires static greenmail;
     requires static lombok;
     requires static spring.beans;
     requires static spring.context;
