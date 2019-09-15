@@ -22,6 +22,7 @@ final class SecurityControllerTestUtils {
     static final String INVALID_TEST_PASSWORD_WITHOUT_LOWER_CASE = "PASSWORD1";
     static final String INVALID_TEST_PASSWORD_TOO_SHORT = "pass";
     static final String INVALID_TEST_PASSWORD_TOO_LONG = "testPasswordtestPasswordtestPassword";
+    static final String UPDATED_TEST_PASSWORD = "updatedTestPassword1";
     static final String TEST_TOKEN = "testToken";
     static final String TEST_EMAIL_ADDRESS = "testmail1@mail.com";
 

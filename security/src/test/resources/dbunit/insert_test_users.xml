@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <USERS id='1' username='testUsername1' password='encodedTestPassword1' email='testmail1@mail.com' enabled='true'/>
+    <USERS_ROLES user_id="1" role_id="1"/>
+    <USERS id='2' username='testUsername2' password='encodedTestPassword2' email='testmail2@mail.com' enabled='true'/>
+    <USERS_ROLES user_id="2" role_id="1"/>
+    <USERS_ROLES user_id="2" role_id="2"/>
+    <USERS id='3' username='testUsername3' password='encodedTestPassword3' email='testmail3@mail.com' enabled='true'/>
+    <USERS_ROLES user_id="3" role_id="1"/>
+    <USERS_ROLES user_id="3" role_id="2"/>
+    <USERS_ROLES user_id="3" role_id="3"/>
+</dataset>

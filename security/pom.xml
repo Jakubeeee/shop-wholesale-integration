@@ -27,6 +27,11 @@
             <artifactId>testutils</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.jakubeeee</groupId>
+            <artifactId>testcore</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
