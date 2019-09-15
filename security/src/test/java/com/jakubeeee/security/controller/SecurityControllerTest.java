@@ -4,7 +4,6 @@ import com.jakubeeee.security.model.ChangePasswordForm;
 import com.jakubeeee.security.service.PasswordResetService;
 import com.jakubeeee.security.service.SecurityService;
 import com.jakubeeee.testutils.marker.SpringSliceTestCategory;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -49,15 +48,14 @@ public class SecurityControllerTest {
 
     @Test
     public void handleForgotMyPasswordRequestTest_shouldReturn200() throws Exception {
-        String testEmail = "testmail@mail.com";
         String testLocaleCode = "en";
         mockMvc.perform(post("/forgot-my-password")
-                .content(testEmail)
+                .content(TEST_EMAIL_ADDRESS)
                 .contentType(MediaType.TEXT_PLAIN)
                 .header("Accept-language", testLocaleCode))
                 .andExpect(status().isOk());
-        verify(passwordResetService, times(1)).handleForgotMyPasswordProcess(eq(testEmail), any(String.class),
-                eq(testLocaleCode));
+        verify(passwordResetService, times(1)).handleForgotMyPasswordProcess(eq(TEST_EMAIL_ADDRESS),
+                any(String.class), eq(testLocaleCode));
     }
 
     @Test
@@ -151,12 +149,11 @@ public class SecurityControllerTest {
 
     @Test
     public void checkEmailUniqueness_shouldReturn200() throws Exception {
-        String testEmail = "testmail@mail.com";
         mockMvc.perform(post("/is-email-unique")
-                .content(testEmail)
+                .content(TEST_EMAIL_ADDRESS)
                 .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk());
-        verify(securityService, times(1)).isEmailUnique(testEmail);
+        verify(securityService, times(1)).isEmailUnique(TEST_EMAIL_ADDRESS);
     }
 
 }

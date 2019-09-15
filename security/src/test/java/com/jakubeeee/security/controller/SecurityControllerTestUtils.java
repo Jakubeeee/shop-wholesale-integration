@@ -23,6 +23,7 @@ final class SecurityControllerTestUtils {
     static final String INVALID_TEST_PASSWORD_TOO_SHORT = "pass";
     static final String INVALID_TEST_PASSWORD_TOO_LONG = "testPasswordtestPasswordtestPassword";
     static final String TEST_TOKEN = "testToken";
+    static final String TEST_EMAIL_ADDRESS = "testmail1@mail.com";
 
     static ResultActions performChangePasswordRequest(MockMvc mockMvc, String requestBody) throws Exception {
         return mockMvc.perform(post("/change-password")
