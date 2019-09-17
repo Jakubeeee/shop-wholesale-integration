@@ -1,5 +1,6 @@
 package com.jakubeeee.integration.config;
 
+import com.jakubeeee.core.service.RestService;
 import com.jakubeeee.integration.enums.DataSourceType;
 import com.jakubeeee.integration.enums.ProductMappingKey;
 import com.jakubeeee.integration.service.BasicXmlDataSource;
@@ -19,8 +20,8 @@ public class DataSourceConfig {
     private String DUMMY_PRODUCTS_XML_URI;
 
     @Bean("dummyBasicXmlDataSource")
-    public BasicXmlDataSource dummyBasicXmlDataSource() {
-        return new BasicXmlDataSource() {
+    public BasicXmlDataSource dummyBasicXmlDataSource(RestService restService) {
+        return new BasicXmlDataSource(restService) {
             @Override
             protected String getProductsXmlWebServiceUri() {
                 return DUMMY_PRODUCTS_XML_URI;

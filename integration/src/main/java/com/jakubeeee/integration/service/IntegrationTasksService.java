@@ -5,7 +5,6 @@ import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.service.DummyTaskProvider;
 import com.jakubeeee.tasks.service.SchedulingService;
 import com.jakubeeee.tasks.service.TaskService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -18,21 +17,25 @@ import static com.jakubeeee.tasks.enums.TaskMode.TESTING;
 @Service
 public class IntegrationTasksService {
 
-    @Autowired
-    TaskService taskService;
+    private final TaskService taskService;
 
-    @Autowired
-    SchedulingService schedulingService;
+    private final SchedulingService schedulingService;
 
-    @Autowired
-    ProductsTaskProvider productsTaskProvider;
+    private final ProductsTaskProvider productsTaskProvider;
 
-    @Autowired
-    DummyTaskProvider dummyTaskProvider;
+    private final DummyTaskProvider dummyTaskProvider;
 
-    @Autowired
-    @Qualifier("dummyBasicXmlDataSource")
-    BasicXmlDataSource dummyBasicXmlDataSource;
+    private final BasicXmlDataSource dummyBasicXmlDataSource;
+
+    public IntegrationTasksService(TaskService taskService, SchedulingService schedulingService,
+                                   ProductsTaskProvider productsTaskProvider, DummyTaskProvider dummyTaskProvider,
+                                   @Qualifier("dummyBasicXmlDataSource") BasicXmlDataSource dummyBasicXmlDataSource) {
+        this.taskService = taskService;
+        this.schedulingService = schedulingService;
+        this.productsTaskProvider = productsTaskProvider;
+        this.dummyTaskProvider = dummyTaskProvider;
+        this.dummyBasicXmlDataSource = dummyBasicXmlDataSource;
+    }
 
     public void initializeTasks() {
         var dummyProductsUpdateTask = new ProductsTask(1, "DUMMY_PRODUCTS_UPDATE_TASK", TESTING, 0, 0,

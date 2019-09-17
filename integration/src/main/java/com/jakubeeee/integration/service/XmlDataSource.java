@@ -3,14 +3,16 @@ package com.jakubeeee.integration.service;
 import com.jakubeeee.core.service.RestService;
 import com.jakubeeee.integration.model.ExternalProduct;
 import org.dom4j.Document;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.jakubeeee.common.util.XmlUtils.stringToXml;
 
 public abstract class XmlDataSource<T extends ExternalProduct> implements DataSource<T> {
 
-    @Autowired
-    RestService restService;
+    private final RestService restService;
+
+    public XmlDataSource(RestService restService) {
+        this.restService = restService;
+    }
 
     Document getProductsXml() {
         String productsXmlAsString = restService.getString(getProductsXmlWebServiceUri());

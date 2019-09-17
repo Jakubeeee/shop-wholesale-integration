@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -22,11 +21,14 @@ import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
 @Component
 public class TaskAspect {
 
-    @Autowired
-    TaskService taskService;
+    private final TaskService taskService;
 
-    @Autowired
-    LoggingService loggingService;
+    private final LoggingService loggingService;
+
+    public TaskAspect(TaskService taskService, LoggingService loggingService) {
+        this.taskService = taskService;
+        this.loggingService = loggingService;
+    }
 
     @SuppressWarnings("unchecked")
     @Around("execution( void com.jakubeeee..*.AbstractGenericTaskProvider.executeTask(..))")
@@ -52,11 +54,13 @@ public class TaskAspect {
                     if (isExecutedSuccessfully) {
                         taskService.changeStatus(caller, EXECUTED);
                         loggingService.info(caller.getId(), "TASKEXECSUCC",
-                                List.of(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));
+                                List.of(toLogParam(caller.getCode(), true),
+                                        toLogParam(String.valueOf(caller.getId()))));
                     } else {
                         taskService.changeStatus(caller, ABORTED);
                         loggingService.info(caller.getId(), "TASKEXECABORT",
-                                List.of(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));
+                                List.of(toLogParam(caller.getCode(), true),
+                                        toLogParam(String.valueOf(caller.getId()))));
                     }
                     taskProvider.afterTask(caller);
                     taskService.changeStatus(caller, WAITING);

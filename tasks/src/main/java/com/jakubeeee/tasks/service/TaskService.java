@@ -14,7 +14,6 @@ import com.jakubeeee.tasks.validators.TaskValidator;
 import lombok.Getter;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +27,6 @@ import static com.jakubeeee.common.util.CollectionUtils.filterList;
 import static com.jakubeeee.common.util.DateTimeUtils.*;
 import static com.jakubeeee.common.util.ReflectUtils.getFieldValue;
 import static com.jakubeeee.tasks.enums.TaskStatus.*;
-import static java.time.LocalDateTime.now;
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.reflect.FieldUtils.getFieldsListWithAnnotation;
 
@@ -36,34 +34,10 @@ import static org.apache.commons.lang3.reflect.FieldUtils.getFieldsListWithAnnot
 @Service
 public class TaskService {
 
-    @Autowired
-    ProgressTrackingService progressTrackingService;
+    private static final int PAST_TASKS_EXECUTIONS_REMOVAL_HOURS_THRESHOLD = 72;
+    private static final int PAST_TASKS_EXECUTIONS_PER_TASK_MAX_SIZE = 20;
 
-    @Autowired
-    LoggingService loggingService;
-
-    @Autowired
-    TaskPublisher taskPublisher;
-
-    @Autowired
-    PastTaskExecutionRepository pastTaskExecutionRepository;
-
-    @Autowired
-    SchedulingService schedulingService;
-
-    @Getter
-    List<GenericTask> registeredTasks = new ArrayList<>();
-
-    @Getter
-    Map<Long, String> nextScheduledTasksExecutions = new HashMap<>();
-
-    @Getter
-    Set<String> lockedTaskProvidersNames = new HashSet<>();
-
-    static final int PAST_TASKS_EXECUTIONS_REMOVAL_HOURS_THRESHOLD = 72;
-    static final int PAST_TASKS_EXECUTIONS_PER_TASK_MAX_SIZE = 20;
-
-    static Set<StatusTransition> allowedStatusTransitions = new HashSet<>();
+    private static Set<StatusTransition> allowedStatusTransitions = new HashSet<>();
 
     static {
         allowedStatusTransitions.add(new StatusTransition(WAITING, LAUNCHED));
@@ -72,6 +46,28 @@ public class TaskService {
         allowedStatusTransitions.add(new StatusTransition(PREPARED, ABORTED));
         allowedStatusTransitions.add(new StatusTransition(EXECUTED, WAITING));
         allowedStatusTransitions.add(new StatusTransition(ABORTED, WAITING));
+    }
+
+    private final ProgressTrackingService progressTrackingService;
+
+    private final TaskPublisher taskPublisher;
+
+    private final PastTaskExecutionRepository pastTaskExecutionRepository;
+
+    @Getter
+    private List<GenericTask> registeredTasks = new ArrayList<>();
+
+    @Getter
+    private Map<Long, String> nextScheduledTasksExecutions = new HashMap<>();
+
+    @Getter
+    private Set<String> lockedTaskProvidersNames = new HashSet<>();
+
+    public TaskService(ProgressTrackingService progressTrackingService, TaskPublisher taskPublisher,
+                       PastTaskExecutionRepository pastTaskExecutionRepository) {
+        this.progressTrackingService = progressTrackingService;
+        this.taskPublisher = taskPublisher;
+        this.pastTaskExecutionRepository = pastTaskExecutionRepository;
     }
 
     public void registerTask(GenericTask task) {
@@ -128,7 +124,8 @@ public class TaskService {
         List<Field> taskValidatorFields = getFieldsListWithAnnotation(task.getClass(), InitialTaskValidator.class);
         if (!taskValidatorFields.isEmpty()) {
             for (var taskValidatorField : taskValidatorFields) {
-                TaskValidator taskSpecificCorrectnessValidator = getFieldValue(taskValidatorField, task, TaskValidator.class);
+                TaskValidator taskSpecificCorrectnessValidator = getFieldValue(taskValidatorField, task,
+                        TaskValidator.class);
                 taskSpecificCorrectnessValidator.validate(task);
             }
         } else {
@@ -232,7 +229,8 @@ public class TaskService {
     private String calculateNextScheduledTaskExecution(Long taskId) {
         Optional<GenericTask> taskO = getTask(taskId);
         return taskO.map(task -> {
-            Optional<LocalDateTime> previousExecutionTimeO = task.getLastTaskExecutionInfo().getLastScheduledStartedExecutionTime();
+            Optional<LocalDateTime> previousExecutionTimeO =
+                    task.getLastTaskExecutionInfo().getLastScheduledStartedExecutionTime();
             long interval = task.getIntervalInMillis();
             return previousExecutionTimeO.map(
                     previousExecutionTime -> formatDateTime(previousExecutionTime.plusMinutes(millisToMinutes(interval))))

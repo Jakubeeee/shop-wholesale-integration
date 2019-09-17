@@ -31,11 +31,9 @@ import static java.util.Objects.requireNonNull;
 @Service
 public class ShoperDataSource implements UpdatableDataSource<ShoperProduct> {
 
-    @Autowired
-    RestService restService;
+    private final RestService restService;
 
-    @Autowired
-    ShoperAuthService authService;
+    private final ShoperAuthService authService;
 
     @Value("${shoperProductStockUri}")
     String SHOPER_PRODUCT_STOCK_URI;
@@ -48,6 +46,11 @@ public class ShoperDataSource implements UpdatableDataSource<ShoperProduct> {
 
     @Getter
     private Set<UpdatableProperty> allowedUpdatableProperties;
+
+    public ShoperDataSource(RestService restService, ShoperAuthService authService) {
+        this.restService = restService;
+        this.authService = authService;
+    }
 
     @PostConstruct
     void initialize() {

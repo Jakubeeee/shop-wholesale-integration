@@ -8,7 +8,6 @@ import com.jakubeeee.integration.model.BaseLinkerProductsCollection;
 import com.jakubeeee.integration.model.CommonProduct;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -37,16 +36,14 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @Service
 public class BaseLinkerDataSource implements UpdatableDataSource<BaseLinkerProduct> {
 
-    @Autowired
-    RestService restService;
+    private static final int MAX_PRODUCTS_IN_UPDATE_REQUEST = 1000;
 
-    @Autowired
-    BaseLinkerAuthService authService;
+    private final RestService restService;
+
+    private final BaseLinkerAuthService authService;
 
     @Value("${baseLinkerRequestUri}")
     String BASE_LINKER_REQUEST_URI;
-
-    private int MAX_PRODUCTS_IN_UPDATE_REQUEST = 1000;
 
     private List<String> cachedProductStockJsonArrays = new ArrayList<>();
 
@@ -55,6 +52,11 @@ public class BaseLinkerDataSource implements UpdatableDataSource<BaseLinkerProdu
 
     @Getter
     private Set<UpdatableProperty> allowedUpdatableProperties;
+
+    public BaseLinkerDataSource(RestService restService, BaseLinkerAuthService authService) {
+        this.restService = restService;
+        this.authService = authService;
+    }
 
     @PostConstruct
     void initialize() {
@@ -91,7 +93,8 @@ public class BaseLinkerDataSource implements UpdatableDataSource<BaseLinkerProdu
     }
 
     @Override
-    public void handleSingleProductUpdate(CommonProduct commonProduct, List<UpdatableProperty> properties, boolean isTesting) {
+    public void handleSingleProductUpdate(CommonProduct commonProduct, List<UpdatableProperty> properties,
+                                          boolean isTesting) {
         if (!isTesting) {
             for (var property : properties) {
                 if (property == STOCK)
@@ -129,7 +132,8 @@ public class BaseLinkerDataSource implements UpdatableDataSource<BaseLinkerProdu
                         getPreparedJsonParams(property)), headers), Void.class);
     }
 
-    private LinkedMultiValueMap<String, String> getPreparedRequestParams(String webApiMethod, @Nullable String jsonParams) {
+    private LinkedMultiValueMap<String, String> getPreparedRequestParams(String webApiMethod,
+                                                                         @Nullable String jsonParams) {
         var requestParams = new LinkedMultiValueMap<String, String>();
         requestParams.add("token", authService.getTokenValue());
         requestParams.add("method", webApiMethod);

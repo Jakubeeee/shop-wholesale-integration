@@ -4,7 +4,6 @@ import com.jakubeeee.core.exception.DummyServiceException;
 import com.jakubeeee.tasks.exceptions.InvalidTaskStatusException;
 import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.model.PastTaskExecution;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,14 +14,18 @@ import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
 
 public abstract class AbstractGenericTaskProvider<T extends GenericTask> implements TaskProvider<T> {
 
-    @Autowired
-    protected TaskService taskService;
+    protected final TaskService taskService;
 
-    @Autowired
-    protected ProgressTrackingService progressTrackingService;
+    protected final ProgressTrackingService progressTrackingService;
 
-    @Autowired
-    protected LoggingService loggingService;
+    protected final LoggingService loggingService;
+
+    public AbstractGenericTaskProvider(TaskService taskService, ProgressTrackingService progressTrackingService,
+                                       LoggingService loggingService) {
+        this.taskService = taskService;
+        this.progressTrackingService = progressTrackingService;
+        this.loggingService = loggingService;
+    }
 
     protected Map<String, Object> executionParams = new HashMap<>();
 

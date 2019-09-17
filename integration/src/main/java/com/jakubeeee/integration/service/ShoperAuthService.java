@@ -5,7 +5,6 @@ import com.jakubeeee.integration.model.ShoperAuthToken;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +20,8 @@ import static java.util.Objects.requireNonNull;
 @Service
 public class ShoperAuthService extends AbstractAuthService<ShoperAuthToken> {
 
+    private final RestService restService;
+
     @Value("${shoperAuthUri}")
     String SHOPER_AUTH_URI;
     @Value("${shoperAdminUsername}")
@@ -28,8 +29,9 @@ public class ShoperAuthService extends AbstractAuthService<ShoperAuthToken> {
     @Value("${shoperAdminPassword}")
     String SHOPER_PASSWORD;
 
-    @Autowired
-    RestService restService;
+    public ShoperAuthService(RestService restService) {
+        this.restService = restService;
+    }
 
     @Override
     protected String getTokenValue() {

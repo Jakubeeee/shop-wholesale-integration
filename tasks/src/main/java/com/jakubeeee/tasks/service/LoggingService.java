@@ -6,7 +6,6 @@ import com.jakubeeee.tasks.model.LogParam;
 import com.jakubeeee.tasks.publishers.TaskPublisher;
 import lombok.Getter;
 import lombok.Synchronized;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -25,9 +24,15 @@ import static com.jakubeeee.tasks.model.LogMessage.Type.*;
 @Service
 public class LoggingService {
 
-    private final int LOG_REMOVAL_HOURS_THRESHOLD = 5;
-    private final int LOG_LIST_MAX_SIZE = 4000;
-    private final int LOGS_PUBLISHING_INTERVAL = 1000;
+    private static final int LOG_REMOVAL_HOURS_THRESHOLD = 5;
+    private static final int LOG_LIST_MAX_SIZE = 4000;
+    private static final int LOGS_PUBLISHING_INTERVAL = 1000;
+
+    private final ProgressTrackingService progressTrackingService;
+
+    private final TaskPublisher taskPublisher;
+
+    private final TimerService timerService;
 
     @Getter
     private List<LogMessage> allCachedLogs = new ArrayList<>();
@@ -36,14 +41,12 @@ public class LoggingService {
 
     private boolean isPublishing = false;
 
-    @Autowired
-    private ProgressTrackingService progressTrackingService;
-
-    @Autowired
-    private TaskPublisher taskPublisher;
-
-    @Autowired
-    private TimerService timerService;
+    public LoggingService(ProgressTrackingService progressTrackingService, TaskPublisher taskPublisher,
+                          TimerService timerService) {
+        this.progressTrackingService = progressTrackingService;
+        this.taskPublisher = taskPublisher;
+        this.timerService = timerService;
+    }
 
     public void error(long taskId, String code) {
         error(taskId, code, null, 0);

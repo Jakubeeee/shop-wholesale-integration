@@ -1,5 +1,6 @@
 package com.jakubeeee.integration.service;
 
+import com.jakubeeee.core.service.RestService;
 import com.jakubeeee.integration.model.BasicXmlProduct;
 import com.jakubeeee.integration.model.CommonProduct;
 import org.dom4j.Document;
@@ -16,6 +17,10 @@ import java.util.List;
  */
 @Service
 public abstract class BasicXmlDataSource extends XmlDataSource<BasicXmlProduct> {
+
+    public BasicXmlDataSource(RestService restService) {
+        super(restService);
+    }
 
     @Override
     public List<BasicXmlProduct> getExternalProducts() {

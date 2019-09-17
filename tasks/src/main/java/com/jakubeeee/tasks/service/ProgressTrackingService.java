@@ -5,7 +5,6 @@ import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.model.ProgressTracker;
 import com.jakubeeee.tasks.publishers.TaskPublisher;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -14,11 +13,14 @@ import java.util.Map;
 @Service
 public class ProgressTrackingService {
 
+    private final TaskPublisher taskPublisher;
+
     @Getter
     private Map<Long, ProgressTracker> progressTrackers = new HashMap<>();
 
-    @Autowired
-    TaskPublisher taskPublisher;
+    public ProgressTrackingService(TaskPublisher taskPublisher) {
+        this.taskPublisher = taskPublisher;
+    }
 
     public void startTrackingProgress(GenericTask task) {
         task.getTracker().setActive(true);

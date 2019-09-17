@@ -9,6 +9,11 @@ import static com.jakubeeee.common.util.ThreadUtils.sleep;
 @Service
 public class DummyTaskProvider extends AbstractGenericTaskProvider {
 
+    public DummyTaskProvider(TaskService taskService, ProgressTrackingService progressTrackingService,
+                             LoggingService loggingService) {
+        super(taskService, progressTrackingService, loggingService);
+    }
+
     @Override
     public void executeTask(GenericTask caller) throws ProgressTrackerNotActiveException {
         progressTrackingService.setMaxProgress(caller, 100);
@@ -23,4 +28,5 @@ public class DummyTaskProvider extends AbstractGenericTaskProvider {
     public String getProviderName() {
         return "DUMMY_TASK_PROVIDER";
     }
+
 }

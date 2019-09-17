@@ -3,7 +3,6 @@ package com.jakubeeee.tasks.service;
 import com.jakubeeee.core.service.TimerService;
 import com.jakubeeee.tasks.exceptions.NoTaskWithGivenIdException;
 import com.jakubeeee.tasks.model.GenericTask;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
@@ -12,11 +11,14 @@ import static com.jakubeeee.common.util.DateTimeUtils.millisUnitNextFullMinute;
 @Service
 public class SchedulingService {
 
-    @Autowired
-    TaskService taskService;
+    private final TaskService taskService;
 
-    @Autowired
-    TimerService timerService;
+    private final TimerService timerService;
+
+    public SchedulingService(TaskService taskService, TimerService timerService) {
+        this.taskService = taskService;
+        this.timerService = timerService;
+    }
 
     public void launchTaskImmediately(long taskId) throws NoTaskWithGivenIdException {
         GenericTask task = taskService.getTask(taskId).orElseThrow(

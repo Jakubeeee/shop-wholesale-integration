@@ -1,5 +1,6 @@
 package com.jakubeeee.integration.service;
 
+import com.jakubeeee.core.service.RestService;
 import com.jakubeeee.integration.model.CeneoProduct;
 import com.jakubeeee.integration.model.CommonProduct;
 import org.dom4j.Document;
@@ -17,6 +18,10 @@ import java.util.List;
  */
 @Service
 public abstract class CeneoDataSource extends XmlDataSource<CeneoProduct> {
+
+    public CeneoDataSource(RestService restService) {
+        super(restService);
+    }
 
     @Override
     public List<CeneoProduct> getExternalProducts() {

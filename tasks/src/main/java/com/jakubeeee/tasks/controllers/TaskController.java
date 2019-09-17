@@ -10,7 +10,6 @@ import com.jakubeeee.tasks.service.LoggingService;
 import com.jakubeeee.tasks.service.ProgressTrackingService;
 import com.jakubeeee.tasks.service.SchedulingService;
 import com.jakubeeee.tasks.service.TaskService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,20 +21,25 @@ import java.util.Map;
 @RestController
 public class TaskController {
 
-    @Autowired
-    TaskService taskService;
+    private final TaskService taskService;
 
-    @Autowired
-    LoggingService loggingService;
+    private final LoggingService loggingService;
 
-    @Autowired
-    ProgressTrackingService progressTrackingService;
+    private final ProgressTrackingService progressTrackingService;
 
-    @Autowired
-    TaskPublisher taskPublisher;
+    private final TaskPublisher taskPublisher;
 
-    @Autowired
-    SchedulingService schedulingService;
+    private final SchedulingService schedulingService;
+
+    public TaskController(TaskService taskService, LoggingService loggingService,
+                          ProgressTrackingService progressTrackingService, TaskPublisher taskPublisher,
+                          SchedulingService schedulingService) {
+        this.taskService = taskService;
+        this.loggingService = loggingService;
+        this.progressTrackingService = progressTrackingService;
+        this.taskPublisher = taskPublisher;
+        this.schedulingService = schedulingService;
+    }
 
     @GetMapping("tasks")
     public List<GenericTask> getTasks() {
