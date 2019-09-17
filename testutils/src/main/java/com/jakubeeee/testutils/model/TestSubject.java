@@ -3,7 +3,7 @@ package com.jakubeeee.testutils.model;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.Value;
-import lombok.experimental.Wither;
+import lombok.With;
 import org.dom4j.Document;
 import org.dom4j.Element;
 
@@ -16,7 +16,7 @@ import static org.dom4j.DocumentHelper.createDocument;
  * Immutable class whose instances are used as value containers during testing.
  */
 @Value
-@Wither
+@With
 @AllArgsConstructor
 public class TestSubject implements Comparable<TestSubject> {
 
