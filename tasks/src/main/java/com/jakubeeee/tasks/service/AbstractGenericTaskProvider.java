@@ -4,8 +4,6 @@ import com.jakubeeee.core.exception.DummyServiceException;
 import com.jakubeeee.tasks.exceptions.InvalidTaskStatusException;
 import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.model.PastTaskExecution;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
@@ -15,19 +13,18 @@ import java.util.Map;
 import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
 import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
 
-@FieldDefaults(level = AccessLevel.PROTECTED)
 public abstract class AbstractGenericTaskProvider<T extends GenericTask> implements TaskProvider<T> {
 
     @Autowired
-    TaskService taskService;
+    protected TaskService taskService;
 
     @Autowired
-    ProgressTrackingService progressTrackingService;
+    protected ProgressTrackingService progressTrackingService;
 
     @Autowired
-    LoggingService loggingService;
+    protected LoggingService loggingService;
 
-    Map<String, Object> executionParams = new HashMap<>();
+    protected Map<String, Object> executionParams = new HashMap<>();
 
     @Override
     public void beforeTask(T caller) throws DummyServiceException, InvalidTaskStatusException {

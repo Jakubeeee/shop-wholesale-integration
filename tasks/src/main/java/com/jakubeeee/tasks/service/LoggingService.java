@@ -4,10 +4,8 @@ import com.jakubeeee.core.service.TimerService;
 import com.jakubeeee.tasks.model.LogMessage;
 import com.jakubeeee.tasks.model.LogParam;
 import com.jakubeeee.tasks.publishers.TaskPublisher;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Synchronized;
-import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,29 +22,28 @@ import static com.jakubeeee.common.util.DateTimeUtils.*;
 import static com.jakubeeee.common.util.LangUtils.nvl;
 import static com.jakubeeee.tasks.model.LogMessage.Type.*;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Service
 public class LoggingService {
 
-    final int LOG_REMOVAL_HOURS_THRESHOLD = 5;
-    final int LOG_LIST_MAX_SIZE = 4000;
-    final int LOGS_PUBLISHING_INTERVAL = 1000;
+    private final int LOG_REMOVAL_HOURS_THRESHOLD = 5;
+    private final int LOG_LIST_MAX_SIZE = 4000;
+    private final int LOGS_PUBLISHING_INTERVAL = 1000;
 
     @Getter
-    List<LogMessage> allCachedLogs = new ArrayList<>();
+    private List<LogMessage> allCachedLogs = new ArrayList<>();
 
-    List<LogMessage> temporaryPendingLogs = new ArrayList<>();
+    private List<LogMessage> temporaryPendingLogs = new ArrayList<>();
 
-    boolean isPublishing = false;
-
-    @Autowired
-    ProgressTrackingService progressTrackingService;
+    private boolean isPublishing = false;
 
     @Autowired
-    TaskPublisher taskPublisher;
+    private ProgressTrackingService progressTrackingService;
 
     @Autowired
-    TimerService timerService;
+    private TaskPublisher taskPublisher;
+
+    @Autowired
+    private TimerService timerService;
 
     public void error(long taskId, String code) {
         error(taskId, code, null, 0);

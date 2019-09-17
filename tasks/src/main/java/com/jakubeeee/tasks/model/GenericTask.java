@@ -5,55 +5,56 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jakubeeee.tasks.enums.TaskMode;
 import com.jakubeeee.tasks.enums.TaskStatus;
 import com.jakubeeee.tasks.service.TaskProvider;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
 
 import static com.jakubeeee.tasks.enums.TaskStatus.WAITING;
 
 /**
  * Class whose instance represent a single task that can be scheduled and executed by this application
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class GenericTask {
 
     @Getter
     @Setter
-    long id;
+    private long id;
 
     @Getter
     @NonNull
-    String code;
+    private String code;
 
     @JsonIgnore
     @Getter
-    TaskProvider taskProvider;
+    private TaskProvider taskProvider;
 
     @Getter
-    TaskMode mode;
+    private TaskMode mode;
 
     @JsonIgnore
     @Getter
     @Setter
-    TaskStatus status = WAITING;
+    private TaskStatus status = WAITING;
 
-    long interval;
+    private long interval;
 
     @JsonIgnore
-    long delay;
+    private long delay;
 
     @JsonIgnore
     @Getter
     @SuppressWarnings("unchecked")
-    Runnable taskFunction = Errors.rethrow().wrap(() -> taskProvider.executeTask(this));
+    private Runnable taskFunction = Errors.rethrow().wrap(() -> taskProvider.executeTask(this));
 
     @JsonIgnore
     @Getter
-    ProgressTracker tracker;
+    private ProgressTracker tracker;
 
     @JsonIgnore
     @Getter
-    LastTaskExecutionInfo lastTaskExecutionInfo;
+    private LastTaskExecutionInfo lastTaskExecutionInfo;
 
     public GenericTask(long id, String code, TaskMode mode, long interval, long delay, TaskProvider taskProvider) {
         this.id = id;

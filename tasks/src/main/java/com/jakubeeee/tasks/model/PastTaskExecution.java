@@ -5,11 +5,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jakubeeee.common.converter.JsonObjectConverter;
 import com.jakubeeee.common.mixin.Parameterizable;
 import com.jakubeeee.common.serializer.LocalDateTimeSerializer;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,7 +18,6 @@ import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
 
 @Getter
 @Setter
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @Entity
 @Table(name = "past_task_executions")
@@ -29,15 +26,15 @@ public class PastTaskExecution implements Parameterizable {
     @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private long id;
 
-    long taskId;
+    private long taskId;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    LocalDateTime executionFinishTime;
+    private LocalDateTime executionFinishTime;
 
     @Convert(converter = JsonObjectConverter.class)
-    Map<String, Object> params;
+    private Map<String, Object> params;
 
     public PastTaskExecution(long taskId) {
         this.taskId = taskId;
