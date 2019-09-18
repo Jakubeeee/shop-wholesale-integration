@@ -1,4 +1,5 @@
 import store from '../vuex/store'
+import { SnackbarProgrammatic as Snackbar } from 'buefy'
 
 export const notificationUtils = {
   data: {
@@ -24,7 +25,7 @@ export const notificationUtils = {
         let locale = store.getters.language;
         buttonText = locale === 'pl' ? 'ZAMKNIJ' : 'CLOSE';
       }
-      this.$snackbar.open({
+      Snackbar.open({
         message: msg,
         type: type,
         position: position,
