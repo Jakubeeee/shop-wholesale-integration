@@ -262,9 +262,9 @@
                                 <goal>run</goal>
                             </goals>
                             <configuration>
-                                <tasks>
+                                <target>
                                     <delete dir="src\main\resources\public" includeemptydirs="true"/>
-                                </tasks>
+                                </target>
                             </configuration>
                         </execution>
                     </executions>
