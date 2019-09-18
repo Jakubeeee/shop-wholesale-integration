@@ -7,6 +7,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
+import static com.jakubeeee.common.util.LangUtils.nvl;
+
 /**
  * If activated, this aspect registers every entry and exit from every method in spring beans,
  * also informing about input parameters and return values.<br>
@@ -17,18 +19,16 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 @ConditionalOnExpression("${enable.method.sequence.monitor:true}")
-public class MethodSequenceAspect {
+public final class MethodSequenceAspect {
 
     @Around("execution( * com.jakubeeee..*.*(..))")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        LOG.info("Starting method : \"" + joinPoint.getSignature().getName() +
+        LOG.debug("Starting method : \"" + joinPoint.getSignature().getName() +
                 "\" in class: \"" + joinPoint.getSignature().getDeclaringTypeName() + "\"");
-        try {
-            for (var param : joinPoint.getArgs()) LOG.info("Parameter value in above method: " + param.toString());
-        } catch (NullPointerException ignored) {
-        }
+        for (var param : joinPoint.getArgs())
+            LOG.info("Parameter value in above method: " + nvl(param.toString(), param));
         Object result = joinPoint.proceed();
-        LOG.info("Exiting method :\"" + joinPoint.getSignature().getName() +
+        LOG.debug("Exiting method :\"" + joinPoint.getSignature().getName() +
                 "\" in class: \"" + joinPoint.getSignature().getDeclaringTypeName() + "\"" +
                 " with return value: \"" + result + "\"");
         return result;
