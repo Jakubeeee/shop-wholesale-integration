@@ -1,6 +1,7 @@
 package com.jakubeeee.core.service.impl;
 
 import com.jakubeeee.core.service.TimerService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Timer;
@@ -10,6 +11,7 @@ import java.util.function.BooleanSupplier;
 /**
  * Default service bean used for operations related to scheduling recurrent jobs.
  */
+@RequiredArgsConstructor
 @Service
 public class DefaultTimerService implements TimerService {
 

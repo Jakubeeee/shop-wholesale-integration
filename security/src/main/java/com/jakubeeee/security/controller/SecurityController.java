@@ -4,6 +4,7 @@ import com.jakubeeee.security.exception.UsernameNotResolvableException;
 import com.jakubeeee.security.model.ChangePasswordForm;
 import com.jakubeeee.security.service.PasswordResetService;
 import com.jakubeeee.security.service.SecurityService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,17 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Rest controller for functionalities related to security and user management.
  */
+@RequiredArgsConstructor
 @RestController
 public class SecurityController {
 
     private final SecurityService securityService;
 
     private final PasswordResetService passwordResetService;
-
-    public SecurityController(SecurityService securityService, PasswordResetService passwordResetService) {
-        this.securityService = securityService;
-        this.passwordResetService = passwordResetService;
-    }
 
     @GetMapping("/is-authenticated")
     public boolean isAuthenticated() {

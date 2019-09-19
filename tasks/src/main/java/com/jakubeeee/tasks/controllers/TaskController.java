@@ -10,6 +10,7 @@ import com.jakubeeee.tasks.service.LoggingService;
 import com.jakubeeee.tasks.service.ProgressTrackingService;
 import com.jakubeeee.tasks.service.SchedulingService;
 import com.jakubeeee.tasks.service.TaskService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @RestController
 public class TaskController {
 
@@ -30,16 +32,6 @@ public class TaskController {
     private final TaskPublisher taskPublisher;
 
     private final SchedulingService schedulingService;
-
-    public TaskController(TaskService taskService, LoggingService loggingService,
-                          ProgressTrackingService progressTrackingService, TaskPublisher taskPublisher,
-                          SchedulingService schedulingService) {
-        this.taskService = taskService;
-        this.loggingService = loggingService;
-        this.progressTrackingService = progressTrackingService;
-        this.taskPublisher = taskPublisher;
-        this.schedulingService = schedulingService;
-    }
 
     @GetMapping("tasks")
     public List<GenericTask> getTasks() {

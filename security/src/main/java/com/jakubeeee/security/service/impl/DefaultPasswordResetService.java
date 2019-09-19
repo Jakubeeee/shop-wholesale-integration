@@ -11,6 +11,7 @@ import com.jakubeeee.security.model.ChangePasswordForm;
 import com.jakubeeee.security.repository.PasswordResetTokenRepository;
 import com.jakubeeee.security.service.PasswordResetService;
 import com.jakubeeee.security.service.SecurityService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ import static com.jakubeeee.core.util.EmailUtils.createMailMessage;
 /**
  * Default service bean used for operations related to resetting user password.
  */
+@RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
 public class DefaultPasswordResetService implements PasswordResetService {
@@ -43,15 +45,6 @@ public class DefaultPasswordResetService implements PasswordResetService {
 
     @Value("${reset.token.lifetime.in.minutes}")
     private int TOKEN_LIFETIME_IN_MINUTES;
-
-    public DefaultPasswordResetService(SecurityService securityService, EmailService emailService,
-                                       MessageService messageService,
-                                       PasswordResetTokenRepository passwordResetTokenRepository) {
-        this.securityService = securityService;
-        this.emailService = emailService;
-        this.messageService = messageService;
-        this.passwordResetTokenRepository = passwordResetTokenRepository;
-    }
 
     @Transactional
     @Override

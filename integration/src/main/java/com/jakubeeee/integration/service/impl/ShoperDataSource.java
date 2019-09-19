@@ -8,6 +8,7 @@ import com.jakubeeee.integration.model.ShoperProduct;
 import com.jakubeeee.integration.model.ShoperProductsCollection;
 import com.jakubeeee.integration.service.UpdatableDataSource;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -31,6 +32,7 @@ import static java.util.Objects.requireNonNull;
  * Service bean used for extracting data from shoper platform.
  */
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class ShoperDataSource implements UpdatableDataSource<ShoperProduct> {
 
@@ -49,11 +51,6 @@ public class ShoperDataSource implements UpdatableDataSource<ShoperProduct> {
 
     @Getter
     private Set<UpdatableProperty> allowedUpdatableProperties;
-
-    public ShoperDataSource(RestService restService, ShoperAuthService authService) {
-        this.restService = restService;
-        this.authService = authService;
-    }
 
     @PostConstruct
     void initialize() {

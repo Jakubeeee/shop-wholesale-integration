@@ -5,6 +5,7 @@ import com.jakubeeee.security.entity.Role;
 import com.jakubeeee.security.entity.User;
 import com.jakubeeee.security.repository.RoleRepository;
 import com.jakubeeee.security.service.RoleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -17,14 +18,11 @@ import static java.util.stream.Collectors.toCollection;
 /**
  * Default service bean used for operations related to user roles and privileges.
  */
+@RequiredArgsConstructor
 @Service
 public class DefaultRoleService implements RoleService {
 
     private final RoleRepository roleRepository;
-
-    public DefaultRoleService(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }
 
     @Override
     public void grantRoles(User user, Set<Role> roles) {

@@ -4,6 +4,7 @@ import com.jakubeeee.core.exception.DummyServiceException;
 import com.jakubeeee.tasks.exceptions.InvalidTaskStatusException;
 import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.model.PastTaskExecution;
+import lombok.RequiredArgsConstructor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
 /**
  * Base for service beans used for providing tasks with executable logic.
  */
+@RequiredArgsConstructor
 public abstract class AbstractGenericTaskProvider<T extends GenericTask> implements TaskProvider<T> {
 
     protected final TaskService taskService;
@@ -22,13 +24,6 @@ public abstract class AbstractGenericTaskProvider<T extends GenericTask> impleme
     protected final ProgressTrackingService progressTrackingService;
 
     protected final LoggingService loggingService;
-
-    public AbstractGenericTaskProvider(TaskService taskService, ProgressTrackingService progressTrackingService,
-                                       LoggingService loggingService) {
-        this.taskService = taskService;
-        this.progressTrackingService = progressTrackingService;
-        this.loggingService = loggingService;
-    }
 
     protected Map<String, Object> executionParams = new HashMap<>();
 

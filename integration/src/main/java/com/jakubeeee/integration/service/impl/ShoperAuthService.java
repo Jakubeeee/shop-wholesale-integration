@@ -4,6 +4,7 @@ import com.jakubeeee.core.service.RestService;
 import com.jakubeeee.integration.model.ShoperAuthToken;
 import com.jakubeeee.integration.service.AbstractAuthService;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +22,7 @@ import static java.util.Objects.requireNonNull;
  */
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 @Service
 public class ShoperAuthService extends AbstractAuthService<ShoperAuthToken> {
 
@@ -32,10 +34,6 @@ public class ShoperAuthService extends AbstractAuthService<ShoperAuthToken> {
     String SHOPER_USERNAME;
     @Value("${shoperAdminPassword}")
     String SHOPER_PASSWORD;
-
-    public ShoperAuthService(RestService restService) {
-        this.restService = restService;
-    }
 
     @Override
     public String getTokenValue() {

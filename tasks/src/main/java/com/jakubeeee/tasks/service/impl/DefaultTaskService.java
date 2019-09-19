@@ -14,6 +14,7 @@ import com.jakubeeee.tasks.service.ProgressTrackingService;
 import com.jakubeeee.tasks.service.TaskService;
 import com.jakubeeee.tasks.validators.TaskValidator;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -36,6 +37,7 @@ import static org.apache.commons.lang3.reflect.FieldUtils.getFieldsListWithAnnot
  * Default service bean used for general operations related to tasks.
  */
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class DefaultTaskService implements TaskService {
 
@@ -67,13 +69,6 @@ public class DefaultTaskService implements TaskService {
 
     @Getter
     private Set<String> lockedTaskProvidersNames = new HashSet<>();
-
-    public DefaultTaskService(ProgressTrackingService progressTrackingService, TaskPublisher taskPublisher,
-                              PastTaskExecutionRepository pastTaskExecutionRepository) {
-        this.progressTrackingService = progressTrackingService;
-        this.taskPublisher = taskPublisher;
-        this.pastTaskExecutionRepository = pastTaskExecutionRepository;
-    }
 
     @Override
     public void registerTask(GenericTask task) {

@@ -7,6 +7,7 @@ import com.jakubeeee.integration.model.CommonProduct;
 import com.jakubeeee.integration.model.DummyProduct;
 import com.jakubeeee.integration.service.UpdatableDataSource;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -23,6 +24,7 @@ import static java.util.Collections.emptyList;
 /**
  * Dummy service bean used as imitation of real updatable data source.
  */
+@RequiredArgsConstructor
 @Service
 public class DummyUpdatableDataSource implements UpdatableDataSource<DummyProduct>, DummyService {
 

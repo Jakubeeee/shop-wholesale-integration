@@ -8,6 +8,7 @@ import com.jakubeeee.integration.model.BaseLinkerProductsCollection;
 import com.jakubeeee.integration.model.CommonProduct;
 import com.jakubeeee.integration.service.UpdatableDataSource;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -37,6 +38,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
  * Service bean used for extracting data from base linker platform.
  */
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class BaseLinkerDataSource implements UpdatableDataSource<BaseLinkerProduct> {
 
@@ -56,11 +58,6 @@ public class BaseLinkerDataSource implements UpdatableDataSource<BaseLinkerProdu
 
     @Getter
     private Set<UpdatableProperty> allowedUpdatableProperties;
-
-    public BaseLinkerDataSource(RestService restService, BaseLinkerAuthService authService) {
-        this.restService = restService;
-        this.authService = authService;
-    }
 
     @PostConstruct
     void initialize() {

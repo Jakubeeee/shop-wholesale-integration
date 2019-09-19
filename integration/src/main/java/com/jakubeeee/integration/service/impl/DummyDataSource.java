@@ -6,6 +6,7 @@ import com.jakubeeee.integration.enums.ProductMappingKey;
 import com.jakubeeee.integration.model.CommonProduct;
 import com.jakubeeee.integration.model.DummyProduct;
 import com.jakubeeee.integration.service.DataSource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import static java.util.Collections.emptyList;
 /**
  * Dummy service bean used as imitation of real data source.
  */
+@RequiredArgsConstructor
 @Service
 public class DummyDataSource implements DataSource<DummyProduct>, DummyService {
 

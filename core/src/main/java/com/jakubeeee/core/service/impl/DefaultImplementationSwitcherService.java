@@ -3,6 +3,7 @@ package com.jakubeeee.core.service.impl;
 import com.jakubeeee.core.mixin.Reloadable;
 import com.jakubeeee.core.mixin.Switchable;
 import com.jakubeeee.core.service.ImplementationSwitcherService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +13,13 @@ import java.util.Map;
 /**
  * Default service bean used for switching {@link Switchable} implementations in {@link Reloadable} objects.
  */
+@RequiredArgsConstructor
 @Service
 public class DefaultImplementationSwitcherService implements ImplementationSwitcherService {
 
     private final Map<String, Reloadable> reloaders;
 
     private final ApplicationContext context;
-
-    public DefaultImplementationSwitcherService(ApplicationContext context, Map<String, Reloadable> reloaders) {
-        this.context = context;
-        this.reloaders = reloaders;
-    }
 
     public void switchImplementations(String reloaderCode,
                                       Map<String, Class<? extends Switchable>> implementationTypesMap) {

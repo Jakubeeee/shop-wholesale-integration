@@ -7,6 +7,7 @@ import com.jakubeeee.tasks.publishers.TaskPublisher;
 import com.jakubeeee.tasks.service.LoggingService;
 import com.jakubeeee.tasks.service.ProgressTrackingService;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -26,6 +27,7 @@ import static com.jakubeeee.tasks.model.LogMessage.Type.*;
 /**
  * Default service bean used for operations related to task logging.
  */
+@RequiredArgsConstructor
 @Service
 public class DefaultLoggingService implements LoggingService {
 
@@ -45,13 +47,6 @@ public class DefaultLoggingService implements LoggingService {
     private List<LogMessage> temporaryPendingLogs = new ArrayList<>();
 
     private boolean isPublishing = false;
-
-    public DefaultLoggingService(ProgressTrackingService progressTrackingService, TaskPublisher taskPublisher,
-                                 TimerService timerService) {
-        this.progressTrackingService = progressTrackingService;
-        this.taskPublisher = taskPublisher;
-        this.timerService = timerService;
-    }
 
     @Override
     public void error(long taskId, String code) {

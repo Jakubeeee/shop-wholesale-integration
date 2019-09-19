@@ -5,6 +5,7 @@ import com.jakubeeee.tasks.exceptions.NoTaskWithGivenIdException;
 import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.service.SchedulingService;
 import com.jakubeeee.tasks.service.TaskService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
@@ -13,17 +14,13 @@ import static com.jakubeeee.common.util.DateTimeUtils.millisUnitNextFullMinute;
 /**
  * Default service bean used for operations related to task scheduling.
  */
+@RequiredArgsConstructor
 @Service
 public class DefaultSchedulingService implements SchedulingService {
 
     private final TaskService taskService;
 
     private final TimerService timerService;
-
-    public DefaultSchedulingService(TaskService taskService, TimerService timerService) {
-        this.taskService = taskService;
-        this.timerService = timerService;
-    }
 
     @Override
     public void launchTaskImmediately(long taskId) throws NoTaskWithGivenIdException {

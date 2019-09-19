@@ -3,6 +3,7 @@ package com.jakubeeee.security.config;
 import com.jakubeeee.security.entity.Role;
 import com.jakubeeee.security.service.RoleService;
 import com.jakubeeee.security.service.SecurityService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -15,6 +16,7 @@ import static com.jakubeeee.security.entity.Role.Type.*;
 /**
  * Component used to initially populate the database with data required by the security module.
  */
+@RequiredArgsConstructor
 @Component
 public class InitialSecurityDataLoader implements ApplicationRunner {
 
@@ -24,11 +26,6 @@ public class InitialSecurityDataLoader implements ApplicationRunner {
     private final SecurityService securityService;
 
     private final RoleService roleService;
-
-    public InitialSecurityDataLoader(SecurityService securityService, RoleService roleService) {
-        this.securityService = securityService;
-        this.roleService = roleService;
-    }
 
     @Override
     public void run(ApplicationArguments args) {

@@ -4,6 +4,7 @@ import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.service.LoggingService;
 import com.jakubeeee.tasks.service.TaskProvider;
 import com.jakubeeee.tasks.service.TaskService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -17,6 +18,7 @@ import static com.jakubeeee.tasks.enums.TaskStatus.*;
 import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
 
 @Slf4j
+@RequiredArgsConstructor
 @Aspect
 @Component
 public class TaskAspect {
@@ -24,11 +26,6 @@ public class TaskAspect {
     private final TaskService taskService;
 
     private final LoggingService loggingService;
-
-    public TaskAspect(TaskService taskService, LoggingService loggingService) {
-        this.taskService = taskService;
-        this.loggingService = loggingService;
-    }
 
     @SuppressWarnings("unchecked")
     @Around("execution( void com.jakubeeee..*.AbstractGenericTaskProvider.executeTask(..))")

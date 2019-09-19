@@ -6,6 +6,7 @@ import com.jakubeeee.tasks.model.ProgressTracker;
 import com.jakubeeee.tasks.publishers.TaskPublisher;
 import com.jakubeeee.tasks.service.ProgressTrackingService;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.Map;
 /**
  * Default service bean used for operations related to task progress tracking.
  */
+@RequiredArgsConstructor
 @Service
 public class DefaultProgressTrackingService implements ProgressTrackingService {
 
@@ -21,10 +23,6 @@ public class DefaultProgressTrackingService implements ProgressTrackingService {
 
     @Getter
     private Map<Long, ProgressTracker> progressTrackers = new HashMap<>();
-
-    public DefaultProgressTrackingService(TaskPublisher taskPublisher) {
-        this.taskPublisher = taskPublisher;
-    }
 
     @Override
     public void startTrackingProgress(GenericTask task) {
