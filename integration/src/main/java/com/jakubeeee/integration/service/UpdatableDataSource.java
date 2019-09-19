@@ -10,8 +10,7 @@ import java.util.Set;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty;
 
 /**
- * An extension of DataSource implemented by classes used to extract
- * or modify data from external sources
+ * Interface that extends the functionality of {@link DataSource} with ability to modify data from external sources.
  */
 public interface UpdatableDataSource<T extends ExternalProduct> extends DataSource<T> {
 

@@ -19,8 +19,7 @@ public class SecurityController {
 
     private final PasswordResetService passwordResetService;
 
-    public SecurityController(SecurityService securityService,
-                              PasswordResetService passwordResetService) {
+    public SecurityController(SecurityService securityService, PasswordResetService passwordResetService) {
         this.securityService = securityService;
         this.passwordResetService = passwordResetService;
     }

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Service Interface implemented by classes used to extract data from external sources
+ * Interface for service beans used for extracting data from external sources.
  */
 public interface DataSource<T extends ExternalProduct> extends Switchable {
 

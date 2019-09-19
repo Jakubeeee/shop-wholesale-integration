@@ -1,12 +1,15 @@
-package com.jakubeeee.integration.service;
+package com.jakubeeee.integration.config;
 
 import com.jakubeeee.integration.model.ProductsTask;
+import com.jakubeeee.integration.service.impl.BasicXmlDataSource;
+import com.jakubeeee.integration.service.impl.ProductsTaskProvider;
+import com.jakubeeee.integration.service.impl.ShoperDataSource;
 import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.service.DummyTaskProvider;
 import com.jakubeeee.tasks.service.SchedulingService;
 import com.jakubeeee.tasks.service.TaskService;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
@@ -14,8 +17,8 @@ import static com.jakubeeee.integration.enums.ProductMappingKey.NAME;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty.STOCK;
 import static com.jakubeeee.tasks.enums.TaskMode.TESTING;
 
-@Service
-public class IntegrationTasksService {
+@Configuration
+public class IntegrationTasksConfig {
 
     private final TaskService taskService;
 
@@ -27,9 +30,9 @@ public class IntegrationTasksService {
 
     private final BasicXmlDataSource dummyBasicXmlDataSource;
 
-    public IntegrationTasksService(TaskService taskService, SchedulingService schedulingService,
-                                   ProductsTaskProvider productsTaskProvider, DummyTaskProvider dummyTaskProvider,
-                                   @Qualifier("dummyBasicXmlDataSource") BasicXmlDataSource dummyBasicXmlDataSource) {
+    public IntegrationTasksConfig(TaskService taskService, SchedulingService schedulingService,
+                                  ProductsTaskProvider productsTaskProvider, DummyTaskProvider dummyTaskProvider,
+                                  @Qualifier("dummyBasicXmlDataSource") BasicXmlDataSource dummyBasicXmlDataSource) {
         this.taskService = taskService;
         this.schedulingService = schedulingService;
         this.productsTaskProvider = productsTaskProvider;

@@ -12,6 +12,9 @@ import java.util.Map;
 import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
 import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
 
+/**
+ * Base for service beans used for providing tasks with executable logic.
+ */
 public abstract class AbstractGenericTaskProvider<T extends GenericTask> implements TaskProvider<T> {
 
     protected final TaskService taskService;

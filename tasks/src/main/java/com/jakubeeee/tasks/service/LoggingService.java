@@ -1,156 +1,52 @@
 package com.jakubeeee.tasks.service;
 
-import com.jakubeeee.core.service.TimerService;
 import com.jakubeeee.tasks.model.LogMessage;
 import com.jakubeeee.tasks.model.LogParam;
-import com.jakubeeee.tasks.publishers.TaskPublisher;
-import lombok.Getter;
-import lombok.Synchronized;
 import org.springframework.lang.Nullable;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BooleanSupplier;
 
-import static com.jakubeeee.common.util.CollectionUtils.extractList;
-import static com.jakubeeee.common.util.CollectionUtils.filterList;
-import static com.jakubeeee.common.util.DateTimeUtils.*;
-import static com.jakubeeee.common.util.LangUtils.nvl;
-import static com.jakubeeee.tasks.model.LogMessage.Type.*;
+/**
+ * Interface for service beans used for operations related to task logging.
+ */
+public interface LoggingService {
 
-@Service
-public class LoggingService {
+    void error(long taskId, String code);
 
-    private static final int LOG_REMOVAL_HOURS_THRESHOLD = 5;
-    private static final int LOG_LIST_MAX_SIZE = 4000;
-    private static final int LOGS_PUBLISHING_INTERVAL = 1000;
+    void error(long taskId, String code, @Nullable List<LogParam> params);
 
-    private final ProgressTrackingService progressTrackingService;
+    void error(long taskId, String code, @Nullable List<LogParam> params, int dynamicParts);
 
-    private final TaskPublisher taskPublisher;
+    void warn(long taskId, String code);
 
-    private final TimerService timerService;
+    void warn(long taskId, String code, @Nullable List<LogParam> params);
 
-    @Getter
-    private List<LogMessage> allCachedLogs = new ArrayList<>();
+    void warn(long taskId, String code, @Nullable List<LogParam> params, int dynamicParts);
 
-    private List<LogMessage> temporaryPendingLogs = new ArrayList<>();
+    void update(long taskId, String code);
 
-    private boolean isPublishing = false;
+    void update(long taskId, String code, @Nullable List<LogParam> params);
 
-    public LoggingService(ProgressTrackingService progressTrackingService, TaskPublisher taskPublisher,
-                          TimerService timerService) {
-        this.progressTrackingService = progressTrackingService;
-        this.taskPublisher = taskPublisher;
-        this.timerService = timerService;
-    }
+    void update(long taskId, String code, @Nullable List<LogParam> params, int dynamicParts);
 
-    public void error(long taskId, String code) {
-        error(taskId, code, null, 0);
-    }
+    void info(long taskId, String code);
 
-    public void error(long taskId, String code, @Nullable List<LogParam> params) {
-        error(taskId, code, params, 0);
-    }
+    void info(long taskId, String code, @Nullable List<LogParam> params);
 
-    public void error(long taskId, String code, @Nullable List<LogParam> params, int dynamicParts) {
-        createLogMessage(taskId, code, ERROR, params, dynamicParts);
-    }
+    void info(long taskId, String code, @Nullable List<LogParam> params, int dynamicParts);
 
-    public void warn(long taskId, String code) {
-        warn(taskId, code, null, 0);
-    }
+    void debug(long taskId, String code);
 
-    public void warn(long taskId, String code, @Nullable List<LogParam> params) {
-        warn(taskId, code, params, 0);
-    }
+    void debug(long taskId, String code, @Nullable List<LogParam> params);
 
-    public void warn(long taskId, String code, @Nullable List<LogParam> params, int dynamicParts) {
-        createLogMessage(taskId, code, WARN, params, dynamicParts);
-    }
+    void debug(long taskId, String code, @Nullable List<LogParam> params, int dynamicParts);
 
-    public void update(long taskId, String code) {
-        update(taskId, code, null, 0);
-    }
+    void startPublishingLogs();
 
-    public void update(long taskId, String code, @Nullable List<LogParam> params) {
-        update(taskId, code, params, 0);
-    }
+    List<LogMessage> getAllCachedLogs();
 
-    public void update(long taskId, String code, @Nullable List<LogParam> params, int dynamicParts) {
-        createLogMessage(taskId, code, UPDATE, params, dynamicParts);
-    }
+    void clearLogList();
 
-    public void info(long taskId, String code) {
-        info(taskId, code, null, 0);
-    }
-
-    public void info(long taskId, String code, @Nullable List<LogParam> params) {
-        info(taskId, code, params, 0);
-    }
-
-    public void info(long taskId, String code, @Nullable List<LogParam> params, int dynamicParts) {
-        createLogMessage(taskId, code, INFO, params, dynamicParts);
-    }
-
-    public void debug(long taskId, String code) {
-        debug(taskId, code, null, 0);
-    }
-
-    public void debug(long taskId, String code, @Nullable List<LogParam> params) {
-        debug(taskId, code, params, 0);
-    }
-
-    public void debug(long taskId, String code, @Nullable List<LogParam> params, int dynamicParts) {
-        createLogMessage(taskId, code, DEBUG, params, dynamicParts);
-    }
-
-    private void createLogMessage(long taskId, String code, LogMessage.Type type, @Nullable List<LogParam> params,
-                                  int dynamicParts) {
-        var log = new LogMessage(taskId, code, type, formatDateTimeWithNanos(getCurrentDateTime()), nvl(params,
-                new ArrayList<>()), dynamicParts);
-        cacheLogMessage(log);
-    }
-
-    @Synchronized
-    private void cacheLogMessage(LogMessage log) {
-        allCachedLogs.add(log);
-        temporaryPendingLogs.add(log);
-    }
-
-    void startPublishingLogs() {
-        if (isPublishing) return;
-        isPublishing = true;
-        BooleanSupplier cancelCondition = () -> !progressTrackingService.isAnyProgressTrackerActive();
-        timerService.setRecurrentJob(() -> taskPublisher.publishPartOfTasksLogs(extractTemporaryPendingLogs()), 0,
-                LOGS_PUBLISHING_INTERVAL, cancelCondition, () -> isPublishing = false, false);
-    }
-
-    @Synchronized
-    private List<LogMessage> extractTemporaryPendingLogs() {
-        return extractList(temporaryPendingLogs);
-    }
-
-    @Synchronized
-    public void clearLogList() {
-        allCachedLogs.clear();
-        temporaryPendingLogs.clear();
-    }
-
-    @Synchronized
-    @Scheduled(fixedRate = 1200000)
-    public void removeUnnecessaryLogs() {
-        LocalDateTime timeHoursAgo = getCurrentDateTime().minusHours(LOG_REMOVAL_HOURS_THRESHOLD);
-        if (allCachedLogs.size() > LOG_LIST_MAX_SIZE) {
-            int excess = allCachedLogs.size() - LOG_LIST_MAX_SIZE;
-            allCachedLogs = allCachedLogs.subList(excess, allCachedLogs.size());
-        }
-        allCachedLogs = filterList(allCachedLogs, (log -> !isTimeAfter(timeHoursAgo,
-                parseStringToDateTime(log.getTime()))));
-        taskPublisher.publishAllTasksLogs(allCachedLogs);
-    }
+    void removeUnnecessaryLogs();
 
 }

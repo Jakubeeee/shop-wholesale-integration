@@ -7,7 +7,7 @@ import com.jakubeeee.tasks.exceptions.ProgressTrackerNotActiveException;
 import com.jakubeeee.tasks.model.GenericTask;
 
 /**
- * An interface implemented by service classes used to provide business logic for tasks
+ * Interface for service beans used for providing tasks with executable logic.
  *
  * @see GenericTask
  * @see TaskAspect

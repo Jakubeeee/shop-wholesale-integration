@@ -1,16 +1,18 @@
-package com.jakubeeee.integration.service;
+package com.jakubeeee.integration.service.impl;
 
 import com.jakubeeee.common.model.ChangeRegistry;
 import com.jakubeeee.core.exception.DummyServiceException;
 import com.jakubeeee.core.mixin.Reloadable;
 import com.jakubeeee.core.mixin.Switchable;
 import com.jakubeeee.core.service.DummyService;
-import com.jakubeeee.core.service.ImplementationSwitcher;
+import com.jakubeeee.core.service.ImplementationSwitcherService;
 import com.jakubeeee.integration.enums.ProductMappingKey;
 import com.jakubeeee.integration.model.CommonProduct;
 import com.jakubeeee.integration.model.ExternalProduct;
 import com.jakubeeee.integration.model.ProductMatchingResult;
 import com.jakubeeee.integration.model.ProductsTask;
+import com.jakubeeee.integration.service.DataSource;
+import com.jakubeeee.integration.service.UpdatableDataSource;
 import com.jakubeeee.tasks.exceptions.InvalidTaskStatusException;
 import com.jakubeeee.tasks.exceptions.ProgressTrackerNotActiveException;
 import com.jakubeeee.tasks.model.LogParam;
@@ -41,6 +43,10 @@ import static com.jakubeeee.tasks.enums.TaskMode.TESTING;
 import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
 import static java.util.Collections.sort;
 
+/**
+ * Service bean used for providing business logic for tasks related to manipulation of products data between two
+ * independent platforms.
+ */
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Service
@@ -48,14 +54,15 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
 
     private static final String PROVIDER_NAME = "PRODUCTS_TASK_PROVIDER";
 
-    private final ImplementationSwitcher implementationSwitcher;
+    private final ImplementationSwitcherService implementationSwitcher;
 
     private UpdatableDataSource updatableDataSource;
 
     private DataSource dataSource;
 
     public ProductsTaskProvider(TaskService taskService, ProgressTrackingService progressTrackingService,
-                                LoggingService loggingService, @Lazy ImplementationSwitcher implementationSwitcher) {
+                                LoggingService loggingService,
+                                @Lazy ImplementationSwitcherService implementationSwitcher) {
         super(taskService, progressTrackingService, loggingService);
         this.implementationSwitcher = implementationSwitcher;
     }

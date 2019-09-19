@@ -1,4 +1,4 @@
-package com.jakubeeee.integration.service;
+package com.jakubeeee.integration.service.impl;
 
 import com.jakubeeee.core.service.RestService;
 import com.jakubeeee.integration.enums.DataSourceType;
@@ -6,9 +6,9 @@ import com.jakubeeee.integration.enums.ProductMappingKey;
 import com.jakubeeee.integration.model.CommonProduct;
 import com.jakubeeee.integration.model.ShoperProduct;
 import com.jakubeeee.integration.model.ShoperProductsCollection;
+import com.jakubeeee.integration.service.UpdatableDataSource;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +27,9 @@ import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty.*;
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Service bean used for extracting data from shoper platform.
+ */
 @Slf4j
 @Service
 public class ShoperDataSource implements UpdatableDataSource<ShoperProduct> {
@@ -104,7 +107,8 @@ public class ShoperDataSource implements UpdatableDataSource<ShoperProduct> {
     }
 
     @Override
-    public void handleSingleProductUpdate(CommonProduct commonProduct, List<UpdatableProperty> properties, boolean isTesting) {
+    public void handleSingleProductUpdate(CommonProduct commonProduct, List<UpdatableProperty> properties,
+                                          boolean isTesting) {
         if (!isTesting) {
             HttpHeaders headers = generateHeaderWithAuthToken(authService.getTokenValue());
             var requestParams = getRequestParamsForUpdate(commonProduct, properties);
@@ -115,7 +119,8 @@ public class ShoperDataSource implements UpdatableDataSource<ShoperProduct> {
         sleep(50);
     }
 
-    private Map<String, String> getRequestParamsForUpdate(CommonProduct commonProduct, List<UpdatableProperty> properties) {
+    private Map<String, String> getRequestParamsForUpdate(CommonProduct commonProduct,
+                                                          List<UpdatableProperty> properties) {
         var requestParams = new HashMap<String, String>();
         for (var property : properties) {
             switch (property) {

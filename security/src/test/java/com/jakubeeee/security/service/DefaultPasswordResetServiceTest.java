@@ -10,6 +10,7 @@ import com.jakubeeee.security.exception.DifferentPasswordResetTokenOwnerExceptio
 import com.jakubeeee.security.exception.PasswordResetTokenExpiredException;
 import com.jakubeeee.security.model.ChangePasswordForm;
 import com.jakubeeee.security.repository.PasswordResetTokenRepository;
+import com.jakubeeee.security.service.impl.DefaultPasswordResetService;
 import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import org.junit.Assert;
 import org.junit.Before;
@@ -50,12 +51,12 @@ import static org.springframework.test.util.ReflectionTestUtils.setField;
 @TestPropertySource(locations = "classpath:security-test.properties")
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(SpringRunner.class)
-@PrepareForTest({PasswordResetService.class, DateTimeUtils.class, UUID.class})
+@PrepareForTest({DefaultPasswordResetService.class, DateTimeUtils.class, UUID.class})
 // @PowerMockIgnore annotation added because of a bug in power mock library (version: 2.0.0):
 // https://github.com/powermock/powermock/issues/86
 // to be removed in case it is fixed in future versions of power mock.
 @PowerMockIgnore({"com.sun.org.apache.xerces.*", "javax.xml.*", "org.xml.*", "org.w3c.dom.*"})
-public class PasswordResetServiceTest {
+public class DefaultPasswordResetServiceTest {
 
     @TestConfiguration
     static class TestContextConfig {
@@ -74,7 +75,7 @@ public class PasswordResetServiceTest {
 
         @Bean
         public PasswordResetService passwordResetService() {
-            return new PasswordResetService(securityService, emailService,
+            return new DefaultPasswordResetService(securityService, emailService,
                     messageService, passwordResetTokenRepository);
         }
 

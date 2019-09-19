@@ -1,4 +1,4 @@
-package com.jakubeeee.integration.service;
+package com.jakubeeee.integration.service.impl;
 
 import com.jakubeeee.core.service.RestService;
 import com.jakubeeee.integration.enums.DataSourceType;
@@ -6,6 +6,7 @@ import com.jakubeeee.integration.enums.ProductMappingKey;
 import com.jakubeeee.integration.model.BaseLinkerProduct;
 import com.jakubeeee.integration.model.BaseLinkerProductsCollection;
 import com.jakubeeee.integration.model.CommonProduct;
+import com.jakubeeee.integration.service.UpdatableDataSource;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +33,9 @@ import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
+/**
+ * Service bean used for extracting data from base linker platform.
+ */
 @Slf4j
 @Service
 public class BaseLinkerDataSource implements UpdatableDataSource<BaseLinkerProduct> {

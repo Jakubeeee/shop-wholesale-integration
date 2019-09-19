@@ -1,5 +1,6 @@
 package com.jakubeeee.core.service;
 
+import com.jakubeeee.core.service.impl.DefaultMessageService;
 import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -18,7 +19,7 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 @Category(FlowControlUnitTestCategory.class)
 @RunWith(SpringRunner.class)
-public class MessageServiceTest {
+public class DefaultMessageServiceTest {
 
     @TestConfiguration
     static class TestContextConfig {
@@ -28,7 +29,7 @@ public class MessageServiceTest {
 
         @Bean
         public MessageService messageService() {
-            return new MessageService(messageSource);
+            return new DefaultMessageService(messageSource);
         }
 
     }

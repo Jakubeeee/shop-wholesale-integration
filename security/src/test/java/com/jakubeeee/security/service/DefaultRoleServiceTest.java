@@ -4,6 +4,7 @@ import com.jakubeeee.common.exception.DatabaseResultEmptyException;
 import com.jakubeeee.security.entity.Role;
 import com.jakubeeee.security.entity.User;
 import com.jakubeeee.security.repository.RoleRepository;
+import com.jakubeeee.security.service.impl.DefaultRoleService;
 import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,7 +32,7 @@ import static org.mockito.Mockito.*;
 
 @Category(FlowControlUnitTestCategory.class)
 @RunWith(SpringRunner.class)
-public class RoleServiceTest {
+public class DefaultRoleServiceTest {
 
     @TestConfiguration
     static class TestContextConfig {
@@ -41,7 +42,7 @@ public class RoleServiceTest {
 
         @Bean
         public RoleService roleService() {
-            return new RoleService(roleRepository);
+            return new DefaultRoleService(roleRepository);
         }
 
     }

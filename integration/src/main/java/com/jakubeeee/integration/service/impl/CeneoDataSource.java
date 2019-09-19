@@ -1,8 +1,9 @@
-package com.jakubeeee.integration.service;
+package com.jakubeeee.integration.service.impl;
 
 import com.jakubeeee.core.service.RestService;
 import com.jakubeeee.integration.model.CeneoProduct;
 import com.jakubeeee.integration.model.CommonProduct;
+import com.jakubeeee.integration.service.XmlDataSource;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
@@ -13,7 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Extended by classes used to extract data from ceneo based xml rest web service.
+ * Base for service beans used for extracting data from ceneo based xml rest web service.
  * Xsd schema file location: schemas/ceneo_products_xml.xsd
  */
 @Service

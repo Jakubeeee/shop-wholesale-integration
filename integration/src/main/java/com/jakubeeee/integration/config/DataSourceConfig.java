@@ -3,7 +3,7 @@ package com.jakubeeee.integration.config;
 import com.jakubeeee.core.service.RestService;
 import com.jakubeeee.integration.enums.DataSourceType;
 import com.jakubeeee.integration.enums.ProductMappingKey;
-import com.jakubeeee.integration.service.BasicXmlDataSource;
+import com.jakubeeee.integration.service.impl.BasicXmlDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

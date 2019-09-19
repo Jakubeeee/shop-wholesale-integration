@@ -1,10 +1,11 @@
-package com.jakubeeee.integration.service;
+package com.jakubeeee.integration.service.impl;
 
 import com.jakubeeee.core.service.DummyService;
 import com.jakubeeee.integration.enums.DataSourceType;
 import com.jakubeeee.integration.enums.ProductMappingKey;
 import com.jakubeeee.integration.model.CommonProduct;
 import com.jakubeeee.integration.model.DummyProduct;
+import com.jakubeeee.integration.service.UpdatableDataSource;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,9 @@ import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty.STOCK;
 import static java.util.Collections.emptyList;
 
+/**
+ * Dummy service bean used as imitation of real updatable data source.
+ */
 @Service
 public class DummyUpdatableDataSource implements UpdatableDataSource<DummyProduct>, DummyService {
 

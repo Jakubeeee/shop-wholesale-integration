@@ -1,8 +1,9 @@
-package com.jakubeeee.integration.service;
+package com.jakubeeee.integration.service.impl;
 
 import com.jakubeeee.core.service.RestService;
 import com.jakubeeee.integration.model.BasicXmlProduct;
 import com.jakubeeee.integration.model.CommonProduct;
+import com.jakubeeee.integration.service.XmlDataSource;
 import org.dom4j.Document;
 import org.dom4j.Node;
 import org.springframework.stereotype.Service;
@@ -11,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Extended by classes used to extract data from simple xml rest web service.
- * Example xml with correct structure is published by /dummyProductsXml endpoint.
- * Xsd schema file location: schemas/basic_products_xml.xsd
+ * Base for service beans used for extracting data from simple xml rest web service that use common basic template.
+ * Example xml with correct structure is published by /dummyProductsXml endpoint. Xsd schema file location:
+ * schemas/basic_products_xml.xsd
  */
 @Service
 public abstract class BasicXmlDataSource extends XmlDataSource<BasicXmlProduct> {

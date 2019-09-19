@@ -6,6 +6,7 @@ import com.jakubeeee.security.entity.User;
 import com.jakubeeee.security.exception.EmailNotUniqueException;
 import com.jakubeeee.security.exception.UsernameNotUniqueException;
 import com.jakubeeee.security.repository.UserRepository;
+import com.jakubeeee.security.service.impl.DefaultSecurityService;
 import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -32,7 +33,7 @@ import static org.mockito.Mockito.*;
 @SuppressWarnings("all")
 @Category(FlowControlUnitTestCategory.class)
 @RunWith(SpringRunner.class)
-public class SecurityServiceTest {
+public class DefaultSecurityServiceTest {
 
     @TestConfiguration
     static class TestContextConfig {
@@ -48,7 +49,7 @@ public class SecurityServiceTest {
 
         @Bean
         public SecurityService securityService() {
-            return new SecurityService(roleService, userRepository, passwordEncoder);
+            return new DefaultSecurityService(roleService, userRepository, passwordEncoder);
         }
 
     }

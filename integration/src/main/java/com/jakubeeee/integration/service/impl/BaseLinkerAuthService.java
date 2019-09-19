@@ -1,6 +1,7 @@
-package com.jakubeeee.integration.service;
+package com.jakubeeee.integration.service.impl;
 
 import com.jakubeeee.integration.model.BaseLinkerAuthToken;
+import com.jakubeeee.integration.service.AbstractAuthService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
+/**
+ * Service bean used for operations related to data source authentication in base linker platform.
+ */
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Service
 public class BaseLinkerAuthService extends AbstractAuthService<BaseLinkerAuthToken> {
@@ -21,7 +25,7 @@ public class BaseLinkerAuthService extends AbstractAuthService<BaseLinkerAuthTok
     }
 
     @Override
-    protected String getTokenValue() {
+    public String getTokenValue() {
         return token.getValue();
     }
 

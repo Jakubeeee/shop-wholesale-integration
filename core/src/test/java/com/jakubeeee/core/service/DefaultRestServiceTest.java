@@ -1,5 +1,6 @@
 package com.jakubeeee.core.service;
 
+import com.jakubeeee.core.service.impl.DefaultRestService;
 import com.jakubeeee.testutils.model.TestSubject;
 import com.jakubeeee.testutils.marker.SpringSliceTestCategory;
 import org.junit.BeforeClass;
@@ -26,8 +27,8 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 @Category(SpringSliceTestCategory.class)
 @RunWith(SpringRunner.class)
-@RestClientTest(RestService.class)
-public class RestServiceTest {
+@RestClientTest(DefaultRestService.class)
+public class DefaultRestServiceTest {
 
     private static String GET_STRING_RESPONSE;
     private static TestSubject GET_JSON_OBJECT_RESPONSE;

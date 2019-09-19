@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 
 import java.security.SecureRandom;
 
-import static javax.servlet.http.HttpServletResponse.*;
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 /**
  * Java spring configuration file related to security and user management.
