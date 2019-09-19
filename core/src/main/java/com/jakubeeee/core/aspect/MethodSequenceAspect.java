@@ -26,7 +26,7 @@ public final class MethodSequenceAspect {
         LOG.debug("Starting method : \"" + joinPoint.getSignature().getName() +
                 "\" in class: \"" + joinPoint.getSignature().getDeclaringTypeName() + "\"");
         for (var param : joinPoint.getArgs())
-            LOG.info("Parameter value in above method: " + nvl(param.toString(), param));
+            LOG.debug("Parameter value in above method: " + nvl(param.toString(), param));
         Object result = joinPoint.proceed();
         LOG.debug("Exiting method :\"" + joinPoint.getSignature().getName() +
                 "\" in class: \"" + joinPoint.getSignature().getDeclaringTypeName() + "\"" +
