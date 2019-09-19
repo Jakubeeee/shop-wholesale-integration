@@ -17,8 +17,8 @@ import static com.jakubeeee.common.util.LangUtils.nvl;
  */
 @Slf4j
 @Aspect
-@Component
 @ConditionalOnExpression("${enable.method.sequence.monitor:true}")
+@Component
 public final class MethodSequenceAspect {
 
     @Around("execution( * com.jakubeeee..*.*(..))")

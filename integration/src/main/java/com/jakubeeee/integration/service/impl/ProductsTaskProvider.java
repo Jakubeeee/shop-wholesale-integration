@@ -48,7 +48,6 @@ import static java.util.Collections.sort;
  * independent platforms.
  */
 @Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Service
 public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTask> implements Reloadable {
 

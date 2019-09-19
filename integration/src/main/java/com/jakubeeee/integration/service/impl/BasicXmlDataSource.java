@@ -16,7 +16,6 @@ import java.util.List;
  * Example xml with correct structure is published by /dummyProductsXml endpoint. Xsd schema file location:
  * schemas/basic_products_xml.xsd
  */
-@Service
 public abstract class BasicXmlDataSource extends XmlDataSource<BasicXmlProduct> {
 
     public BasicXmlDataSource(RestService restService) {

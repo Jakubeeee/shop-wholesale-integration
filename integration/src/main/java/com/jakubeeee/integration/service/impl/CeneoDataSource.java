@@ -17,7 +17,6 @@ import java.util.List;
  * Base for service beans used for extracting data from ceneo based xml rest web service.
  * Xsd schema file location: schemas/ceneo_products_xml.xsd
  */
-@Service
 public abstract class CeneoDataSource extends XmlDataSource<CeneoProduct> {
 
     public CeneoDataSource(RestService restService) {

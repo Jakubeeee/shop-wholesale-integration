@@ -12,12 +12,11 @@ import javax.annotation.PostConstruct;
 /**
  * Service bean used for operations related to data source authentication in base linker platform.
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Service
 public class BaseLinkerAuthService extends AbstractAuthService<BaseLinkerAuthToken> {
 
     @Value("${baseLinkerAuthTokenValue}")
-    String BASE_LINKER_TOKEN_VALUE;
+    private String BASE_LINKER_TOKEN_VALUE;
 
     @PostConstruct
     void initialize() {

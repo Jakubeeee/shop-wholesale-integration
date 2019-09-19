@@ -31,8 +31,8 @@ import static com.jakubeeee.core.util.EmailUtils.createMailMessage;
  * Default service bean used for operations related to resetting user password.
  */
 @RequiredArgsConstructor
-@Service
 @Transactional(readOnly = true)
+@Service
 public class DefaultPasswordResetService implements PasswordResetService {
 
     private final SecurityService securityService;
