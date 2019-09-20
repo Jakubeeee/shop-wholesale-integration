@@ -3,7 +3,7 @@ package com.jakubeeee.tasks.service;
 import com.jakubeeee.core.exception.DummyServiceException;
 import com.jakubeeee.tasks.exceptions.InvalidTaskStatusException;
 import com.jakubeeee.tasks.model.GenericTask;
-import com.jakubeeee.tasks.model.PastTaskExecution;
+import com.jakubeeee.tasks.model.PastTaskExecutionValue;
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashMap;
@@ -39,8 +39,7 @@ public abstract class AbstractGenericTaskProvider<T extends GenericTask> impleme
 
     @Override
     public void afterTask(T caller) {
-        var pastTaskExecution = new PastTaskExecution(caller.getId());
-        pastTaskExecution.setParams(new HashMap<>(executionParams));
+        var pastTaskExecution = new PastTaskExecutionValue(caller.getId(), new HashMap<>(executionParams));
         taskService.registerNewPastTaskExecution(pastTaskExecution);
         executionParams.clear();
         loggingService.removeUnnecessaryLogs();

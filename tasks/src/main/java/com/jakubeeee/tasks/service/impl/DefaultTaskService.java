@@ -5,8 +5,9 @@ import com.jakubeeee.tasks.annotations.InitialTaskValidator;
 import com.jakubeeee.tasks.enums.TaskStatus;
 import com.jakubeeee.tasks.exceptions.InvalidTaskDefinitionException;
 import com.jakubeeee.tasks.exceptions.InvalidTaskStatusException;
+import com.jakubeeee.tasks.factory.PastTaskExecutionFactory;
 import com.jakubeeee.tasks.model.GenericTask;
-import com.jakubeeee.tasks.model.PastTaskExecution;
+import com.jakubeeee.tasks.model.PastTaskExecutionValue;
 import com.jakubeeee.tasks.model.StatusTransition;
 import com.jakubeeee.tasks.publishers.TaskPublisher;
 import com.jakubeeee.tasks.repositories.PastTaskExecutionRepository;
@@ -43,6 +44,8 @@ public class DefaultTaskService implements TaskService {
 
     private static final int PAST_TASKS_EXECUTIONS_REMOVAL_HOURS_THRESHOLD = 72;
     private static final int PAST_TASKS_EXECUTIONS_PER_TASK_MAX_SIZE = 20;
+
+    private static PastTaskExecutionFactory pastTaskExecutionFactory = PastTaskExecutionFactory.getInstance();
 
     private static Set<StatusTransition> allowedStatusTransitions = new HashSet<>();
 
@@ -184,14 +187,14 @@ public class DefaultTaskService implements TaskService {
 
     @Synchronized
     @Override
-    public void registerNewPastTaskExecution(PastTaskExecution pastTaskExecution) {
-        pastTaskExecutionRepository.save(pastTaskExecution);
+    public void registerNewPastTaskExecution(PastTaskExecutionValue pastTaskExecution) {
+        pastTaskExecutionRepository.save(pastTaskExecutionFactory.createEntity(pastTaskExecution));
         taskPublisher.publishPastTaskExecutions(getPastTaskExecutions());
     }
 
     @Override
-    public List<PastTaskExecution> getPastTaskExecutions() {
-        return (List<PastTaskExecution>) pastTaskExecutionRepository.findAll();
+    public List<PastTaskExecutionValue> getPastTaskExecutions() {
+        return pastTaskExecutionFactory.createValues(pastTaskExecutionRepository.findAll());
     }
 
     @Synchronized
@@ -200,18 +203,19 @@ public class DefaultTaskService implements TaskService {
     @Override
     public void removeUnnecessaryPastTasksExecutions() {
         LocalDateTime timeHoursAgo = getCurrentDateTime().minusHours(PAST_TASKS_EXECUTIONS_REMOVAL_HOURS_THRESHOLD);
-        List<PastTaskExecution> allPastTasksExecutions = getPastTaskExecutions();
-        Predicate<PastTaskExecution> obsoletePredicate =
+        List<PastTaskExecutionValue> allPastTasksExecutions = getPastTaskExecutions();
+        Predicate<PastTaskExecutionValue> obsoletePredicate =
                 pastTaskExecution -> isTimeAfter(timeHoursAgo, pastTaskExecution.getExecutionFinishTime());
-        filterList(allPastTasksExecutions, obsoletePredicate).forEach(pastTaskExecutionRepository::delete);
+        pastTaskExecutionFactory.createEntities(
+                filterList(allPastTasksExecutions, obsoletePredicate)).forEach(pastTaskExecutionRepository::delete);
         for (var registeredTask : registeredTasks) {
-            List<PastTaskExecution> pastTasksExecutionsForSingleTask = filterList(
+            List<PastTaskExecutionValue> pastTasksExecutionsForSingleTask = filterList(
                     filterList(allPastTasksExecutions, obsoletePredicate.negate()),
                     pastTaskExecution -> pastTaskExecution.getTaskId() == registeredTask.getId());
             if (pastTasksExecutionsForSingleTask.size() > PAST_TASKS_EXECUTIONS_PER_TASK_MAX_SIZE) {
                 int excess = pastTasksExecutionsForSingleTask.size() - PAST_TASKS_EXECUTIONS_PER_TASK_MAX_SIZE;
-                List<PastTaskExecution> tempList = pastTasksExecutionsForSingleTask.subList(0, excess);
-                tempList.forEach(pastTaskExecutionRepository::delete);
+                List<PastTaskExecutionValue> tempList = pastTasksExecutionsForSingleTask.subList(0, excess);
+                pastTaskExecutionFactory.createEntities(tempList).forEach(pastTaskExecutionRepository::delete);
             }
         }
         taskPublisher.publishPastTaskExecutions(getPastTaskExecutions());

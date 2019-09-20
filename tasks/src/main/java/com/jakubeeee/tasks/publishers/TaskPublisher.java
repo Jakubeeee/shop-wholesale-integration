@@ -1,7 +1,7 @@
 package com.jakubeeee.tasks.publishers;
 
 import com.jakubeeee.tasks.model.LogMessage;
-import com.jakubeeee.tasks.model.PastTaskExecution;
+import com.jakubeeee.tasks.model.PastTaskExecutionValue;
 import com.jakubeeee.tasks.model.ProgressTracker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -47,7 +47,7 @@ public class TaskPublisher {
                 messagingTemplate.convertAndSend("/topic/tasksProgress", progressTrackersAsJson));
     }
 
-    public void publishPastTaskExecutions(List<PastTaskExecution> pastTaskExecutions) {
+    public void publishPastTaskExecutions(List<PastTaskExecutionValue> pastTaskExecutions) {
         Optional<String> pastTaskExecutionsAsJsonO = objectToJson(wrap(pastTaskExecutions, SWAP_STATE));
         pastTaskExecutionsAsJsonO.ifPresent(pastTaskExecutionsAsJson ->
                 messagingTemplate.convertAndSend("/topic/pastTasksExecutions", pastTaskExecutionsAsJson));

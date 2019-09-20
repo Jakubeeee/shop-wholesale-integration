@@ -5,7 +5,7 @@ import com.jakubeeee.tasks.enums.TaskStatus;
 import com.jakubeeee.tasks.exceptions.InvalidTaskDefinitionException;
 import com.jakubeeee.tasks.exceptions.InvalidTaskStatusException;
 import com.jakubeeee.tasks.model.GenericTask;
-import com.jakubeeee.tasks.model.PastTaskExecution;
+import com.jakubeeee.tasks.model.PastTaskExecutionValue;
 
 import java.util.List;
 import java.util.Map;
@@ -29,9 +29,9 @@ public interface TaskService {
 
     List<GenericTask> getRegisteredTasks();
 
-    void registerNewPastTaskExecution(PastTaskExecution pastTaskExecution);
+    void registerNewPastTaskExecution(PastTaskExecutionValue pastTaskExecution);
 
-    List<PastTaskExecution> getPastTaskExecutions();
+    List<PastTaskExecutionValue> getPastTaskExecutions();
 
     void removeUnnecessaryPastTasksExecutions();
 

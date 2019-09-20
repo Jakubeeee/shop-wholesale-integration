@@ -3,7 +3,7 @@ package com.jakubeeee.tasks.controllers;
 import com.jakubeeee.tasks.exceptions.NoTaskWithGivenIdException;
 import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.model.LogMessage;
-import com.jakubeeee.tasks.model.PastTaskExecution;
+import com.jakubeeee.tasks.model.PastTaskExecutionValue;
 import com.jakubeeee.tasks.model.ProgressTracker;
 import com.jakubeeee.tasks.publishers.TaskPublisher;
 import com.jakubeeee.tasks.service.LoggingService;
@@ -54,7 +54,7 @@ public class TaskController {
     }
 
     @GetMapping("pastTasksExecutions")
-    public List<PastTaskExecution> getPastTaskExecutions() {
+    public List<PastTaskExecutionValue> getPastTaskExecutions() {
         return taskService.getPastTaskExecutions();
     }
 

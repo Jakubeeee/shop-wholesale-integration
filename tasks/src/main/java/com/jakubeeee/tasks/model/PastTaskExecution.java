@@ -1,45 +1,35 @@
 package com.jakubeeee.tasks.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jakubeeee.common.converter.JsonObjectConverter;
-import com.jakubeeee.common.mixin.Parameterizable;
-import com.jakubeeee.common.serializer.LocalDateTimeSerializer;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.jakubeeee.common.entity.IdentifiableEntity;
+import lombok.*;
+import org.springframework.data.annotation.Immutable;
 
-import javax.persistence.*;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Map;
 
-import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
-
+/**
+ * Entity representing an execution of {@link GenericTask} that happened in the past and carrying useful information
+ * about it.
+ */
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = false)
+@ToString
 @NoArgsConstructor
+@Immutable
 @Entity
-@Table(name = "past_task_executions")
-public class PastTaskExecution implements Parameterizable {
-
-    @JsonIgnore
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+@Table(name = "PAST_TASK_EXECUTIONS")
+public class PastTaskExecution extends IdentifiableEntity {
 
     private long taskId;
-
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime executionFinishTime;
 
     @Convert(converter = JsonObjectConverter.class)
     private Map<String, Object> params;
 
-    public PastTaskExecution(long taskId) {
-        this.taskId = taskId;
-        this.params = new HashMap<>();
-        this.executionFinishTime = getCurrentDateTime();
-    }
+    private LocalDateTime executionFinishTime;
 
 }
