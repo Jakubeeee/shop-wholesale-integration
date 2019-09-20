@@ -12,9 +12,10 @@ module common {
     requires spring.core;
 
     exports com.jakubeeee.common.annotation;
-    exports com.jakubeeee.common.entity;
     exports com.jakubeeee.common.converter;
+    exports com.jakubeeee.common.entity;
     exports com.jakubeeee.common.exception;
+    exports com.jakubeeee.common.factory;
     exports com.jakubeeee.common.mixin;
     exports com.jakubeeee.common.model;
     exports com.jakubeeee.common.serializer;

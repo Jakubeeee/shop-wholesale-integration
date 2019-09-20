@@ -17,7 +17,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @MappedSuperclass
 @EqualsAndHashCode
 @ToString
-public abstract class IdentifiableEntity implements BasicEntity {
+public abstract class IdentifiableEntity implements JpaEntity {
 
     @Getter
     @Id
