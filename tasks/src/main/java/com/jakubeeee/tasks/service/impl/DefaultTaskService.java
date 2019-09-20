@@ -139,11 +139,11 @@ public class DefaultTaskService implements TaskService {
     }
 
     private boolean isTaskIdUnique(long taskId) {
-        return !getTask(taskId).isPresent();
+        return getTask(taskId).isEmpty();
     }
 
     private boolean isTaskCodeUnique(String taskCode) {
-        return !getTask(taskCode).isPresent();
+        return getTask(taskCode).isEmpty();
     }
 
     @Override

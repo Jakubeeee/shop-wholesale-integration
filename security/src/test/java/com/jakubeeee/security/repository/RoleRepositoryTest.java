@@ -163,7 +163,7 @@ public class RoleRepositoryTest {
     @Test
     public void findAllByTypeTest_nullType_shouldNotFind() {
         Optional<Role> resultO = repository.findByType(null);
-        assertThat(resultO.isPresent(), is(equalTo(false)));
+        assertThat(resultO.isEmpty(), is(equalTo(true)));
     }
 
     @Test

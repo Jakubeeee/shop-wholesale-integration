@@ -180,7 +180,7 @@ public class PasswordResetTokenRepositoryTest {
     @Test
     public void findAllByValueTest_nullValue_shouldNotFind() {
         Optional<PasswordResetToken> resultO = repository.findByValue(null);
-        assertThat(resultO.isPresent(), is(equalTo(false)));
+        assertThat(resultO.isEmpty(), is(equalTo(true)));
     }
 
     @Test

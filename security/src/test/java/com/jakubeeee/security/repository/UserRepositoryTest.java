@@ -188,7 +188,7 @@ public class UserRepositoryTest {
     @Test
     public void findAllByUsernameTest_nullUsername_shouldNotFind() {
         Optional<User> resultO = repository.findByUsername(null);
-        assertThat(resultO.isPresent(), is(equalTo(false)));
+        assertThat(resultO.isEmpty(), is(equalTo(true)));
     }
 
     @Test
@@ -202,7 +202,7 @@ public class UserRepositoryTest {
     @Test
     public void findAllByEmailTest_nullEmail_shouldNotFind() {
         Optional<User> resultO = repository.findByEmail(null);
-        assertThat(resultO.isPresent(), is(equalTo(false)));
+        assertThat(resultO.isEmpty(), is(equalTo(true)));
     }
 
     @Test
