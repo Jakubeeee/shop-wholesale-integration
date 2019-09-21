@@ -6,10 +6,7 @@ import com.jakubeeee.tasks.model.LogMessage;
 import com.jakubeeee.tasks.model.PastTaskExecutionValue;
 import com.jakubeeee.tasks.model.ProgressTracker;
 import com.jakubeeee.tasks.publishers.TaskPublisher;
-import com.jakubeeee.tasks.service.LoggingService;
-import com.jakubeeee.tasks.service.ProgressTrackingService;
-import com.jakubeeee.tasks.service.SchedulingService;
-import com.jakubeeee.tasks.service.TaskService;
+import com.jakubeeee.tasks.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,11 +20,15 @@ import java.util.Map;
 @RestController
 public class TaskController {
 
-    private final TaskService taskService;
+    private final TaskRegistryService taskRegistryService;
 
     private final LoggingService loggingService;
 
     private final ProgressTrackingService progressTrackingService;
+
+    private final NextScheduledExecutionService nextScheduledExecutionService;
+
+    private final PastTaskExecutionService pastTaskExecutionService;
 
     private final TaskPublisher taskPublisher;
 
@@ -35,7 +36,7 @@ public class TaskController {
 
     @GetMapping("tasks")
     public List<GenericTask> getTasks() {
-        return taskService.getRegisteredTasks();
+        return taskRegistryService.getRegisteredTasks();
     }
 
     @GetMapping("tasksLogs")
@@ -45,7 +46,7 @@ public class TaskController {
 
     @GetMapping("nextScheduledTasksExecutions")
     public Map<Long, String> getNextScheduledTasksExecutions() {
-        return taskService.getNextScheduledTasksExecutions();
+        return nextScheduledExecutionService.getNextScheduledTasksExecutions();
     }
 
     @GetMapping("tasksProgress")
@@ -55,7 +56,7 @@ public class TaskController {
 
     @GetMapping("pastTasksExecutions")
     public List<PastTaskExecutionValue> getPastTaskExecutions() {
-        return taskService.getPastTaskExecutions();
+        return pastTaskExecutionService.getPastTaskExecutions();
     }
 
     @PostMapping(path = "launchTaskManually", consumes = "text/plain")

@@ -16,13 +16,8 @@ import com.jakubeeee.integration.service.UpdatableDataSource;
 import com.jakubeeee.tasks.exceptions.InvalidTaskStatusException;
 import com.jakubeeee.tasks.exceptions.ProgressTrackerNotActiveException;
 import com.jakubeeee.tasks.model.LogParam;
-import com.jakubeeee.tasks.service.AbstractGenericTaskProvider;
-import com.jakubeeee.tasks.service.LoggingService;
-import com.jakubeeee.tasks.service.ProgressTrackingService;
-import com.jakubeeee.tasks.service.TaskService;
-import lombok.AccessLevel;
+import com.jakubeeee.tasks.service.*;
 import lombok.Synchronized;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -59,10 +54,11 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
 
     private DataSource dataSource;
 
-    public ProductsTaskProvider(TaskService taskService, ProgressTrackingService progressTrackingService,
-                                LoggingService loggingService,
+    public ProductsTaskProvider(TaskRegistryService taskRegistryService, LockingService lockingService,
+                                ProgressTrackingService progressTrackingService, LoggingService loggingService,
+                                PastTaskExecutionService pastTaskExecutionService,
                                 @Lazy ImplementationSwitcherService implementationSwitcher) {
-        super(taskService, progressTrackingService, loggingService);
+        super(taskRegistryService, lockingService, progressTrackingService, loggingService, pastTaskExecutionService);
         this.implementationSwitcher = implementationSwitcher;
     }
 

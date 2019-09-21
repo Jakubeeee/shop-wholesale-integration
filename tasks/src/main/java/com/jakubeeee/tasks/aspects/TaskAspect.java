@@ -1,9 +1,7 @@
 package com.jakubeeee.tasks.aspects;
 
 import com.jakubeeee.tasks.model.GenericTask;
-import com.jakubeeee.tasks.service.LoggingService;
-import com.jakubeeee.tasks.service.TaskProvider;
-import com.jakubeeee.tasks.service.TaskService;
+import com.jakubeeee.tasks.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -23,7 +21,13 @@ import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
 @Component
 public class TaskAspect {
 
-    private final TaskService taskService;
+    private final TaskRegistryService taskRegistryService;
+
+    private final NextScheduledExecutionService nextScheduledExecutionService;
+
+    private final StatusService statusService;
+
+    private final LockingService lockingService;
 
     private final LoggingService loggingService;
 
@@ -32,11 +36,11 @@ public class TaskAspect {
     public void aroundTaskExecution(ProceedingJoinPoint joinPoint) throws Throwable {
         var taskProvider = (TaskProvider) joinPoint.getThis();
         var caller = (GenericTask) joinPoint.getArgs()[0];
-        if (!taskService.isTaskProviderLocked(caller.getTaskProvider().getProviderName())) {
+        if (!lockingService.isTaskProviderLocked(caller.getTaskProvider().getProviderName())) {
             if (!caller.getTracker().isActive()) {
-                taskService.changeStatus(caller, LAUNCHED);
+                statusService.changeStatus(caller, LAUNCHED);
                 taskProvider.beforeTask(caller);
-                taskService.changeStatus(caller, PREPARED);
+                statusService.changeStatus(caller, PREPARED);
                 boolean isExecutedSuccessfully = false;
                 try {
                     joinPoint.proceed();
@@ -49,18 +53,18 @@ public class TaskAspect {
                     loggingService.error(caller.getId(), "UNKNOWNPROB");
                 } finally {
                     if (isExecutedSuccessfully) {
-                        taskService.changeStatus(caller, EXECUTED);
+                        statusService.changeStatus(caller, EXECUTED);
                         loggingService.info(caller.getId(), "TASKEXECSUCC",
                                 List.of(toLogParam(caller.getCode(), true),
                                         toLogParam(String.valueOf(caller.getId()))));
                     } else {
-                        taskService.changeStatus(caller, ABORTED);
+                        statusService.changeStatus(caller, ABORTED);
                         loggingService.info(caller.getId(), "TASKEXECABORT",
                                 List.of(toLogParam(caller.getCode(), true),
                                         toLogParam(String.valueOf(caller.getId()))));
                     }
                     taskProvider.afterTask(caller);
-                    taskService.changeStatus(caller, WAITING);
+                    statusService.changeStatus(caller, WAITING);
                 }
             } else {
                 loggingService.warn(caller.getId(), "TASKALRLAUNCH",
@@ -72,7 +76,7 @@ public class TaskAspect {
                     List.of(toLogParam(caller.getCode(), true), toLogParam(String.valueOf(caller.getId()))));
             LOG.warn("Tried to launch " + caller.getCode() + " but another task already locked it's provider");
         }
-        taskService.updateNextScheduledTaskExecution(caller.getId());
+        nextScheduledExecutionService.updateNextScheduledTaskExecution(caller.getId());
     }
 
 }

@@ -13,9 +13,10 @@ import static com.jakubeeee.common.util.ThreadUtils.sleep;
 @Service
 public class DefaultDummyTaskProvider extends AbstractGenericTaskProvider<GenericTask> implements DummyTaskProvider<GenericTask> {
 
-    public DefaultDummyTaskProvider(TaskService taskService, ProgressTrackingService progressTrackingService,
-                                    LoggingService loggingService) {
-        super(taskService, progressTrackingService, loggingService);
+    public DefaultDummyTaskProvider(TaskRegistryService taskRegistryService, LockingService lockingService,
+                                    ProgressTrackingService progressTrackingService, LoggingService loggingService,
+                                    PastTaskExecutionService pastTaskExecutionService) {
+        super(taskRegistryService, lockingService, progressTrackingService, loggingService, pastTaskExecutionService);
     }
 
     @Override

@@ -19,17 +19,21 @@ import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
 @RequiredArgsConstructor
 public abstract class AbstractGenericTaskProvider<T extends GenericTask> implements TaskProvider<T> {
 
-    protected final TaskService taskService;
+    protected final TaskRegistryService taskRegistryService;
+
+    protected final LockingService lockingService;
 
     protected final ProgressTrackingService progressTrackingService;
 
     protected final LoggingService loggingService;
 
+    protected final PastTaskExecutionService pastTaskExecutionService;
+
     protected Map<String, Object> executionParams = new HashMap<>();
 
     @Override
     public void beforeTask(T caller) throws DummyServiceException, InvalidTaskStatusException {
-        taskService.lockTaskProvider(getProviderName());
+        lockingService.lockTaskProvider(getProviderName());
         caller.getLastTaskExecutionInfo().setLastStartedExecutionTime(getCurrentDateTime());
         progressTrackingService.startTrackingProgress(caller);
         loggingService.startPublishingLogs();
@@ -40,12 +44,12 @@ public abstract class AbstractGenericTaskProvider<T extends GenericTask> impleme
     @Override
     public void afterTask(T caller) {
         var pastTaskExecution = new PastTaskExecutionValue(caller.getId(), new HashMap<>(executionParams));
-        taskService.registerNewPastTaskExecution(pastTaskExecution);
+        pastTaskExecutionService.registerNewPastTaskExecution(pastTaskExecution);
         executionParams.clear();
         loggingService.removeUnnecessaryLogs();
         progressTrackingService.resetProgress(caller);
         caller.getLastTaskExecutionInfo().setLastFinishedExecutionTime(getCurrentDateTime());
-        taskService.unlockTaskProvider(getProviderName());
+        lockingService.unlockTaskProvider(getProviderName());
     }
 
 }

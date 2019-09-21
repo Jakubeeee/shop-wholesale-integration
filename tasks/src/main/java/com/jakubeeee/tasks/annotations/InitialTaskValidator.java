@@ -1,6 +1,6 @@
 package com.jakubeeee.tasks.annotations;
 
-import com.jakubeeee.tasks.service.TaskService;
+import com.jakubeeee.tasks.service.ValidationService;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -13,7 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Annotation used on definitions of task validation functions that allows to call them when registering a new task.
  *
  * @see com.jakubeeee.tasks.validators.TaskValidator
- * @see TaskService#validateUsingSpecificTaskValidators
+ * @see ValidationService#validateUsingSpecificTaskValidators
  */
 @Target(FIELD)
 @Retention(RUNTIME)
