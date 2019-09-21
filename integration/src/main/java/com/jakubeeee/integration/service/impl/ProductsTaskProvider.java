@@ -114,17 +114,17 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
                 List.of(toLogParam(updatableDataSource.getServiceName()), toLogParam(dataSource.getServiceName())));
         ProductMatchingResult result = matchProducts(commonUpdatableDataSourceProducts, commonDataSourceProducts,
                 caller.getMappingKey());
-        executionParams.put("PRODUCTS_MATCHED", List.of(result.getMatchedProductsRegistry().size()));
+        addExecutionParam("PRODUCTS_MATCHED", String.valueOf(result.getMatchedProductsRegistry().size()));
         result.getUnmatchedUpdatableDataSourceProducts().forEach(product ->
                 loggingService.warn(caller.getId(), "PRODNOTINDS", List.of(toLogParam(product.getMappingKeyValue()),
                         toLogParam(updatableDataSource.getServiceName()), toLogParam(dataSource.getServiceName()))));
-        executionParams.put("NOT_MATCHED_UPDS_PRODUCTS_AMOUNT", List.of(updatableDataSource.getServiceName(),
-                result.getUnmatchedUpdatableDataSourceProducts().size()));
+        addExecutionParam("NOT_MATCHED_UPDS_PRODUCTS_AMOUNT", updatableDataSource.getServiceName(),
+                String.valueOf(result.getUnmatchedUpdatableDataSourceProducts().size()));
         result.getUnmatchedDataSourceProducts().forEach(product ->
                 loggingService.warn(caller.getId(), "PRODNOTINDS", List.of(toLogParam(product.getMappingKeyValue()),
                         toLogParam(dataSource.getServiceName()), toLogParam(updatableDataSource.getServiceName()))));
-        executionParams.put("NOT_MATCHED_DS_PRODUCTS_AMOUNT", List.of(dataSource.getServiceName(),
-                result.getUnmatchedDataSourceProducts().size()));
+        addExecutionParam("NOT_MATCHED_DS_PRODUCTS_AMOUNT", dataSource.getServiceName(),
+                String.valueOf(result.getUnmatchedDataSourceProducts().size()));
         progressTrackingService.setMaxProgress(caller, result.getMatchedProductsRegistry().size());
         result.getMatchedProductsRegistry().forEach(rethrow().wrap(registryElement -> {
             CommonProduct oldProduct = registryElement.getOldObject();
@@ -156,7 +156,8 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
                         toLogParam(dataSource.getServiceName())));
         String executionParamCode = dataSource instanceof UpdatableDataSource ? "UPDS_PRODUCT_AMOUNT" :
                 "DS_PRODUCT_AMOUNT";
-        executionParams.put(executionParamCode, List.of(dataSource.getServiceName(), commonDataSourceProducts.size()));
+        addExecutionParam(executionParamCode, dataSource.getServiceName(),
+                String.valueOf(commonDataSourceProducts.size()));
         return commonDataSourceProducts;
     }
 
