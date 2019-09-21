@@ -4,7 +4,7 @@ import com.jakubeeee.core.service.TimerService;
 import com.jakubeeee.tasks.exceptions.NoTaskWithGivenIdException;
 import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.service.SchedulingService;
-import com.jakubeeee.tasks.service.TaskRegistryService;
+import com.jakubeeee.tasks.service.TaskStoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +18,13 @@ import static com.jakubeeee.common.util.DateTimeUtils.millisUnitNextFullMinute;
 @Service
 public class DefaultSchedulingService implements SchedulingService {
 
-    private final TaskRegistryService taskRegistryService;
+    private final TaskStoreService taskStoreService;
 
     private final TimerService timerService;
 
     @Override
     public void launchTaskImmediately(long taskId) throws NoTaskWithGivenIdException {
-        GenericTask task = taskRegistryService.getTask(taskId).orElseThrow(
+        GenericTask task = taskStoreService.getTask(taskId).orElseThrow(
                 () -> new NoTaskWithGivenIdException("There is no registered task with id: " + taskId));
         task.getTaskFunction().run();
     }

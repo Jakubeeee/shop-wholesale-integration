@@ -3,7 +3,7 @@ package com.jakubeeee.tasks.service.impl;
 import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.publishers.TaskPublisher;
 import com.jakubeeee.tasks.service.NextScheduledExecutionService;
-import com.jakubeeee.tasks.service.TaskRegistryService;
+import com.jakubeeee.tasks.service.TaskStoreService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class DefaultNextScheduledExecutionService implements NextScheduledExecut
 
     private final TaskPublisher taskPublisher;
 
-    private final TaskRegistryService taskRegistryService;
+    private final TaskStoreService taskStoreService;
 
     @Getter
     private Map<Long, String> nextScheduledTasksExecutions = new HashMap<>();
@@ -39,7 +39,7 @@ public class DefaultNextScheduledExecutionService implements NextScheduledExecut
 
     @Override
     public String calculateFirstScheduledTaskExecution(Long taskId) {
-        Optional<GenericTask> taskO = taskRegistryService.getTask(taskId);
+        Optional<GenericTask> taskO = taskStoreService.getTask(taskId);
         return taskO.map(task -> {
             if (!task.isScheduledable())
                 return "TASKNOSCHED";
@@ -49,7 +49,7 @@ public class DefaultNextScheduledExecutionService implements NextScheduledExecut
     }
 
     private String calculateNextScheduledTaskExecution(Long taskId) {
-        Optional<GenericTask> taskO = taskRegistryService.getTask(taskId);
+        Optional<GenericTask> taskO = taskStoreService.getTask(taskId);
         return taskO.map(task -> {
             Optional<LocalDateTime> previousExecutionTimeO =
                     task.getLastTaskExecutionInfo().getLastScheduledStartedExecutionTime();

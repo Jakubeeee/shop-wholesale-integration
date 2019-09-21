@@ -5,7 +5,7 @@ import com.jakubeeee.tasks.model.PastTaskExecutionValue;
 import com.jakubeeee.tasks.publishers.TaskPublisher;
 import com.jakubeeee.tasks.repositories.PastTaskExecutionRepository;
 import com.jakubeeee.tasks.service.PastTaskExecutionService;
-import com.jakubeeee.tasks.service.TaskRegistryService;
+import com.jakubeeee.tasks.service.TaskStoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -32,7 +32,7 @@ public class DefaultPastTaskExecutionService implements PastTaskExecutionService
 
     private static PastTaskExecutionFactory pastTaskExecutionFactory = PastTaskExecutionFactory.getInstance();
 
-    private final TaskRegistryService taskRegistryService;
+    private final TaskStoreService taskStoreService;
 
     private final TaskPublisher taskPublisher;
 
@@ -61,10 +61,10 @@ public class DefaultPastTaskExecutionService implements PastTaskExecutionService
                 pastTaskExecution -> isTimeAfter(timeHoursAgo, pastTaskExecution.getExecutionFinishTime());
         pastTaskExecutionFactory.createEntities(
                 filterList(allPastTasksExecutions, obsoletePredicate)).forEach(pastTaskExecutionRepository::delete);
-        for (var registeredTask : taskRegistryService.getRegisteredTasks()) {
+        for (var storedTask : taskStoreService.getStoredTasks()) {
             List<PastTaskExecutionValue> pastTasksExecutionsForSingleTask = filterList(
                     filterList(allPastTasksExecutions, obsoletePredicate.negate()),
-                    pastTaskExecution -> pastTaskExecution.getTaskId() == registeredTask.getId());
+                    pastTaskExecution -> pastTaskExecution.getTaskId() == storedTask.getId());
             if (pastTasksExecutionsForSingleTask.size() > PAST_TASKS_EXECUTIONS_PER_TASK_MAX_SIZE) {
                 int excess = pastTasksExecutionsForSingleTask.size() - PAST_TASKS_EXECUTIONS_PER_TASK_MAX_SIZE;
                 List<PastTaskExecutionValue> tempList = pastTasksExecutionsForSingleTask.subList(0, excess);

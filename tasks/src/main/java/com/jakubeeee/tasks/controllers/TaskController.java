@@ -20,7 +20,7 @@ import java.util.Map;
 @RestController
 public class TaskController {
 
-    private final TaskRegistryService taskRegistryService;
+    private final TaskStoreService taskStoreService;
 
     private final LoggingService loggingService;
 
@@ -36,7 +36,7 @@ public class TaskController {
 
     @GetMapping("tasks")
     public List<GenericTask> getTasks() {
-        return taskRegistryService.getRegisteredTasks();
+        return taskStoreService.getStoredTasks();
     }
 
     @GetMapping("tasksLogs")

@@ -3,25 +3,20 @@ package com.jakubeeee.tasks.service.impl;
 import com.jakubeeee.common.exception.UnexpectedClassStructureException;
 import com.jakubeeee.tasks.exceptions.InvalidTaskDefinitionException;
 import com.jakubeeee.tasks.model.GenericTask;
-import com.jakubeeee.tasks.service.NextScheduledExecutionService;
-import com.jakubeeee.tasks.service.ProgressTrackingService;
-import com.jakubeeee.tasks.service.TaskRegistryService;
-import com.jakubeeee.tasks.service.ValidationService;
-import lombok.Getter;
+import com.jakubeeee.tasks.service.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Default service bean used for operations related to task registration and retrieval.
  */
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class DefaultTaskRegistryService implements TaskRegistryService {
+
+    private final TaskStoreService taskStoreService;
 
     private final ValidationService validationService;
 
@@ -29,24 +24,13 @@ public class DefaultTaskRegistryService implements TaskRegistryService {
 
     private final NextScheduledExecutionService nextScheduledExecutionService;
 
-    @Getter
-    private List<GenericTask> registeredTasks = new ArrayList<>();
-
-    public DefaultTaskRegistryService(@Lazy ValidationService validationService,
-                                      ProgressTrackingService progressTrackingService,
-                                      @Lazy NextScheduledExecutionService nextScheduledExecutionService) {
-        this.validationService = validationService;
-        this.progressTrackingService = progressTrackingService;
-        this.nextScheduledExecutionService = nextScheduledExecutionService;
-    }
-
     @Override
     public void registerTask(GenericTask task) {
         String exceptionMessageFirstPart = "Couldn't register a new task: \"" + task.getCode() + "\". ";
         String exceptionMessageSecondPart = "Detailed exception message: ";
         try {
             validateTaskDefinitionCorrectness(task);
-            registeredTasks.add(task);
+            taskStoreService.getStoredTasks().add(task);
             progressTrackingService.registerTracker(task.getId(), task.getTracker());
             nextScheduledExecutionService.getNextScheduledTasksExecutions().put(task.getId(),
                     nextScheduledExecutionService.calculateFirstScheduledTaskExecution(task.getId()));
@@ -70,36 +54,6 @@ public class DefaultTaskRegistryService implements TaskRegistryService {
             throws InvalidTaskDefinitionException, UnexpectedClassStructureException, IllegalAccessException {
         validationService.validateUsingGenericTaskValidator(task);
         validationService.validateUsingSpecificTaskValidators(task);
-    }
-
-    @Override
-    public boolean isTaskIdUnique(long taskId) {
-        return getTask(taskId).isEmpty();
-    }
-
-    @Override
-    public boolean isTaskCodeUnique(String taskCode) {
-        return getTask(taskCode).isEmpty();
-    }
-
-    @Override
-    public Optional<GenericTask> getTask(long taskId) {
-        GenericTask foundTask = null;
-        for (var taskInLoop : registeredTasks) {
-            if (taskInLoop.getId() == taskId)
-                foundTask = taskInLoop;
-        }
-        return Optional.ofNullable(foundTask);
-    }
-
-    @Override
-    public Optional<GenericTask> getTask(String taskCode) {
-        GenericTask foundTask = null;
-        for (var taskInLoop : registeredTasks) {
-            if (taskInLoop.getCode().equals(taskCode))
-                foundTask = taskInLoop;
-        }
-        return Optional.ofNullable(foundTask);
     }
 
 }

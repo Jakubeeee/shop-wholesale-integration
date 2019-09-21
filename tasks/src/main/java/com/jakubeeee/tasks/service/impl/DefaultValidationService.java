@@ -4,7 +4,7 @@ import com.jakubeeee.common.exception.UnexpectedClassStructureException;
 import com.jakubeeee.tasks.annotations.InitialTaskValidator;
 import com.jakubeeee.tasks.exceptions.InvalidTaskDefinitionException;
 import com.jakubeeee.tasks.model.GenericTask;
-import com.jakubeeee.tasks.service.TaskRegistryService;
+import com.jakubeeee.tasks.service.TaskStoreService;
 import com.jakubeeee.tasks.service.ValidationService;
 import com.jakubeeee.tasks.validators.TaskValidator;
 import lombok.RequiredArgsConstructor;
@@ -24,17 +24,17 @@ import static org.apache.commons.lang3.reflect.FieldUtils.getFieldsListWithAnnot
 @Service
 public class DefaultValidationService implements ValidationService {
 
-    private final TaskRegistryService taskRegistryService;
+    private final TaskStoreService taskStoreService;
 
     @Override
     public void validateUsingGenericTaskValidator(GenericTask task) throws InvalidTaskDefinitionException {
         if (task.getId() <= 0)
             throw new InvalidTaskDefinitionException("Task id must be a positive number");
-        if (!taskRegistryService.isTaskIdUnique(task.getId()))
+        if (!taskStoreService.isTaskIdUnique(task.getId()))
             throw new InvalidTaskDefinitionException("Another task is already registered with given id: " + task.getId());
         if (isNull(task.getCode()))
             throw new InvalidTaskDefinitionException("Task code must not be null");
-        if (!taskRegistryService.isTaskCodeUnique(task.getCode()))
+        if (!taskStoreService.isTaskCodeUnique(task.getCode()))
             throw new InvalidTaskDefinitionException("Another task is already registered with given code: " + task.getCode());
         if (isNull(task.getMode()))
             throw new InvalidTaskDefinitionException("Task mode must not be null");
