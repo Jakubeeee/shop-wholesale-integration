@@ -16,14 +16,14 @@ public class JsonObjectConverter implements AttributeConverter<Object, String> {
     @Override
     public String convertToDatabaseColumn(Object object) {
         Optional<String> objectAsJsonO = objectToJson(object);
-        return objectAsJsonO.orElseThrow(() -> new ConversionError("Cannot convert " +
+        return objectAsJsonO.orElseThrow(() -> new ConversionException("Cannot convert " +
                 object + " to database column using: " + this.getClass().getName()));
     }
 
     @Override
     public Object convertToEntityAttribute(String json) {
         Optional<Object> jsonAsObjectO = jsonToObject(json);
-        return jsonAsObjectO.orElseThrow(() -> new ConversionError("Cannot convert " +
+        return jsonAsObjectO.orElseThrow(() -> new ConversionException("Cannot convert " +
                 json + " to entity attribute using: " + this.getClass().getName()));
     }
 

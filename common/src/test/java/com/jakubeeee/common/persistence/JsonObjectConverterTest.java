@@ -37,8 +37,8 @@ public class JsonObjectConverterTest {
         assertThat(result, is(equalTo(expectedResult)));
     }
 
-    @Test(expected = ConversionError.class)
-    public void convertToEntityAttributeTest_shouldThrowError() {
+    @Test(expected = ConversionException.class)
+    public void convertToEntityAttributeTest_shouldThrowException() {
         String malformedTestJson = TEST_JSON.replace("}", "{");
         CONVERTER.convertToEntityAttribute(malformedTestJson);
     }
