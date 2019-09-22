@@ -1,4 +1,4 @@
-import com.jakubeeee.testcore.container.CustomPostgreSQL12Container
+import com.jakubeeee.testcore.CustomPostgreSQL12Container
 import groovy.transform.Field
 import org.springframework.util.DefaultPropertiesPersister
 import org.testcontainers.containers.JdbcDatabaseContainer

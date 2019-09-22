@@ -1,4 +1,4 @@
-package com.jakubeeee.testcore.container;
+package com.jakubeeee.testcore;
 
 import org.testcontainers.containers.PostgreSQLContainer;
 

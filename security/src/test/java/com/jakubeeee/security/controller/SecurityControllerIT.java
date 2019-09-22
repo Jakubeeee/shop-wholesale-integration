@@ -6,7 +6,7 @@ import com.jakubeeee.security.entity.PasswordResetToken;
 import com.jakubeeee.security.entity.User;
 import com.jakubeeee.security.service.PasswordResetService;
 import com.jakubeeee.security.service.SecurityService;
-import com.jakubeeee.testcore.test.AbstractIntegrationTest;
+import com.jakubeeee.testcore.AbstractIntegrationTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

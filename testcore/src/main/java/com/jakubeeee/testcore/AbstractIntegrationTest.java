@@ -1,10 +1,9 @@
-package com.jakubeeee.testcore.test;
+package com.jakubeeee.testcore;
 
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
 import com.icegreen.greenmail.junit.GreenMailRule;
 import com.icegreen.greenmail.util.ServerSetupTest;
 import com.jakubeeee.Application;
-import com.jakubeeee.testcore.container.CustomPostgreSQL12Container;
 import com.jakubeeee.testutils.marker.IntegrationTestCategory;
 import org.junit.Rule;
 import org.junit.experimental.categories.Category;

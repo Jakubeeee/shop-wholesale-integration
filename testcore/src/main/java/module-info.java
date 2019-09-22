@@ -17,6 +17,5 @@ module testcore {
     requires static spring.boot.test;
     requires static spring.test.dbunit;
 
-    exports com.jakubeeee.testcore.container;
-    exports com.jakubeeee.testcore.test;
+    exports com.jakubeeee.testcore;
 }
