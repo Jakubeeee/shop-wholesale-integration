@@ -11,6 +11,6 @@ public interface NextScheduledExecutionService {
 
     void updateNextScheduledTaskExecution(Long taskId);
 
-    public String calculateFirstScheduledTaskExecution(Long taskId);
+    String calculateFirstScheduledTaskExecution(Long taskId);
 
 }

@@ -14,6 +14,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import static java.util.Arrays.asList;
@@ -42,10 +43,10 @@ public class RestConfig {
         if (REQUEST_LOGGER_INTERCEPTOR_ENABLED) interceptors.add(requestLoggingInterceptor);
         restTemplate.setInterceptors(interceptors);
         var jacksonConverter = new MappingJackson2HttpMessageConverter();
-        jacksonConverter.setDefaultCharset(Charset.forName("UTF-8"));
+        jacksonConverter.setDefaultCharset(StandardCharsets.UTF_8);
         jacksonConverter.setSupportedMediaTypes(asList(MediaType.APPLICATION_JSON, MediaType.TEXT_HTML));
         restTemplate.getMessageConverters().add(0, jacksonConverter);
-        var stringConverter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
+        var stringConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
         stringConverter.setSupportedMediaTypes(asList(MediaType.APPLICATION_XML, new MediaType("application", "force-download")));
         restTemplate.getMessageConverters().add(0, stringConverter);
         var builder = new RestTemplateBuilder();

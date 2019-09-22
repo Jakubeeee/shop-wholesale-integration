@@ -41,7 +41,7 @@ public final class DateTimeUtils {
     }
 
     public static long minutesToMillis(int minutes) {
-        return (long) (minutes * 60000);
+        return minutes * 60000;
     }
 
     public static int millisToMinutes(long millis) {

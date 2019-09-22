@@ -153,7 +153,7 @@
           };
       },
       goToFilteredLogsPage(taskId) {
-        this.$store.dispatch('updateLogsPageFilterData', {'filteredTaskId': taskId})
+        this.$store.dispatch('updateLogsPageFilterData', {'filteredTaskId': taskId});
         this.$router.push('/logs');
       }
     },
