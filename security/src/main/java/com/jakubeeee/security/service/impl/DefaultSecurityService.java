@@ -1,6 +1,6 @@
 package com.jakubeeee.security.service.impl;
 
-import com.jakubeeee.common.exception.DatabaseResultEmptyException;
+import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
 import com.jakubeeee.security.entity.Role;
 import com.jakubeeee.security.entity.User;
 import com.jakubeeee.security.exception.EmailNotUniqueException;

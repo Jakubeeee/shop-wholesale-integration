@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.jakubeeee.common.util.StringUtils.removeLastChar;
+import static com.jakubeeee.common.StringUtils.removeLastChar;
 import static com.jakubeeee.integration.enums.DataSourceType.SHOP_PLATFORM;
 import static com.jakubeeee.integration.enums.ProductMappingKey.NAME;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty;

@@ -5,7 +5,7 @@ import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.service.*;
 import org.springframework.stereotype.Service;
 
-import static com.jakubeeee.common.util.ThreadUtils.sleep;
+import static com.jakubeeee.common.ThreadUtils.sleep;
 
 /**
  * Dummy service bean used as an imitation of a real task provider.

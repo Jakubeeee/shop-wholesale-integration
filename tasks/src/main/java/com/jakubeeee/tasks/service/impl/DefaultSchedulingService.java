@@ -8,8 +8,8 @@ import com.jakubeeee.tasks.service.TaskStoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
-import static com.jakubeeee.common.util.DateTimeUtils.millisUnitNextFullMinute;
+import static com.jakubeeee.common.DateTimeUtils.getCurrentDateTime;
+import static com.jakubeeee.common.DateTimeUtils.millisUnitNextFullMinute;
 
 /**
  * Default service bean used for operations related to task scheduling.

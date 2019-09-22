@@ -13,7 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import static com.jakubeeee.common.util.DateTimeUtils.*;
+import static com.jakubeeee.common.DateTimeUtils.*;
 import static com.jakubeeee.core.util.RestUtils.generateHeaderWithUsernameAndPassword;
 import static java.util.Objects.requireNonNull;
 

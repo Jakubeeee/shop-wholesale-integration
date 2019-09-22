@@ -1,8 +1,8 @@
 package com.jakubeeee.tasks.model;
 
-import com.jakubeeee.common.converter.JsonObjectConverter;
-import com.jakubeeee.common.entity.IdentifiableEntity;
-import com.jakubeeee.common.model.MultiValueParameter;
+import com.jakubeeee.common.persistence.JsonObjectConverter;
+import com.jakubeeee.common.persistence.IdentifiableEntity;
+import com.jakubeeee.common.persistence.MultiValueParameter;
 import lombok.*;
 import org.springframework.data.annotation.Immutable;
 

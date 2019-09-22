@@ -5,7 +5,7 @@ import com.jakubeeee.integration.model.ExternalProduct;
 import lombok.RequiredArgsConstructor;
 import org.dom4j.Document;
 
-import static com.jakubeeee.common.util.XmlUtils.stringToXml;
+import static com.jakubeeee.common.XmlUtils.stringToXml;
 
 /**
  * Base for service beans used for extracting data from simple xml rest web service.

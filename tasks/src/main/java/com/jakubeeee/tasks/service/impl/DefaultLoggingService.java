@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
 
-import static com.jakubeeee.common.util.CollectionUtils.extractList;
-import static com.jakubeeee.common.util.CollectionUtils.filterList;
-import static com.jakubeeee.common.util.DateTimeUtils.*;
-import static com.jakubeeee.common.util.LangUtils.nvl;
+import static com.jakubeeee.common.CollectionUtils.extractList;
+import static com.jakubeeee.common.CollectionUtils.filterList;
+import static com.jakubeeee.common.DateTimeUtils.*;
+import static com.jakubeeee.common.LangUtils.nvl;
 import static com.jakubeeee.tasks.model.LogMessage.Type.*;
 
 /**

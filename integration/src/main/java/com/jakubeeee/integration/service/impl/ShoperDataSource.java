@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.*;
 
-import static com.jakubeeee.common.util.ThreadUtils.sleep;
+import static com.jakubeeee.common.ThreadUtils.sleep;
 import static com.jakubeeee.core.util.RestUtils.generateHeaderWithAuthToken;
 import static com.jakubeeee.integration.enums.DataSourceType.SHOP_PLATFORM;
 import static com.jakubeeee.integration.enums.ProductMappingKey.CODE;

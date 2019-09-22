@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.service.impl;
 
-import com.jakubeeee.common.model.ChangeRegistry;
+import com.jakubeeee.common.ChangeRegistry;
 import com.jakubeeee.core.exception.DummyServiceException;
 import com.jakubeeee.core.mixin.Reloadable;
 import com.jakubeeee.core.mixin.Switchable;
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.diffplug.common.base.Errors.rethrow;
-import static com.jakubeeee.common.util.CollectionUtils.*;
+import static com.jakubeeee.common.CollectionUtils.*;
 import static com.jakubeeee.integration.enums.ProductMappingKey.CODE;
 import static com.jakubeeee.integration.enums.ProductMappingKey.NAME;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty;

@@ -1,6 +1,6 @@
 package com.jakubeeee.tasks.factory;
 
-import com.jakubeeee.common.factory.AbstractEntityFactory;
+import com.jakubeeee.common.persistence.AbstractEntityFactory;
 import com.jakubeeee.tasks.model.PastTaskExecution;
 import com.jakubeeee.tasks.model.PastTaskExecutionValue;
 import lombok.NoArgsConstructor;

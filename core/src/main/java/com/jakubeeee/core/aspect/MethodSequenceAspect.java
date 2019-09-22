@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
-import static com.jakubeeee.common.util.LangUtils.nvl;
+import static com.jakubeeee.common.LangUtils.nvl;
 
 /**
  * If activated, this aspect registers every entry and exit from every method in spring beans,

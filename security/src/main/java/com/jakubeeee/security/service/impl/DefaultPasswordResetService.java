@@ -1,6 +1,6 @@
 package com.jakubeeee.security.service.impl;
 
-import com.jakubeeee.common.exception.DatabaseResultEmptyException;
+import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
 import com.jakubeeee.core.service.EmailService;
 import com.jakubeeee.core.service.MessageService;
 import com.jakubeeee.security.entity.PasswordResetToken;
@@ -23,8 +23,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
-import static com.jakubeeee.common.util.DateTimeUtils.isTimeAfter;
+import static com.jakubeeee.common.DateTimeUtils.getCurrentDateTime;
+import static com.jakubeeee.common.DateTimeUtils.isTimeAfter;
 import static com.jakubeeee.core.util.EmailUtils.createMailMessage;
 
 /**

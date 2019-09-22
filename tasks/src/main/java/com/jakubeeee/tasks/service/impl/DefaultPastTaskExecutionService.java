@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static com.jakubeeee.common.util.CollectionUtils.filterList;
-import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
-import static com.jakubeeee.common.util.DateTimeUtils.isTimeAfter;
+import static com.jakubeeee.common.CollectionUtils.filterList;
+import static com.jakubeeee.common.DateTimeUtils.getCurrentDateTime;
+import static com.jakubeeee.common.DateTimeUtils.isTimeAfter;
 
 /**
  * Default service bean used for operations related to archivization of past task executions.

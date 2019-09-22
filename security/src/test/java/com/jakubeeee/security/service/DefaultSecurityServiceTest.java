@@ -1,6 +1,6 @@
 package com.jakubeeee.security.service;
 
-import com.jakubeeee.common.exception.DatabaseResultEmptyException;
+import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
 import com.jakubeeee.security.entity.Role;
 import com.jakubeeee.security.entity.User;
 import com.jakubeeee.security.exception.EmailNotUniqueException;
@@ -23,7 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.jakubeeee.common.util.ReflectUtils.getFieldValue;
+import static com.jakubeeee.common.reflection.ReflectUtils.getFieldValue;
 import static com.jakubeeee.security.entity.Role.Type.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;

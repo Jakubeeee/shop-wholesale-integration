@@ -1,15 +1,15 @@
 package com.jakubeeee.tasks.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.jakubeeee.common.model.ImmutableValue;
-import com.jakubeeee.common.model.MultiValueParameter;
-import com.jakubeeee.common.serializer.LocalDateTimeSerializer;
+import com.jakubeeee.common.persistence.ImmutableValue;
+import com.jakubeeee.common.persistence.MultiValueParameter;
+import com.jakubeeee.common.serialization.LocalDateTimeSerializer;
 import lombok.Value;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
+import static com.jakubeeee.common.DateTimeUtils.getCurrentDateTime;
 
 /**
  * Immutable value object for {@link PastTaskExecution} data transfer.

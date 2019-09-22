@@ -5,7 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static com.jakubeeee.common.util.StringUtils.removeLastChar;
+import static com.jakubeeee.common.StringUtils.removeLastChar;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**

@@ -4,7 +4,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
+import static com.jakubeeee.common.DateTimeUtils.getCurrentDateTime;
 
 @Data
 public abstract class AbstractAuthToken {

@@ -6,8 +6,8 @@ import org.dom4j.Element;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.jakubeeee.common.util.DateTimeUtils.formatDateTime;
-import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
+import static com.jakubeeee.common.DateTimeUtils.formatDateTime;
+import static com.jakubeeee.common.DateTimeUtils.getCurrentDateTime;
 import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 
 @RestController

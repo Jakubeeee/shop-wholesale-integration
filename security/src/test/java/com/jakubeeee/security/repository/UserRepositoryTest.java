@@ -20,8 +20,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static com.jakubeeee.common.util.CollectionUtils.sortedMapOf;
-import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
+import static com.jakubeeee.common.CollectionUtils.sortedMapOf;
+import static com.jakubeeee.common.DateTimeUtils.getCurrentDateTime;
 import static com.jakubeeee.testutils.util.TestEntityManagerUtils.*;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;

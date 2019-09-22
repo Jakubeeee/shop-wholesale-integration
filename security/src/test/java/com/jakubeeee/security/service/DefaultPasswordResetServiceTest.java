@@ -1,7 +1,7 @@
 package com.jakubeeee.security.service;
 
-import com.jakubeeee.common.exception.DatabaseResultEmptyException;
-import com.jakubeeee.common.util.DateTimeUtils;
+import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
+import com.jakubeeee.common.DateTimeUtils;
 import com.jakubeeee.core.service.EmailService;
 import com.jakubeeee.core.service.MessageService;
 import com.jakubeeee.security.entity.PasswordResetToken;
@@ -35,9 +35,9 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
-import static com.jakubeeee.common.util.DateTimeUtils.isTimeAfter;
-import static com.jakubeeee.common.util.ReflectUtils.getFieldValue;
+import static com.jakubeeee.common.DateTimeUtils.getCurrentDateTime;
+import static com.jakubeeee.common.DateTimeUtils.isTimeAfter;
+import static com.jakubeeee.common.reflection.ReflectUtils.getFieldValue;
 import static com.jakubeeee.testutils.constant.DateTimeTestConstants.TEST_DATE_TIME;
 import static com.jakubeeee.testutils.constant.DateTimeTestConstants.TEST_DATE_TIME_FIVE_HOURS_EARLIER;
 import static java.util.UUID.randomUUID;

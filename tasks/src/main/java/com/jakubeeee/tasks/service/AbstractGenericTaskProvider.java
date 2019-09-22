@@ -1,6 +1,6 @@
 package com.jakubeeee.tasks.service;
 
-import com.jakubeeee.common.model.MultiValueParameter;
+import com.jakubeeee.common.persistence.MultiValueParameter;
 import com.jakubeeee.core.exception.DummyServiceException;
 import com.jakubeeee.tasks.exceptions.InvalidTaskStatusException;
 import com.jakubeeee.tasks.model.GenericTask;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.jakubeeee.common.util.DateTimeUtils.getCurrentDateTime;
+import static com.jakubeeee.common.DateTimeUtils.getCurrentDateTime;
 import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
 
 /**

@@ -1,6 +1,6 @@
 package com.jakubeeee.tasks.service.impl;
 
-import com.jakubeeee.common.exception.UnexpectedClassStructureException;
+import com.jakubeeee.common.reflection.UnexpectedClassStructureException;
 import com.jakubeeee.tasks.annotations.InitialTaskValidator;
 import com.jakubeeee.tasks.exceptions.InvalidTaskDefinitionException;
 import com.jakubeeee.tasks.model.GenericTask;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static com.jakubeeee.common.util.ReflectUtils.getFieldValue;
+import static com.jakubeeee.common.reflection.ReflectUtils.getFieldValue;
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.reflect.FieldUtils.getFieldsListWithAnnotation;
 

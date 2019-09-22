@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.service;
 
-import com.jakubeeee.common.annotation.ReflectionTarget;
+import com.jakubeeee.common.reflection.ReflectionTarget;
 import com.jakubeeee.integration.model.CommonProduct;
 import com.jakubeeee.integration.model.ExternalProduct;
 

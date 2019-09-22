@@ -13,7 +13,7 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.jakubeeee.common.util.ReflectUtils.getFieldValue;
+import static com.jakubeeee.common.reflection.ReflectUtils.getFieldValue;
 import static com.jakubeeee.core.util.EmailUtils.createMailMessage;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;

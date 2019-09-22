@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.validators;
 
-import com.jakubeeee.common.exception.UnexpectedClassStructureException;
+import com.jakubeeee.common.reflection.UnexpectedClassStructureException;
 import com.jakubeeee.integration.enums.ProductMappingKey;
 import com.jakubeeee.integration.model.ProductsTask;
 import com.jakubeeee.integration.service.DataSource;
@@ -17,7 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-import static com.jakubeeee.common.util.ReflectUtils.getMethod;
+import static com.jakubeeee.common.reflection.ReflectUtils.getMethod;
 import static com.jakubeeee.core.util.BeanUtils.getBean;
 
 @Slf4j

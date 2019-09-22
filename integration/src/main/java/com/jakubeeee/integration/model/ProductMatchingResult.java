@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.model;
 
-import com.jakubeeee.common.model.ChangeRegistry;
+import com.jakubeeee.common.ChangeRegistry;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;

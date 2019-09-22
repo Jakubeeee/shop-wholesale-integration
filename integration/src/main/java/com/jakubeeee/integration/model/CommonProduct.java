@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.model;
 
-import com.jakubeeee.common.mixin.Parameterizable;
+import com.jakubeeee.common.Parameterizable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.jakubeeee.common.util.LangUtils.nvl;
+import static com.jakubeeee.common.LangUtils.nvl;
 
 /**
  * A model class whose instances are the basic elements used during product integration.

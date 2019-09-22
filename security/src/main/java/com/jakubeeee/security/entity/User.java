@@ -1,6 +1,6 @@
 package com.jakubeeee.security.entity;
 
-import com.jakubeeee.common.entity.IdentifiableEntity;
+import com.jakubeeee.common.persistence.IdentifiableEntity;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

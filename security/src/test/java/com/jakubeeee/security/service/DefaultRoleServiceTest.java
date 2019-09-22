@@ -1,6 +1,6 @@
 package com.jakubeeee.security.service;
 
-import com.jakubeeee.common.exception.DatabaseResultEmptyException;
+import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
 import com.jakubeeee.security.entity.Role;
 import com.jakubeeee.security.entity.User;
 import com.jakubeeee.security.repository.RoleRepository;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.jakubeeee.common.util.ReflectUtils.getFieldValue;
+import static com.jakubeeee.common.reflection.ReflectUtils.getFieldValue;
 import static com.jakubeeee.security.entity.Role.Type.*;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;

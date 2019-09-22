@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.jakubeeee.common.util.DateTimeUtils.*;
+import static com.jakubeeee.common.DateTimeUtils.*;
 
 /**
  * Default service bean used for operations related to management of next scheduled task executions.

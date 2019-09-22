@@ -1,6 +1,6 @@
 package com.jakubeeee.tasks.validators;
 
-import com.jakubeeee.common.exception.UnexpectedClassStructureException;
+import com.jakubeeee.common.reflection.UnexpectedClassStructureException;
 import com.jakubeeee.tasks.exceptions.InvalidTaskDefinitionException;
 import com.jakubeeee.tasks.model.GenericTask;
 

@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.jakubeeee.common.model.MessageWrapper.Action.ADD_TO_STATE;
-import static com.jakubeeee.common.model.MessageWrapper.Action.SWAP_STATE;
-import static com.jakubeeee.common.util.JsonUtils.objectToJson;
-import static com.jakubeeee.common.util.JsonUtils.wrap;
+import static com.jakubeeee.common.serialization.MessageWrapper.Action.ADD_TO_STATE;
+import static com.jakubeeee.common.serialization.MessageWrapper.Action.SWAP_STATE;
+import static com.jakubeeee.common.serialization.JsonUtils.objectToJson;
+import static com.jakubeeee.common.serialization.JsonUtils.wrap;
 
 @RequiredArgsConstructor
 @Component

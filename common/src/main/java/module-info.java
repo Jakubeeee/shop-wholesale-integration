@@ -3,21 +3,16 @@ module common {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     requires dom4j;
-    requires java.sql;
     requires java.persistence;
+    requires java.sql;
     requires org.apache.commons.lang3;
-    requires spring.web;
     requires spring.beans;
     requires spring.context;
     requires spring.core;
+    requires spring.web;
 
-    exports com.jakubeeee.common.annotation;
-    exports com.jakubeeee.common.converter;
-    exports com.jakubeeee.common.entity;
-    exports com.jakubeeee.common.exception;
-    exports com.jakubeeee.common.factory;
-    exports com.jakubeeee.common.mixin;
-    exports com.jakubeeee.common.model;
-    exports com.jakubeeee.common.serializer;
-    exports com.jakubeeee.common.util;
+    exports com.jakubeeee.common;
+    exports com.jakubeeee.common.persistence;
+    exports com.jakubeeee.common.reflection;
+    exports com.jakubeeee.common.serialization;
 }
