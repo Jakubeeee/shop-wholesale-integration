@@ -6,6 +6,7 @@ import com.jakubeeee.common.persistence.MultiValueParameter;
 import lombok.*;
 import org.springframework.data.annotation.Immutable;
 
+import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -26,11 +27,14 @@ import java.util.List;
 @Table(name = "PAST_TASK_EXECUTIONS")
 public class PastTaskExecution extends IdentifiableEntity {
 
+    @Column(name = "TASK_ID", nullable = false, updatable = false)
     private long taskId;
 
     @Convert(converter = JsonObjectConverter.class)
+    @Column(name = "PARAMS", updatable = false)
     private List<MultiValueParameter> params;
 
-    private LocalDateTime executionFinishTime;
+    @Column(name = "FINISH_TIME", nullable = false, updatable = false)
+    private LocalDateTime finishTime;
 
 }

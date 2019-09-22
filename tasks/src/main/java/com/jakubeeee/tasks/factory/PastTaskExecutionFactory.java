@@ -17,13 +17,13 @@ public class PastTaskExecutionFactory extends AbstractEntityFactory<PastTaskExec
         var entity = new PastTaskExecution();
         entity.setTaskId(value.getTaskId());
         entity.setParams(value.getParams());
-        entity.setExecutionFinishTime(value.getExecutionFinishTime());
+        entity.setFinishTime(value.getExecutionFinishTime());
         return entity;
     }
 
     @Override
     public PastTaskExecutionValue createValue(@NonNull PastTaskExecution entity) {
-        return new PastTaskExecutionValue(entity.getTaskId(), entity.getParams(), entity.getExecutionFinishTime());
+        return new PastTaskExecutionValue(entity.getTaskId(), entity.getParams(), entity.getFinishTime());
     }
 
 }
