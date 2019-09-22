@@ -20,4 +20,6 @@ module security {
     requires spring.tx;
     requires spring.web;
     requires tomcat.embed.core;
+
+    exports com.jakubeeee.security;
 }
