@@ -1,6 +1,5 @@
 package com.jakubeeee.tasks.service.impl;
 
-import com.jakubeeee.common.reflection.UnexpectedClassStructureException;
 import com.jakubeeee.tasks.annotations.InitialTaskValidator;
 import com.jakubeeee.tasks.exceptions.InvalidTaskDefinitionException;
 import com.jakubeeee.tasks.model.GenericTask;
@@ -48,7 +47,7 @@ public class DefaultValidationService implements ValidationService {
 
     @Override
     public void validateUsingSpecificTaskValidators(GenericTask task)
-            throws InvalidTaskDefinitionException, UnexpectedClassStructureException, IllegalAccessException {
+            throws InvalidTaskDefinitionException, IllegalAccessException {
         List<Field> taskValidatorFields = getFieldsListWithAnnotation(task.getClass(), InitialTaskValidator.class);
         if (!taskValidatorFields.isEmpty()) {
             for (var taskValidatorField : taskValidatorFields) {

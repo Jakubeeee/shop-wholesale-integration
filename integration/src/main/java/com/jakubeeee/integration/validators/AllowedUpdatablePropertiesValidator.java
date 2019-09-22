@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
@@ -26,18 +25,21 @@ public class AllowedUpdatablePropertiesValidator implements TaskValidator {
     static AllowedUpdatablePropertiesValidator instance = new AllowedUpdatablePropertiesValidator();
 
     @Override
-    public void validate(GenericTask validatedTask) throws InvalidTaskDefinitionException, UnexpectedClassStructureException {
+    public void validate(GenericTask validatedTask) throws InvalidTaskDefinitionException {
         ProductsTask validatedProductsTask = (ProductsTask) validatedTask;
-        Class<? extends UpdatableDataSource> updatableDataSource = validatedProductsTask.getUpdatableDataSourceImplementation();
+        Class<? extends UpdatableDataSource> updatableDataSource =
+                validatedProductsTask.getUpdatableDataSourceImplementation();
         try {
             Method allowedUpdatablePropertiesGetter = getMethod(updatableDataSource, "getAllowedUpdatableProperties");
-            var allowedUpdatableProperties = (Set) allowedUpdatablePropertiesGetter.invoke(getBean(updatableDataSource), null);
+            var allowedUpdatableProperties =
+                    (Set) allowedUpdatablePropertiesGetter.invoke(getBean(updatableDataSource), null);
             for (var property : validatedProductsTask.getUpdatableProperties())
                 if (!allowedUpdatableProperties.contains(property))
                     throw new InvalidTaskDefinitionException("Updatable data source \"" +
                             updatableDataSource + "\" does not allow to update property: " + property);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new UnexpectedClassStructureException("The \"" + updatableDataSource + "\" class structure is incorrect. " +
+        } catch (ReflectiveOperationException e) {
+            throw new UnexpectedClassStructureException("The \"" + updatableDataSource + "\" class structure is " +
+                    "incorrect. " +
                     "It is impossible to access its set of allowed updatable properties. " +
                     "Detailed message: \"" + e.getClass() + "\": \"" + e.getMessage());
         }

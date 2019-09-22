@@ -1,6 +1,5 @@
 package com.jakubeeee.tasks.service.impl;
 
-import com.jakubeeee.common.reflection.UnexpectedClassStructureException;
 import com.jakubeeee.tasks.exceptions.InvalidTaskDefinitionException;
 import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.service.*;
@@ -39,10 +38,6 @@ public class DefaultTaskRegistryService implements TaskRegistryService {
             LOG.error(exceptionMessageFirstPart +
                     "There where errors in it's configuration. " +
                     exceptionMessageSecondPart + "\"" + e.getClass() + "\": " + e.getMessage());
-        } catch (UnexpectedClassStructureException e2) {
-            LOG.error(exceptionMessageFirstPart +
-                    "There where errors in class structure. " +
-                    exceptionMessageSecondPart + "\"" + e2.getClass() + "\": " + e2.getMessage());
         } catch (Exception e3) {
             LOG.error(exceptionMessageFirstPart +
                     "There where unknown errors. " +
@@ -50,8 +45,8 @@ public class DefaultTaskRegistryService implements TaskRegistryService {
         }
     }
 
-    private void validateTaskDefinitionCorrectness(GenericTask task)
-            throws InvalidTaskDefinitionException, UnexpectedClassStructureException, IllegalAccessException {
+    private void validateTaskDefinitionCorrectness(GenericTask task) throws InvalidTaskDefinitionException,
+            IllegalAccessException {
         validationService.validateUsingGenericTaskValidator(task);
         validationService.validateUsingSpecificTaskValidators(task);
     }

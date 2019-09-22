@@ -13,7 +13,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
@@ -28,15 +27,19 @@ public class AllowedMappingKeysValidator implements TaskValidator {
     static AllowedMappingKeysValidator instance = new AllowedMappingKeysValidator();
 
     @Override
-    public void validate(GenericTask validatedTask) throws InvalidTaskDefinitionException, UnexpectedClassStructureException {
+    public void validate(GenericTask validatedTask) throws InvalidTaskDefinitionException {
         ProductsTask validatedProductsTask = (ProductsTask) validatedTask;
         Class<? extends DataSource> dataSource = validatedProductsTask.getDataSourceImplementation();
-        Class<? extends UpdatableDataSource> updatableDataSource = validatedProductsTask.getUpdatableDataSourceImplementation();
+        Class<? extends UpdatableDataSource> updatableDataSource =
+                validatedProductsTask.getUpdatableDataSourceImplementation();
         try {
             Method dataSourceAllowedMappingKeysGetter = getMethod(dataSource, "getAllowedProductMappingKeys");
-            Method updatableDataSourceAllowedMappingKeysGetter = getMethod(updatableDataSource, "getAllowedProductMappingKeys");
-            var dataSourceAllowedMappingKeys = (Set) dataSourceAllowedMappingKeysGetter.invoke(getBean(dataSource), null);
-            var updatableDataSourceAllowedMappingKeys = (Set) updatableDataSourceAllowedMappingKeysGetter.invoke(getBean(updatableDataSource), null);
+            Method updatableDataSourceAllowedMappingKeysGetter = getMethod(updatableDataSource,
+                    "getAllowedProductMappingKeys");
+            var dataSourceAllowedMappingKeys = (Set) dataSourceAllowedMappingKeysGetter.invoke(getBean(dataSource),
+                    null);
+            var updatableDataSourceAllowedMappingKeys =
+                    (Set) updatableDataSourceAllowedMappingKeysGetter.invoke(getBean(updatableDataSource), null);
             ProductMappingKey validatedMappingKey = validatedProductsTask.getMappingKey();
             if (!dataSourceAllowedMappingKeys.contains(validatedMappingKey))
                 throw new InvalidTaskDefinitionException(
@@ -44,7 +47,7 @@ public class AllowedMappingKeysValidator implements TaskValidator {
             if (!updatableDataSourceAllowedMappingKeys.contains(validatedMappingKey))
                 throw new InvalidTaskDefinitionException(
                         "Updatable data source \"" + updatableDataSource + "\" does not allow to use mapping key: " + validatedMappingKey);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (ReflectiveOperationException e) {
             throw new UnexpectedClassStructureException("Either \"" + dataSource + "\" or \"" + updatableDataSource + "\" " +
                     "It is impossible to access its set of allowed mapping keys. " +
                     "Detailed message: \"" + e.getClass() + "\": \"" + e.getMessage());

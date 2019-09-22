@@ -1,6 +1,5 @@
 package com.jakubeeee.tasks.service;
 
-import com.jakubeeee.common.reflection.UnexpectedClassStructureException;
 import com.jakubeeee.tasks.exceptions.InvalidTaskDefinitionException;
 import com.jakubeeee.tasks.model.GenericTask;
 
@@ -12,6 +11,6 @@ public interface ValidationService {
     void validateUsingGenericTaskValidator(GenericTask task) throws InvalidTaskDefinitionException;
 
     void validateUsingSpecificTaskValidators(GenericTask task) throws InvalidTaskDefinitionException,
-            UnexpectedClassStructureException, IllegalAccessException;
+            IllegalAccessException;
 
 }

@@ -13,7 +13,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static com.jakubeeee.common.reflection.ReflectUtils.getMethod;
@@ -30,21 +29,23 @@ public class AllowedPriceUpdateConfigValidator implements TaskValidator {
     static AllowedPriceUpdateConfigValidator instance = new AllowedPriceUpdateConfigValidator();
 
     @Override
-    public void validate(GenericTask validatedTask) throws InvalidTaskDefinitionException, UnexpectedClassStructureException {
+    public void validate(GenericTask validatedTask) throws InvalidTaskDefinitionException {
         ProductsTask validatedProductsTask = (ProductsTask) validatedTask;
         if (validatedProductsTask.getUpdatableProperties().contains(PRICE)) {
             Class<? extends DataSource> dataSource = validatedProductsTask.getDataSourceImplementation();
-            Class<? extends UpdatableDataSource> updatableDataSource = validatedProductsTask.getUpdatableDataSourceImplementation();
+            Class<? extends UpdatableDataSource> updatableDataSource =
+                    validatedProductsTask.getUpdatableDataSourceImplementation();
             try {
                 Method dataSourceTypeGetter = getMethod(dataSource, "getType");
                 Method updatableDataSourceTypeGetter = getMethod(updatableDataSource, "getType");
                 var dataSourceType = (DataSourceType) dataSourceTypeGetter.invoke(getBean(dataSource), null);
-                var updatableDataSourceType = (DataSourceType) updatableDataSourceTypeGetter.invoke(getBean(updatableDataSource), null);
+                var updatableDataSourceType =
+                        (DataSourceType) updatableDataSourceTypeGetter.invoke(getBean(updatableDataSource), null);
                 if (dataSourceType == WAREHOUSE && updatableDataSourceType == SHOP_PLATFORM)
                     throw new InvalidTaskDefinitionException("Price update from datasource that is a warehouse to " +
                             "datasource that is a shop platform is not supported. " +
                             "Incorrect configuration consists of following classes: \"" + dataSource + "\" -> \"" + updatableDataSource + "\"");
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            } catch (ReflectiveOperationException e) {
                 throw new UnexpectedClassStructureException("Either \"" + dataSource + "\" or \"" + updatableDataSource + "\" " +
                         "class structure is incorrect. It is impossible to access its types. " +
                         "Detailed message: \"" + e.getClass() + "\": " + e.getMessage());
