@@ -5,7 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubject;
+import static com.jakubeeee.testutils.TestSubjectFactory.getTestSubject;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;

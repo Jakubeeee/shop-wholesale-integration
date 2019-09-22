@@ -1,6 +1,6 @@
 package com.jakubeeee.common;
 
-import com.jakubeeee.testutils.model.TestSubject;
+import com.jakubeeee.testutils.TestSubject;
 import com.jakubeeee.testutils.marker.BehavioralUnitTestCategory;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -10,8 +10,8 @@ import java.util.*;
 import java.util.function.Predicate;
 
 import static com.jakubeeee.common.CollectionUtils.*;
-import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubject;
-import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubjects;
+import static com.jakubeeee.testutils.TestSubjectFactory.getTestSubject;
+import static com.jakubeeee.testutils.TestSubjectFactory.getTestSubjects;
 import static java.util.Collections.sort;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;

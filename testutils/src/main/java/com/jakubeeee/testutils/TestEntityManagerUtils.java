@@ -1,4 +1,4 @@
-package com.jakubeeee.testutils.util;
+package com.jakubeeee.testutils;
 
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;

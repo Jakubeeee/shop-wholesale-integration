@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import static com.jakubeeee.common.serialization.JsonUtils.jsonToObject;
 import static com.jakubeeee.common.serialization.JsonUtils.objectToJson;
-import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubject;
+import static com.jakubeeee.testutils.TestSubjectFactory.getTestSubject;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;

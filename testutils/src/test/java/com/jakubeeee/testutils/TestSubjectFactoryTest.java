@@ -1,14 +1,14 @@
-package com.jakubeeee.testutils.factory;
+package com.jakubeeee.testutils;
 
 import com.jakubeeee.testutils.marker.BehavioralUnitTestCategory;
-import com.jakubeeee.testutils.model.TestSubject;
+import com.jakubeeee.testutils.TestSubject;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.util.Set;
 
-import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubject;
-import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubjects;
+import static com.jakubeeee.testutils.TestSubjectFactory.getTestSubject;
+import static com.jakubeeee.testutils.TestSubjectFactory.getTestSubjects;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

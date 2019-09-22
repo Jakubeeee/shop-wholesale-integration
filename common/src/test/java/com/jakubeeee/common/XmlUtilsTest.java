@@ -9,7 +9,7 @@ import org.junit.experimental.categories.Category;
 import java.util.Optional;
 
 import static com.jakubeeee.common.XmlUtils.stringToXml;
-import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubject;
+import static com.jakubeeee.testutils.TestSubjectFactory.getTestSubject;
 import static org.dom4j.DocumentHelper.createDocument;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;

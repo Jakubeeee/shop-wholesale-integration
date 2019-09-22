@@ -1,4 +1,4 @@
-package com.jakubeeee.testutils.util;
+package com.jakubeeee.testutils;
 
 import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
-import static com.jakubeeee.testutils.util.TestEntityManagerUtils.*;
+import static com.jakubeeee.testutils.TestEntityManagerUtils.*;
 import static java.util.Collections.emptySortedMap;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;

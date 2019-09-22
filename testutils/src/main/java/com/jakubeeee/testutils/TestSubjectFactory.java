@@ -1,6 +1,5 @@
-package com.jakubeeee.testutils.factory;
+package com.jakubeeee.testutils;
 
-import com.jakubeeee.testutils.model.TestSubject;
 import lombok.experimental.UtilityClass;
 
 import java.util.Set;

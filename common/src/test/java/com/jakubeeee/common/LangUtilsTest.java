@@ -1,12 +1,12 @@
 package com.jakubeeee.common;
 
-import com.jakubeeee.testutils.model.TestSubject;
+import com.jakubeeee.testutils.TestSubject;
 import com.jakubeeee.testutils.marker.BehavioralUnitTestCategory;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import static com.jakubeeee.common.LangUtils.nvl;
-import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubject;
+import static com.jakubeeee.testutils.TestSubjectFactory.getTestSubject;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

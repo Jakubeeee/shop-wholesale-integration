@@ -1,6 +1,5 @@
 package com.jakubeeee.common;
 
-import com.jakubeeee.common.DateTimeUtils;
 import com.jakubeeee.testutils.marker.BehavioralUnitTestCategory;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -11,7 +10,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.time.LocalDateTime;
 
 import static com.jakubeeee.common.DateTimeUtils.*;
-import static com.jakubeeee.testutils.constant.DateTimeTestConstants.*;
+import static com.jakubeeee.testutils.DateTimeTestConstants.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

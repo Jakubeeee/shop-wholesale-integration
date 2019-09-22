@@ -1,4 +1,4 @@
-package com.jakubeeee.testutils.constant;
+package com.jakubeeee.testutils;
 
 import lombok.experimental.UtilityClass;
 

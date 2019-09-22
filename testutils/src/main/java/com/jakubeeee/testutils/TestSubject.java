@@ -1,4 +1,4 @@
-package com.jakubeeee.testutils.model;
+package com.jakubeeee.testutils;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;

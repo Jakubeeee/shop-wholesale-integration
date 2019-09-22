@@ -1,8 +1,7 @@
 package com.jakubeeee.common.reflection;
 
-import com.jakubeeee.common.reflection.ReflectionTarget;
 import com.jakubeeee.testutils.marker.BehavioralUnitTestCategory;
-import com.jakubeeee.testutils.model.TestSubject;
+import com.jakubeeee.testutils.TestSubject;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,7 +11,7 @@ import java.lang.reflect.Field;
 
 import static com.jakubeeee.common.reflection.ReflectUtils.getFieldValue;
 import static com.jakubeeee.common.reflection.ReflectUtils.getMethod;
-import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubject;
+import static com.jakubeeee.testutils.TestSubjectFactory.getTestSubject;
 
 @Category(BehavioralUnitTestCategory.class)
 public class ReflectUtilsTest {

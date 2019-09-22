@@ -1,8 +1,7 @@
 package com.jakubeeee.core.impl;
 
 import com.jakubeeee.core.RestService;
-import com.jakubeeee.core.impl.DefaultRestService;
-import com.jakubeeee.testutils.model.TestSubject;
+import com.jakubeeee.testutils.TestSubject;
 import com.jakubeeee.testutils.marker.SpringSliceTestCategory;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,7 +13,7 @@ import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
 
-import static com.jakubeeee.testutils.factory.TestSubjectFactory.getTestSubject;
+import static com.jakubeeee.testutils.TestSubjectFactory.getTestSubject;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
