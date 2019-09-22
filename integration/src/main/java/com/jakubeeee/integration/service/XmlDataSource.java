@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.service;
 
-import com.jakubeeee.core.service.RestService;
+import com.jakubeeee.core.RestService;
 import com.jakubeeee.integration.model.ExternalProduct;
 import lombok.RequiredArgsConstructor;
 import org.dom4j.Document;

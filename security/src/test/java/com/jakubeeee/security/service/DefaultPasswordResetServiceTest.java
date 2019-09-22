@@ -2,8 +2,8 @@ package com.jakubeeee.security.service;
 
 import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
 import com.jakubeeee.common.DateTimeUtils;
-import com.jakubeeee.core.service.EmailService;
-import com.jakubeeee.core.service.MessageService;
+import com.jakubeeee.core.EmailService;
+import com.jakubeeee.core.MessageService;
 import com.jakubeeee.security.entity.PasswordResetToken;
 import com.jakubeeee.security.entity.User;
 import com.jakubeeee.security.exception.DifferentPasswordResetTokenOwnerException;

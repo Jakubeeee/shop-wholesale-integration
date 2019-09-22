@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.service.impl;
 
-import com.jakubeeee.core.service.DummyService;
+import com.jakubeeee.core.DummyService;
 import com.jakubeeee.integration.enums.DataSourceType;
 import com.jakubeeee.integration.enums.ProductMappingKey;
 import com.jakubeeee.integration.model.CommonProduct;

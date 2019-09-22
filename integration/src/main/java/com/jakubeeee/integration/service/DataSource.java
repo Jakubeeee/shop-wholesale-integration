@@ -1,7 +1,7 @@
 package com.jakubeeee.integration.service;
 
 import com.jakubeeee.common.reflection.ReflectionTarget;
-import com.jakubeeee.core.mixin.Switchable;
+import com.jakubeeee.core.Switchable;
 import com.jakubeeee.integration.enums.DataSourceType;
 import com.jakubeeee.integration.enums.ProductMappingKey;
 import com.jakubeeee.integration.model.CommonProduct;

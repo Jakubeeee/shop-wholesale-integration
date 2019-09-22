@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.service.impl;
 
-import com.jakubeeee.core.service.RestService;
+import com.jakubeeee.core.RestService;
 import com.jakubeeee.integration.model.ShoperAuthToken;
 import com.jakubeeee.integration.service.AbstractAuthService;
 import lombok.AccessLevel;
@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import static com.jakubeeee.common.DateTimeUtils.*;
-import static com.jakubeeee.core.util.RestUtils.generateHeaderWithUsernameAndPassword;
+import static com.jakubeeee.core.RestUtils.generateHeaderWithUsernameAndPassword;
 import static java.util.Objects.requireNonNull;
 
 /**

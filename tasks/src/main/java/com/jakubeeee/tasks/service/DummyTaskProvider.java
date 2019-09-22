@@ -1,6 +1,6 @@
 package com.jakubeeee.tasks.service;
 
-import com.jakubeeee.core.service.DummyService;
+import com.jakubeeee.core.DummyService;
 import com.jakubeeee.tasks.model.GenericTask;
 
 /**

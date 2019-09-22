@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.service.impl;
 
-import com.jakubeeee.core.service.RestService;
+import com.jakubeeee.core.RestService;
 import com.jakubeeee.integration.enums.DataSourceType;
 import com.jakubeeee.integration.enums.ProductMappingKey;
 import com.jakubeeee.integration.model.CommonProduct;
@@ -20,7 +20,7 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 
 import static com.jakubeeee.common.ThreadUtils.sleep;
-import static com.jakubeeee.core.util.RestUtils.generateHeaderWithAuthToken;
+import static com.jakubeeee.core.RestUtils.generateHeaderWithAuthToken;
 import static com.jakubeeee.integration.enums.DataSourceType.SHOP_PLATFORM;
 import static com.jakubeeee.integration.enums.ProductMappingKey.CODE;
 import static com.jakubeeee.integration.enums.ProductMappingKey.NAME;

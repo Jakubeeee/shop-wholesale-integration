@@ -1,13 +1,12 @@
 package com.jakubeeee.integration.service.impl;
 
-import com.jakubeeee.core.service.RestService;
+import com.jakubeeee.core.RestService;
 import com.jakubeeee.integration.model.CeneoProduct;
 import com.jakubeeee.integration.model.CommonProduct;
 import com.jakubeeee.integration.service.XmlDataSource;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Iterator;

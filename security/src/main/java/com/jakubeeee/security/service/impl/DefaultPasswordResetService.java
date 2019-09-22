@@ -1,8 +1,8 @@
 package com.jakubeeee.security.service.impl;
 
 import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
-import com.jakubeeee.core.service.EmailService;
-import com.jakubeeee.core.service.MessageService;
+import com.jakubeeee.core.EmailService;
+import com.jakubeeee.core.MessageService;
 import com.jakubeeee.security.entity.PasswordResetToken;
 import com.jakubeeee.security.entity.User;
 import com.jakubeeee.security.exception.DifferentPasswordResetTokenOwnerException;
@@ -25,7 +25,7 @@ import java.util.UUID;
 
 import static com.jakubeeee.common.DateTimeUtils.getCurrentDateTime;
 import static com.jakubeeee.common.DateTimeUtils.isTimeAfter;
-import static com.jakubeeee.core.util.EmailUtils.createMailMessage;
+import static com.jakubeeee.core.EmailUtils.createMailMessage;
 
 /**
  * Default service bean used for operations related to resetting user password.

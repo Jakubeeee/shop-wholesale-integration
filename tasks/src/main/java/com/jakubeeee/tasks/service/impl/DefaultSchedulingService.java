@@ -1,6 +1,6 @@
 package com.jakubeeee.tasks.service.impl;
 
-import com.jakubeeee.core.service.TimerService;
+import com.jakubeeee.core.TimerService;
 import com.jakubeeee.tasks.exceptions.NoTaskWithGivenIdException;
 import com.jakubeeee.tasks.model.GenericTask;
 import com.jakubeeee.tasks.service.SchedulingService;

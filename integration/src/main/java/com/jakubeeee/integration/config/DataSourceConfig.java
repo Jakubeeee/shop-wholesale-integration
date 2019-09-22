@@ -1,6 +1,6 @@
 package com.jakubeeee.integration.config;
 
-import com.jakubeeee.core.service.RestService;
+import com.jakubeeee.core.RestService;
 import com.jakubeeee.integration.enums.DataSourceType;
 import com.jakubeeee.integration.enums.ProductMappingKey;
 import com.jakubeeee.integration.service.impl.BasicXmlDataSource;

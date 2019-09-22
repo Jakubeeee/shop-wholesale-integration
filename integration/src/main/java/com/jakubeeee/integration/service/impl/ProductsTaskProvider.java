@@ -1,11 +1,11 @@
 package com.jakubeeee.integration.service.impl;
 
 import com.jakubeeee.common.ChangeRegistry;
-import com.jakubeeee.core.exception.DummyServiceException;
-import com.jakubeeee.core.mixin.Reloadable;
-import com.jakubeeee.core.mixin.Switchable;
-import com.jakubeeee.core.service.DummyService;
-import com.jakubeeee.core.service.ImplementationSwitcherService;
+import com.jakubeeee.core.DummyServiceException;
+import com.jakubeeee.core.Reloadable;
+import com.jakubeeee.core.Switchable;
+import com.jakubeeee.core.DummyService;
+import com.jakubeeee.core.ImplementationSwitcherService;
 import com.jakubeeee.integration.enums.ProductMappingKey;
 import com.jakubeeee.integration.model.CommonProduct;
 import com.jakubeeee.integration.model.ExternalProduct;
