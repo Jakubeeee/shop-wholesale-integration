@@ -3,8 +3,8 @@ package com.jakubeeee.security.impl.passwordreset;
 import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
 import com.jakubeeee.core.EmailService;
 import com.jakubeeee.core.MessageService;
-import com.jakubeeee.security.impl.user.User;
 import com.jakubeeee.security.impl.user.SecurityService;
+import com.jakubeeee.security.impl.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -29,6 +29,8 @@ import static com.jakubeeee.core.EmailUtils.createMailMessage;
 @Service
 public class DefaultPasswordResetService implements PasswordResetService {
 
+    private static final PasswordResetTokenFactory passwordResetTokenFactory = PasswordResetTokenFactory.getInstance();
+
     private final SecurityService securityService;
 
     private final EmailService emailService;
@@ -43,18 +45,18 @@ public class DefaultPasswordResetService implements PasswordResetService {
     @Transactional
     @Override
     public void handleForgotMyPasswordProcess(String email, String origin, String localeCode) {
-        PasswordResetToken resetToken = createPasswordResetToken(email);
+        PasswordResetTokenValue resetToken = createPasswordResetToken(email);
         User tokenOwner = resetToken.getUser();
         String resetPasswordUrl = createResetPasswordUrl(origin, tokenOwner.getId(), resetToken.getValue());
         sendEmailWithResetToken(tokenOwner, resetPasswordUrl, new Locale(localeCode));
     }
 
-    private PasswordResetToken createPasswordResetToken(String email) {
+    private PasswordResetTokenValue createPasswordResetToken(String email) {
         User user = securityService.findByEmail(email);
         var resetTokenValue = UUID.randomUUID().toString();
         LocalDateTime now = getCurrentDateTime();
-        var resetToken = new PasswordResetToken(resetTokenValue, user, now, TOKEN_LIFETIME_IN_MINUTES);
-        passwordResetTokenRepository.save(resetToken);
+        var resetToken = new PasswordResetTokenValue(resetTokenValue, now.plusMinutes(TOKEN_LIFETIME_IN_MINUTES), user);
+        passwordResetTokenRepository.save(passwordResetTokenFactory.createEntity(resetToken));
         return resetToken;
     }
 

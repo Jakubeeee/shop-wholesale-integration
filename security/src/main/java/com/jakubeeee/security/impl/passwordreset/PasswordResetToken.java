@@ -2,19 +2,17 @@ package com.jakubeeee.security.impl.passwordreset;
 
 import com.jakubeeee.common.persistence.IdentifiableEntity;
 import com.jakubeeee.security.impl.user.User;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Immutable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * Immutable entity representing an unique token serving as user validator in the password reset functionality.
+ * Entity representing an unique token serving as user validator in the password reset functionality.
  */
 @Getter
+@Setter
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @NoArgsConstructor
