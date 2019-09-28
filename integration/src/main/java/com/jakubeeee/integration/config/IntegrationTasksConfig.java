@@ -4,10 +4,10 @@ import com.jakubeeee.integration.model.ProductsTask;
 import com.jakubeeee.integration.service.impl.BasicXmlDataSource;
 import com.jakubeeee.integration.service.impl.ProductsTaskProvider;
 import com.jakubeeee.integration.service.impl.ShoperDataSource;
-import com.jakubeeee.tasks.model.GenericTask;
-import com.jakubeeee.tasks.service.DummyTaskProvider;
-import com.jakubeeee.tasks.service.SchedulingService;
-import com.jakubeeee.tasks.service.TaskRegistryService;
+import com.jakubeeee.tasks.GenericTask;
+import com.jakubeeee.tasks.SchedulingService;
+import com.jakubeeee.tasks.TaskRegistryService;
+import com.jakubeeee.tasks.provider.DummyTaskProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 import static com.jakubeeee.integration.enums.ProductMappingKey.NAME;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty.STOCK;
-import static com.jakubeeee.tasks.enums.TaskMode.TESTING;
+import static com.jakubeeee.tasks.TaskMode.TESTING;
 
 @Configuration
 public class IntegrationTasksConfig {

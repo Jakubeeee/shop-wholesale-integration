@@ -1,9 +1,9 @@
 package com.jakubeeee.integration.validators;
 
 import com.jakubeeee.integration.model.ProductsTask;
-import com.jakubeeee.tasks.exceptions.InvalidTaskDefinitionException;
-import com.jakubeeee.tasks.model.GenericTask;
-import com.jakubeeee.tasks.validators.TaskValidator;
+import com.jakubeeee.tasks.GenericTask;
+import com.jakubeeee.tasks.validation.InvalidTaskDefinitionException;
+import com.jakubeeee.tasks.validation.TaskValidator;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

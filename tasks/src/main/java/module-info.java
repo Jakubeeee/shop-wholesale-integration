@@ -18,11 +18,11 @@ module tasks {
     requires spring.tx;
     requires spring.web;
 
-    exports com.jakubeeee.tasks.annotations;
-    exports com.jakubeeee.tasks.enums;
-    exports com.jakubeeee.tasks.exceptions;
-    exports com.jakubeeee.tasks.model;
-    exports com.jakubeeee.tasks.service;
-    exports com.jakubeeee.tasks.utils;
-    exports com.jakubeeee.tasks.validators;
+    exports com.jakubeeee.tasks;
+    exports com.jakubeeee.tasks.logging;
+    exports com.jakubeeee.tasks.pasttaskexecution;
+    exports com.jakubeeee.tasks.progresstracking;
+    exports com.jakubeeee.tasks.provider;
+    exports com.jakubeeee.tasks.status;
+    exports com.jakubeeee.tasks.validation;
 }

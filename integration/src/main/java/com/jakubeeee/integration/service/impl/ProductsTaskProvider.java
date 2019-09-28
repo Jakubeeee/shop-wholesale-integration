@@ -1,11 +1,7 @@
 package com.jakubeeee.integration.service.impl;
 
 import com.jakubeeee.common.ChangeRegistry;
-import com.jakubeeee.core.DummyServiceException;
-import com.jakubeeee.core.Reloadable;
-import com.jakubeeee.core.Switchable;
-import com.jakubeeee.core.DummyService;
-import com.jakubeeee.core.ImplementationSwitcherService;
+import com.jakubeeee.core.*;
 import com.jakubeeee.integration.enums.ProductMappingKey;
 import com.jakubeeee.integration.model.CommonProduct;
 import com.jakubeeee.integration.model.ExternalProduct;
@@ -13,10 +9,15 @@ import com.jakubeeee.integration.model.ProductMatchingResult;
 import com.jakubeeee.integration.model.ProductsTask;
 import com.jakubeeee.integration.service.DataSource;
 import com.jakubeeee.integration.service.UpdatableDataSource;
-import com.jakubeeee.tasks.exceptions.InvalidTaskStatusException;
-import com.jakubeeee.tasks.exceptions.ProgressTrackerNotActiveException;
-import com.jakubeeee.tasks.model.LogParam;
-import com.jakubeeee.tasks.service.*;
+import com.jakubeeee.tasks.LockingService;
+import com.jakubeeee.tasks.TaskRegistryService;
+import com.jakubeeee.tasks.logging.LogParam;
+import com.jakubeeee.tasks.logging.LoggingService;
+import com.jakubeeee.tasks.pasttaskexecution.PastTaskExecutionService;
+import com.jakubeeee.tasks.progresstracking.ProgressTrackerNotActiveException;
+import com.jakubeeee.tasks.progresstracking.ProgressTrackingService;
+import com.jakubeeee.tasks.provider.AbstractGenericTaskProvider;
+import com.jakubeeee.tasks.status.InvalidTaskStatusException;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -34,8 +35,8 @@ import static com.jakubeeee.integration.enums.ProductMappingKey.CODE;
 import static com.jakubeeee.integration.enums.ProductMappingKey.NAME;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty;
 import static com.jakubeeee.integration.model.ProductsTask.UpdatableProperty.*;
-import static com.jakubeeee.tasks.enums.TaskMode.TESTING;
-import static com.jakubeeee.tasks.utils.LogParamsUtils.toLogParam;
+import static com.jakubeeee.tasks.TaskMode.TESTING;
+import static com.jakubeeee.tasks.logging.LogParamsUtils.toLogParam;
 import static java.util.Collections.sort;
 
 /**
@@ -126,6 +127,7 @@ public class ProductsTaskProvider extends AbstractGenericTaskProvider<ProductsTa
         addExecutionParam("NOT_MATCHED_DS_PRODUCTS_AMOUNT", dataSource.getServiceName(),
                 String.valueOf(result.getUnmatchedDataSourceProducts().size()));
         progressTrackingService.setMaxProgress(caller, result.getMatchedProductsRegistry().size());
+
         result.getMatchedProductsRegistry().forEach(rethrow().wrap(registryElement -> {
             CommonProduct oldProduct = registryElement.getOldObject();
             CommonProduct updatedProduct = registryElement.getNewObject();
