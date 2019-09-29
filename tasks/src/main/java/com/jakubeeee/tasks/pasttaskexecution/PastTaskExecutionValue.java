@@ -35,4 +35,8 @@ public final class PastTaskExecutionValue implements ImmutableValue<PastTaskExec
         this.executionFinishTime = executionFinishTime;
     }
 
+    public List<MultiValueParameter> getParams() {
+        return List.copyOf(params);
+    }
+
 }
