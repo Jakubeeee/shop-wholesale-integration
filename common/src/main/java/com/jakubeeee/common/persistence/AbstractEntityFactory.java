@@ -3,8 +3,10 @@ package com.jakubeeee.common.persistence;
 import lombok.NonNull;
 
 import java.util.List;
+import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 import static java.util.stream.StreamSupport.stream;
 
 /**
@@ -14,7 +16,13 @@ import static java.util.stream.StreamSupport.stream;
  */
 public abstract class AbstractEntityFactory<E extends JpaEntity, V extends ImmutableValue<E>> {
 
-    public List<E> createEntities(@NonNull Iterable<V> values) {
+    public final Set<E> createEntities(@NonNull Set<V> values) {
+        return values.stream()
+                .map(this::createEntity)
+                .collect(toSet());
+    }
+
+    public final List<E> createEntities(@NonNull Iterable<V> values) {
         return stream(values.spliterator(), false)
                 .map(this::createEntity)
                 .collect(toList());
@@ -22,7 +30,13 @@ public abstract class AbstractEntityFactory<E extends JpaEntity, V extends Immut
 
     public abstract E createEntity(@NonNull V value);
 
-    public List<V> createValues(@NonNull Iterable<E> values) {
+    public final Set<V> createValues(@NonNull Set<E> values) {
+        return values.stream()
+                .map(this::createValue)
+                .collect(toSet());
+    }
+
+    public final List<V> createValues(@NonNull Iterable<E> values) {
         return stream(values.spliterator(), false)
                 .map(this::createValue)
                 .collect(toList());
