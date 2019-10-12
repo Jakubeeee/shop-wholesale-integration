@@ -7,7 +7,7 @@ rem make sure that previous temporary properties file is removed
 if exist "generated\testdatabase-generated.properties" del "generated\testdatabase-generated.properties"
 
 rem run groovy script responsible of starting the test database
-start launch_test_postgresql12_container.groovy
+start groovy launch_test_postgresql12_container.groovy
 
 rem check if new properties file was generated
 :checkGenerated
