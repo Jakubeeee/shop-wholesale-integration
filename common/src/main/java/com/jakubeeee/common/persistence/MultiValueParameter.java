@@ -18,4 +18,9 @@ public final class MultiValueParameter {
         this.key = key;
         this.values = List.copyOf(values);
     }
+
+    public List<String> getValues() {
+        return List.copyOf(values);
+    }
+
 }
