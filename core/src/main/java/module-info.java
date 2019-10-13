@@ -5,7 +5,7 @@ module core {
     requires java.annotation;
     requires org.aspectj.weaver;
     requires org.apache.cxf.core;
-    requires slf4j.api;
+    requires org.slf4j;
     requires spring.beans;
     requires spring.boot;
     requires spring.boot.autoconfigure;

@@ -6,7 +6,8 @@ module security {
     requires commons.beanutils;
     requires java.persistence;
     requires java.validation;
-    requires slf4j.api;
+    requires org.apache.tomcat.embed.core;
+    requires org.slf4j;
     requires spring.beans;
     requires spring.boot;
     requires spring.context;
@@ -19,7 +20,6 @@ module security {
     requires spring.security.web;
     requires spring.tx;
     requires spring.web;
-    requires tomcat.embed.core;
 
     exports com.jakubeeee.security;
 }

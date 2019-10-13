@@ -9,7 +9,7 @@ module tasks {
     requires java.persistence;
     requires org.apache.commons.lang3;
     requires org.aspectj.weaver;
-    requires slf4j.api;
+    requires org.slf4j;
     requires spring.beans;
     requires spring.context;
     requires spring.core;

@@ -8,7 +8,7 @@ module integration {
     requires durian;
     requires jackson.annotations;
     requires java.annotation;
-    requires slf4j.api;
+    requires org.slf4j;
     requires spring.beans;
     requires spring.boot;
     requires spring.context;
