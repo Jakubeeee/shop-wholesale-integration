@@ -49,11 +49,9 @@ public class UserRepositoryTest {
         entityManager.clear();
         clearTable(entityManager, User.class);
         testUser1 = new User("testUsername1", "testPassword1", "testEmail1");
-        entityManager.persist(testUser1);
         testUser2 = new User("testUsername2", "testPassword2", "testEmail2");
-        entityManager.persist(testUser2);
         testUser3 = new User("testUsername3", "testPassword3", "testEmail3");
-        entityManager.persist(testUser3);
+        insert(entityManager, testUser1, testUser2, testUser3);
     }
 
     @Test

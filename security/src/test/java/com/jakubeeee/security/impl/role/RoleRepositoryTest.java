@@ -1,7 +1,5 @@
 package com.jakubeeee.security.impl.role;
 
-import com.jakubeeee.security.impl.role.Role;
-import com.jakubeeee.security.impl.role.RoleRepository;
 import com.jakubeeee.security.impl.user.User;
 import com.jakubeeee.testutils.marker.SpringSliceTestCategory;
 import org.junit.Before;
@@ -48,9 +46,8 @@ public class RoleRepositoryTest {
         clearTable(entityManager, User.class);
         clearTable(entityManager, Role.class);
         testBasicRole = Role.of(BASIC_USER);
-        entityManager.persist(testBasicRole);
         testProRole = Role.of(PRO_USER);
-        entityManager.persist(testProRole);
+        insert(entityManager, testBasicRole, testProRole);
     }
 
     @Test
@@ -237,7 +234,7 @@ public class RoleRepositoryTest {
     @Test
     public void deleteAllTest_nonNullEntityList_shouldDelete() {
         Role testAdminRole = Role.of(ADMIN);
-        entityManager.persist(testAdminRole);
+        insert(entityManager, testAdminRole);
         repository.deleteAll(List.of(testProRole, testAdminRole));
         var resultStream = findAll(entityManager, Role.class);
         List<Role> resultList = resultStream.collect(toList());

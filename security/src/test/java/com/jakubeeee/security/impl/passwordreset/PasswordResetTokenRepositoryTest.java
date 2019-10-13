@@ -49,15 +49,11 @@ public class PasswordResetTokenRepositoryTest {
         clearTable(entityManager, User.class);
         clearTable(entityManager, PasswordResetToken.class);
         testUser1 = new User("testUsername1", "testPassword1", "testEmail1");
-        entityManager.persist(testUser1);
         testUser2 = new User("testUsername2", "testPassword2", "testEmail2");
-        entityManager.persist(testUser2);
         testPasswordResetToken1 = new PasswordResetToken("testValue1", testUser1, getCurrentDateTime(), 120);
-        entityManager.persist(testPasswordResetToken1);
         testPasswordResetToken2 = new PasswordResetToken("testValue2", testUser1, getCurrentDateTime(), 120);
-        entityManager.persist(testPasswordResetToken2);
         testPasswordResetToken3 = new PasswordResetToken("testValue3", testUser1, getCurrentDateTime(), 120);
-        entityManager.persist(testPasswordResetToken3);
+        insert(entityManager, testUser1, testUser2, testPasswordResetToken1, testPasswordResetToken2, testPasswordResetToken3);
     }
 
     @Test
