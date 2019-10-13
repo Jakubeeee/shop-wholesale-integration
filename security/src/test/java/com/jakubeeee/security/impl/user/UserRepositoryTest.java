@@ -2,8 +2,6 @@ package com.jakubeeee.security.impl.user;
 
 import com.jakubeeee.security.impl.passwordreset.PasswordResetToken;
 import com.jakubeeee.security.impl.role.Role;
-import com.jakubeeee.security.impl.user.User;
-import com.jakubeeee.security.impl.user.UserRepository;
 import com.jakubeeee.testutils.marker.SpringSliceTestCategory;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,10 +13,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.jakubeeee.common.CollectionUtils.sortedMapOf;
@@ -247,14 +245,12 @@ public class UserRepositoryTest {
         );
     }
 
-    @Test
-    public void deleteByIdTest_dependantPasswordResetToken_shouldDelete() {
+    @Test(expected = PersistenceException.class)
+    public void deleteByIdTest_dependantPasswordResetToken_shouldThrowException() {
         var testPasswordResetToken = new PasswordResetToken("testValue", testUser1, getCurrentDateTime(), 120);
-        testUser1.setPasswordResetTokens(Set.of(testPasswordResetToken));
+        insert(entityManager, testPasswordResetToken);
         repository.deleteById(testUser1.getId());
-        var result = findSingle(entityManager, PasswordResetToken.class,
-                sortedMapOf(Map.of("user.id", testUser1.getId())));
-        assertThat(result, is(nullValue()));
+        entityManager.flush();
     }
 
     @Test(expected = DataAccessException.class)
@@ -280,14 +276,12 @@ public class UserRepositoryTest {
         );
     }
 
-    @Test
-    public void deleteTest_dependantPasswordResetToken_shouldDelete() {
+    @Test(expected = PersistenceException.class)
+    public void deleteTest_dependantPasswordResetToken_shouldThrowException() {
         var testPasswordResetToken = new PasswordResetToken("testValue", testUser1, getCurrentDateTime(), 120);
-        testUser1.setPasswordResetTokens(Set.of(testPasswordResetToken));
+        insert(entityManager, testPasswordResetToken);
         repository.delete(testUser1);
-        var result = findSingle(entityManager, PasswordResetToken.class,
-                sortedMapOf(Map.of("user.id", testUser1.getId())));
-        assertThat(result, is(nullValue()));
+        entityManager.flush();
     }
 
     @Test(expected = DataAccessException.class)

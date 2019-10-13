@@ -2,10 +2,10 @@ package com.jakubeeee.security;
 
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
-import com.jakubeeee.security.impl.passwordreset.PasswordResetToken;
-import com.jakubeeee.security.impl.user.User;
 import com.jakubeeee.security.impl.passwordreset.PasswordResetService;
+import com.jakubeeee.security.impl.passwordreset.PasswordResetToken;
 import com.jakubeeee.security.impl.user.SecurityService;
+import com.jakubeeee.security.impl.user.User;
 import com.jakubeeee.testcore.AbstractIntegrationTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -53,7 +53,7 @@ public class SecurityControllerIT extends AbstractIntegrationTest {
         performForgotMyPasswordRequest(mockMvc, "en").andExpect(status().isOk());
         User user = securityService.findByEmail(TEST_EMAIL_ADDRESS);
 
-        Set<PasswordResetToken> tokens = user.getPasswordResetTokens();
+        Set<PasswordResetToken> tokens = passwordResetService.findAllByUser(user);
         assertThat(tokens.size(), is(equalTo(1)));
         PasswordResetToken tokenFromUser = tokens.iterator().next();
 
@@ -96,7 +96,8 @@ public class SecurityControllerIT extends AbstractIntegrationTest {
         performForgotMyPasswordRequest(mockMvc, "en").andExpect(status().isOk());
         MimeMessage receivedMessage = greenMail.getReceivedMessages()[0];
         User user = securityService.findByEmail(TEST_EMAIL_ADDRESS);
-        PasswordResetToken tokenFromUser = user.getPasswordResetTokens().iterator().next();
+        Set<PasswordResetToken> tokens = passwordResetService.findAllByUser(user);
+        PasswordResetToken tokenFromUser = tokens.iterator().next();
 
         String expectedContent = "Click the link below to reset your password:\r\n" +
                 "http://localhost:80/#/change-password?id=1&token=" + tokenFromUser.getValue() + "\r\n";
@@ -109,7 +110,8 @@ public class SecurityControllerIT extends AbstractIntegrationTest {
         performForgotMyPasswordRequest(mockMvc, "pl").andExpect(status().isOk());
         MimeMessage receivedMessage = greenMail.getReceivedMessages()[0];
         User user = securityService.findByEmail(TEST_EMAIL_ADDRESS);
-        PasswordResetToken tokenFromUser = user.getPasswordResetTokens().iterator().next();
+        Set<PasswordResetToken> tokens = passwordResetService.findAllByUser(user);
+        PasswordResetToken tokenFromUser = tokens.iterator().next();
 
         String expectedContent = "Kliknij poni\\u017Cszy link aby zresetowa\\u0107 has\\u0142o:\r\n" +
                 "http://localhost:80/#/change-password?id=1&token=" + tokenFromUser.getValue() + "\r\n";
@@ -141,7 +143,8 @@ public class SecurityControllerIT extends AbstractIntegrationTest {
     public void handleChangePasswordRequestIntegrationTest() throws Exception {
         performForgotMyPasswordRequest(mockMvc, "en").andExpect(status().isOk());
         User user = securityService.findByEmail(TEST_EMAIL_ADDRESS);
-        PasswordResetToken tokenFromUser = user.getPasswordResetTokens().iterator().next();
+        Set<PasswordResetToken> tokens = passwordResetService.findAllByUser(user);
+        PasswordResetToken tokenFromUser = tokens.iterator().next();
         performChangePasswordRequest(mockMvc,
                 getChangePasswordRequestBody(UPDATED_TEST_PASSWORD, 1L, tokenFromUser.getValue()))
                 .andExpect(status().isOk());

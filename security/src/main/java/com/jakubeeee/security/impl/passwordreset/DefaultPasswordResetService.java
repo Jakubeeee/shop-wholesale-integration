@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static com.jakubeeee.common.DateTimeUtils.getCurrentDateTime;
 import static com.jakubeeee.common.DateTimeUtils.isTimeAfter;
@@ -93,6 +90,11 @@ public class DefaultPasswordResetService implements PasswordResetService {
         Optional<PasswordResetToken> tokenO = passwordResetTokenRepository.findByValue(value);
         return tokenO.orElseThrow(() -> new DatabaseResultEmptyException("Token with value " + value + " not found in" +
                 " the database"));
+    }
+
+    @Override
+    public Set<PasswordResetToken> findAllByUser(User user) {
+        return passwordResetTokenRepository.findAllByUser(user);
     }
 
 }

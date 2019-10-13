@@ -1,17 +1,10 @@
 package com.jakubeeee.security.impl.passwordreset;
 
-import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
 import com.jakubeeee.common.DateTimeUtils;
+import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
 import com.jakubeeee.core.EmailService;
 import com.jakubeeee.core.MessageService;
 import com.jakubeeee.security.impl.user.SecurityService;
-import com.jakubeeee.security.impl.passwordreset.ChangePasswordForm;
-import com.jakubeeee.security.impl.passwordreset.DefaultPasswordResetService;
-import com.jakubeeee.security.impl.passwordreset.DifferentPasswordResetTokenOwnerException;
-import com.jakubeeee.security.impl.passwordreset.PasswordResetService;
-import com.jakubeeee.security.impl.passwordreset.PasswordResetToken;
-import com.jakubeeee.security.impl.passwordreset.PasswordResetTokenExpiredException;
-import com.jakubeeee.security.impl.passwordreset.PasswordResetTokenRepository;
 import com.jakubeeee.security.impl.user.User;
 import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import org.junit.Assert;
@@ -35,16 +28,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Locale;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import static com.jakubeeee.common.DateTimeUtils.getCurrentDateTime;
 import static com.jakubeeee.common.DateTimeUtils.isTimeAfter;
 import static com.jakubeeee.common.reflection.ReflectUtils.getFieldValue;
-import static com.jakubeeee.testutils.DateTimeTestConstants.TEST_DATE_TIME;
-import static com.jakubeeee.testutils.DateTimeTestConstants.TEST_DATE_TIME_FIVE_HOURS_EARLIER;
+import static com.jakubeeee.testutils.DateTimeTestConstants.*;
 import static java.util.UUID.randomUUID;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItems;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
@@ -96,8 +91,10 @@ public class DefaultPasswordResetServiceTest {
 
     private String testEmail;
     private User testUser;
-    private String testValue;
-    private PasswordResetToken testPasswordResetToken;
+    private String testValue1;
+    private String testValue2;
+    private PasswordResetToken testPasswordResetToken1;
+    private PasswordResetToken testPasswordResetToken2;
     private ChangePasswordForm changePasswordForm;
 
     @Before
@@ -109,9 +106,10 @@ public class DefaultPasswordResetServiceTest {
         testEmail = "testEmail";
         testUser = new User("testUsername", "testPassword", testEmail);
         setField(testUser, "id", 1L);
-        testValue = "testValue";
-        testPasswordResetToken = new PasswordResetToken(testValue, testUser, TEST_DATE_TIME, 240);
-        changePasswordForm = new ChangePasswordForm("testPassword1", "testPassword1", 1L, testValue);
+        testValue1 = "testValue";
+        testPasswordResetToken1 = new PasswordResetToken(testValue1, testUser, TEST_DATE_TIME, 240);
+        testPasswordResetToken2 = new PasswordResetToken(testValue2, testUser, TEST_DATE_TIME_FIVE_HOURS_LATER, 240);
+        changePasswordForm = new ChangePasswordForm("testPassword1", "testPassword1", 1L, testValue1);
     }
 
     @Test
@@ -120,7 +118,7 @@ public class DefaultPasswordResetServiceTest {
         var mockedUUID = PowerMockito.mock(UUID.class);
         PowerMockito.mockStatic(UUID.class);
         PowerMockito.when(randomUUID()).thenReturn(mockedUUID);
-        when(mockedUUID.toString()).thenReturn(testValue);
+        when(mockedUUID.toString()).thenReturn(testValue1);
         mockGetCurrentTimeInvocation();
         String testEmailContent = "testEmailContent";
         String testEmailContentWithUrl = testEmailContent + "\r\nhttp://localhost:8080/#/change-password?id=1&token" +
@@ -131,7 +129,7 @@ public class DefaultPasswordResetServiceTest {
         when(messageService.getMessage("passwordResetEmailSubject", Locale.ENGLISH))
                 .thenReturn(testEmailSubject);
         passwordResetService.handleForgotMyPasswordProcess(testEmail, "http://localhost:8080", "en");
-        verify(passwordResetTokenRepository, times(1)).save(testPasswordResetToken);
+        verify(passwordResetTokenRepository, times(1)).save(testPasswordResetToken1);
         var mailMessage = new SimpleMailMessage();
         mailMessage.setTo(testUser.getEmail());
         mailMessage.setSubject(testEmailSubject);
@@ -141,7 +139,7 @@ public class DefaultPasswordResetServiceTest {
 
     @Test
     public void changePasswordTest() {
-        doReturn(Optional.of(testPasswordResetToken)).when(passwordResetTokenRepository).findByValue(testValue);
+        doReturn(Optional.of(testPasswordResetToken1)).when(passwordResetTokenRepository).findByValue(testValue1);
         mockGetCurrentTimeInvocation();
         useRealIsTimeAfterMethod();
         passwordResetServiceSpy.changePassword(changePasswordForm);
@@ -151,7 +149,7 @@ public class DefaultPasswordResetServiceTest {
     @Test(expected = DifferentPasswordResetTokenOwnerException.class)
     public void changePasswordTest_providedUserIdAndTokenOwenrIdDoNotMatch_shouldThrowException() {
         setField(testUser, "id", 2L);
-        doReturn(Optional.of(testPasswordResetToken)).when(passwordResetTokenRepository).findByValue(testValue);
+        doReturn(Optional.of(testPasswordResetToken1)).when(passwordResetTokenRepository).findByValue(testValue1);
         mockGetCurrentTimeInvocation();
         useRealIsTimeAfterMethod();
         passwordResetServiceSpy.changePassword(changePasswordForm);
@@ -160,8 +158,8 @@ public class DefaultPasswordResetServiceTest {
 
     @Test(expected = PasswordResetTokenExpiredException.class)
     public void changePasswordTest_tokenHasExpired_shouldThrowException() {
-        setField(testPasswordResetToken, "expiryDate", TEST_DATE_TIME_FIVE_HOURS_EARLIER);
-        doReturn(Optional.of(testPasswordResetToken)).when(passwordResetTokenRepository).findByValue(testValue);
+        setField(testPasswordResetToken1, "expiryDate", TEST_DATE_TIME_FIVE_HOURS_EARLIER);
+        doReturn(Optional.of(testPasswordResetToken1)).when(passwordResetTokenRepository).findByValue(testValue1);
         mockGetCurrentTimeInvocation();
         useRealIsTimeAfterMethod();
         passwordResetServiceSpy.changePassword(changePasswordForm);
@@ -170,15 +168,24 @@ public class DefaultPasswordResetServiceTest {
 
     @Test
     public void findByValueTest() {
-        when(passwordResetTokenRepository.findByValue(testValue)).thenReturn(Optional.of(testPasswordResetToken));
-        PasswordResetToken result = passwordResetService.findByValue(testValue);
-        Assert.assertThat(result, is(equalTo(testPasswordResetToken)));
+        when(passwordResetTokenRepository.findByValue(testValue1)).thenReturn(Optional.of(testPasswordResetToken1));
+        PasswordResetToken result = passwordResetService.findByValue(testValue1);
+        Assert.assertThat(result, is(equalTo(testPasswordResetToken1)));
     }
 
     @Test(expected = DatabaseResultEmptyException.class)
     public void findByValueTest_passwordResetTokenNotFound_shouldThrowException() {
-        when(passwordResetTokenRepository.findByValue(testValue)).thenReturn(Optional.empty());
-        passwordResetService.findByValue(testValue);
+        when(passwordResetTokenRepository.findByValue(testValue1)).thenReturn(Optional.empty());
+        passwordResetService.findByValue(testValue1);
+    }
+
+    @Test
+    public void findAllByUserTest() {
+        when(passwordResetTokenRepository.findAllByUser(testUser)).thenReturn(Set.of(testPasswordResetToken1, testPasswordResetToken2));
+        Set<PasswordResetToken> resultSet = passwordResetService.findAllByUser(testUser);
+        assertThat(resultSet,
+                hasItems(testPasswordResetToken1, testPasswordResetToken2)
+        );
     }
 
     private void mockGetCurrentTimeInvocation() {

@@ -2,7 +2,6 @@ package com.jakubeeee.security.impl.user;
 
 import com.jakubeeee.common.persistence.IdentifiableEntity;
 import com.jakubeeee.security.impl.role.Role;
-import com.jakubeeee.security.impl.passwordreset.PasswordResetToken;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,12 +44,6 @@ public class User extends IdentifiableEntity implements UserDetails {
             joinColumns = @JoinColumn(name = "USER_ID", nullable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID", nullable = false, updatable = false))
     private Set<Role> roles = new HashSet<>();
-
-    // exclude from equals, hashCode and toString methods to prevent cyclic references with password reset tokens
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<PasswordResetToken> passwordResetTokens = new HashSet<>();
 
     public User(String username, String password, String email) {
         this.username = username;
