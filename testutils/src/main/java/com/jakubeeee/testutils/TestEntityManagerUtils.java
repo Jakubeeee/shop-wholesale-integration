@@ -68,8 +68,10 @@ public final class TestEntityManagerUtils {
         return getTypedQueryForFind(entityManager, entityClass, emptySortedMap()).getResultStream();
     }
 
-    public static <T> void insert(@NonNull TestEntityManager testEntityManager, @NonNull T entity) {
-        insert(testEntityManager.getEntityManager(), entity);
+    @SafeVarargs
+    public static <T> void insert(@NonNull TestEntityManager testEntityManager, @NonNull T... entities) {
+        for (T entity : entities)
+            insert(testEntityManager.getEntityManager(), entity);
     }
 
     private static <T> void insert(EntityManager entityManager, T entity) {

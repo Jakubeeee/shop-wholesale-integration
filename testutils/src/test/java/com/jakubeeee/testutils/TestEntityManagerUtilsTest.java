@@ -211,9 +211,25 @@ public class TestEntityManagerUtilsTest {
         verifyPersist(TEST_ENTITY_1);
     }
 
+    @Test
+    public void insertTest_multipleEntities() {
+        mockGetEntityManager();
+        insert(testEntityManager, TEST_ENTITY_1, TEST_ENTITY_2, TEST_ENTITY_3);
+        verifyPersist(TEST_ENTITY_1);
+        verifyPersist(TEST_ENTITY_2);
+        verifyPersist(TEST_ENTITY_3);
+    }
+
     @Test(expected = IllegalArgumentException.class)
-    public void insertTest_notEntityClass_shouldThrowException() {
+    public void insertTest_notEntity_shouldThrowException() {
         insert(testEntityManager, TEST_NOT_ENTITY_1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void insertTest_multipleEntitiesAndOneNotEntity_shouldThrowException() {
+        insert(testEntityManager, TEST_ENTITY_1, TEST_ENTITY_2, TEST_NOT_ENTITY_1);
+        verifyPersist(TEST_ENTITY_1);
+        verifyPersist(TEST_ENTITY_2);
     }
 
     private void mockFindSingleMethodCalls(TestEntity expectedResult) {
