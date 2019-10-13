@@ -14,7 +14,7 @@ import static java.util.stream.StreamSupport.stream;
  * conversion from immutable value objects to jpa entities in order to save them in database. Using immutable objects
  * in main application flow is more reliable, safer and free of unnecessary database related information.
  */
-public abstract class AbstractEntityFactory<E extends JpaEntity, V extends ImmutableValue<E>> {
+public abstract class BaseEntityFactory<E extends JpaEntity, V extends JpaEntityValue<E>> {
 
     public final Set<E> createEntities(@NonNull Set<V> values) {
         return values.stream()

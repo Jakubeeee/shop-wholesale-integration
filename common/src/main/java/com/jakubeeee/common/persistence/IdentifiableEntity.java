@@ -1,8 +1,6 @@
 package com.jakubeeee.common.persistence;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -14,12 +12,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Superclass for JPA entities that can be identified with unique {@link Long} id.
  */
+@Data
 @MappedSuperclass
-@EqualsAndHashCode
-@ToString
 public abstract class IdentifiableEntity implements JpaEntity {
 
-    @Getter
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "ID", updatable = false)

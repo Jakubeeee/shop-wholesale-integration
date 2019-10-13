@@ -52,7 +52,7 @@ public class DefaultPasswordResetService implements PasswordResetService {
         User user = securityService.findByEmail(email);
         var resetTokenValue = UUID.randomUUID().toString();
         LocalDateTime now = getCurrentDateTime();
-        var resetToken = new PasswordResetTokenValue(resetTokenValue, now.plusMinutes(TOKEN_LIFETIME_IN_MINUTES), user);
+        var resetToken = new PasswordResetTokenValue(null, resetTokenValue, now.plusMinutes(TOKEN_LIFETIME_IN_MINUTES), user);
         passwordResetTokenRepository.save(passwordResetTokenFactory.createEntity(resetToken));
         return resetToken;
     }

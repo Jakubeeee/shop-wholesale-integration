@@ -1,6 +1,6 @@
 package com.jakubeeee.security.impl.passwordreset;
 
-import com.jakubeeee.common.persistence.AbstractEntityFactory;
+import com.jakubeeee.common.persistence.BaseEntityFactory;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
@@ -8,11 +8,12 @@ import lombok.NonNull;
  * Entity factory used for production of {@link PasswordResetToken} from {@link PasswordResetTokenValue} and vice versa.
  */
 @NoArgsConstructor(staticName = "getInstance")
-public class PasswordResetTokenFactory extends AbstractEntityFactory<PasswordResetToken, PasswordResetTokenValue> {
+public class PasswordResetTokenFactory extends BaseEntityFactory<PasswordResetToken, PasswordResetTokenValue> {
 
     @Override
     public PasswordResetToken createEntity(@NonNull PasswordResetTokenValue value) {
         var passwordResetToken = new PasswordResetToken();
+        passwordResetToken.setId(value.getDatabaseId());
         passwordResetToken.setValue(value.getValue());
         passwordResetToken.setExpiryDate(value.getExpiryDate());
         passwordResetToken.setUser(value.getUser());
@@ -21,7 +22,8 @@ public class PasswordResetTokenFactory extends AbstractEntityFactory<PasswordRes
 
     @Override
     public PasswordResetTokenValue createValue(@NonNull PasswordResetToken entity) {
-        return new PasswordResetTokenValue(entity.getValue(), entity.getExpiryDate(), entity.getUser());
+        return new PasswordResetTokenValue(entity.getId(), entity.getValue(), entity.getExpiryDate(),
+                entity.getUser());
     }
 
 }
