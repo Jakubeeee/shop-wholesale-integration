@@ -1,7 +1,7 @@
 package com.jakubeeee.security;
 
+import com.jakubeeee.common.persistence.ImmutableValue;
 import com.jakubeeee.security.impl.FieldMatch;
-import lombok.AllArgsConstructor;
 import lombok.Value;
 
 import javax.validation.constraints.NotBlank;
@@ -13,9 +13,8 @@ import javax.validation.constraints.Size;
  * Immutable data access object for password changing functionality.
  */
 @Value
-@AllArgsConstructor
 @FieldMatch(first = "password", second = "passwordConfirm")
-public class ChangePasswordForm {
+public class ChangePasswordForm implements ImmutableValue {
 
     private static final String PASSWORD_REGEX = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,25}$";
 
