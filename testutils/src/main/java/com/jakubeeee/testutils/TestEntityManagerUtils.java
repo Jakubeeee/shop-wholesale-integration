@@ -68,6 +68,15 @@ public final class TestEntityManagerUtils {
         return getTypedQueryForFind(entityManager, entityClass, emptySortedMap()).getResultStream();
     }
 
+    public static <T> void insert(@NonNull TestEntityManager testEntityManager, @NonNull T entity) {
+        insert(testEntityManager.getEntityManager(), entity);
+    }
+
+    private static <T> void insert(EntityManager entityManager, T entity) {
+        validateIfEntity(entity.getClass());
+        entityManager.persist(entity);
+    }
+
     private static void validateIfEntity(Class<?> entityClass) {
         var entityAnnotation = entityClass.getAnnotation(Entity.class);
         if (entityAnnotation == null)

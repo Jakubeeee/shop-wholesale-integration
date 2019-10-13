@@ -47,12 +47,14 @@ public class TestEntityManagerUtilsTest {
     private static TestEntity TEST_ENTITY_1;
     private static TestEntity TEST_ENTITY_2;
     private static TestEntity TEST_ENTITY_3;
+    private static TestNotEntity TEST_NOT_ENTITY_1;
 
     @BeforeClass
     public static void setUp() {
         TEST_ENTITY_1 = new TestEntity(1, "aaa", "bbb", "ccc");
         TEST_ENTITY_2 = new TestEntity(2, "ddd", "eee", "fff");
         TEST_ENTITY_3 = new TestEntity(3, "ggg", "hhh", "iii");
+        TEST_NOT_ENTITY_1 = new TestNotEntity(4, "jjj", "kkk", "lll");
     }
 
     @Test
@@ -202,6 +204,18 @@ public class TestEntityManagerUtilsTest {
         findAll(testEntityManager, TestNotEntity.class);
     }
 
+    @Test
+    public void insertTest() {
+        mockGetEntityManager();
+        insert(testEntityManager, TEST_ENTITY_1);
+        verifyPersist(TEST_ENTITY_1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void insertTest_notEntityClass_shouldThrowException() {
+        insert(testEntityManager, TEST_NOT_ENTITY_1);
+    }
+
     private void mockFindSingleMethodCalls(TestEntity expectedResult) {
         mockGetEntityManager();
         mockCreateQueryForTestEntity();
@@ -248,6 +262,10 @@ public class TestEntityManagerUtilsTest {
 
     private void verifySetParameter(String parameter, Object value) {
         verify(typedQuery, times(1)).setParameter(parameter, value);
+    }
+
+    private void verifyPersist(Object entity) {
+        verify(entityManager, times(1)).persist(entity);
     }
 
     private void verifyNoParametersSet() {
