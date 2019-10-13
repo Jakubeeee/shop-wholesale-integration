@@ -1,8 +1,5 @@
 package com.jakubeeee.security.impl.role;
 
-import com.jakubeeee.security.impl.role.Role;
-import com.jakubeeee.security.impl.user.User;
-
 import java.util.Optional;
 import java.util.Set;
 
@@ -11,7 +8,7 @@ import java.util.Set;
  */
 public interface RoleService {
 
-    void grantRoles(User user, Set<Role> roles);
+    Set<Role> resolveRolesToAssign(Set<Role.Type> roleTypes);
 
     Role findOneByType(Role.Type roleType);
 

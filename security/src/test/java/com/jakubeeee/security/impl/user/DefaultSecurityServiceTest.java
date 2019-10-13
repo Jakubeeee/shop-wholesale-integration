@@ -1,14 +1,8 @@
 package com.jakubeeee.security.impl.user;
 
 import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
-import com.jakubeeee.security.impl.user.DefaultSecurityService;
-import com.jakubeeee.security.impl.user.EmailNotUniqueException;
-import com.jakubeeee.security.impl.user.SecurityService;
 import com.jakubeeee.security.impl.role.Role;
 import com.jakubeeee.security.impl.role.RoleService;
-import com.jakubeeee.security.impl.user.User;
-import com.jakubeeee.security.impl.user.UserRepository;
-import com.jakubeeee.security.impl.user.UsernameNotUniqueException;
 import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -88,24 +82,24 @@ public class DefaultSecurityServiceTest {
     }
 
     @Test
-    public void createUserTest_noRoleTypesPassed() throws Exception {
+    public void createUserTest_oneRoleTypePassed() throws Exception {
         var roleTypes = Set.of(BASIC_USER);
-        var roles = Set.of(Role.of(BASIC_USER), Role.of(PRO_USER), Role.of(ADMIN));
+        var roles = Set.of(Role.of(BASIC_USER));
         when(roleService.findAllByTypes(roleTypes)).thenReturn(roles);
         when(passwordEncoder.encode(TEST_PASSWORD)).thenReturn(TEST_ENCODED_PASSWORD);
         securityService.createUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL);
-        verify(roleService, times(1)).grantRoles(TEST_USER, roles);
+        verify(roleService, times(1)).resolveRolesToAssign(roleTypes);
         verify(userRepository, times(1)).save(TEST_USER);
     }
 
     @Test
-    public void createUserTest_roleTypesPassed() throws Exception {
+    public void createUserTest_multipleRoleTypesPassed() throws Exception {
         var roleTypes = Set.of(BASIC_USER, PRO_USER, ADMIN);
         var roles = Set.of(Role.of(BASIC_USER), Role.of(PRO_USER), Role.of(ADMIN));
         when(roleService.findAllByTypes(roleTypes)).thenReturn(roles);
         when(passwordEncoder.encode(TEST_PASSWORD)).thenReturn(TEST_ENCODED_PASSWORD);
         securityService.createUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, roleTypes);
-        verify(roleService, times(1)).grantRoles(TEST_USER, roles);
+        verify(roleService, times(1)).resolveRolesToAssign(roleTypes);
         verify(userRepository, times(1)).save(TEST_USER);
     }
 

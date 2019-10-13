@@ -1,7 +1,6 @@
 package com.jakubeeee.security.impl.role;
 
 import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
-import com.jakubeeee.security.impl.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +21,10 @@ public class DefaultRoleService implements RoleService {
     private final RoleRepository roleRepository;
 
     @Override
-    public void grantRoles(User user, Set<Role> roles) {
+    public Set<Role> resolveRolesToAssign(Set<Role.Type> roleTypes) {
+        Set<Role> roles = findAllByTypes(roleTypes);
         roles = attachLowerRoles(roles);
-        user.setRoles(roles);
+        return roles;
     }
 
     private Set<Role> attachLowerRoles(Set<Role> currentRoles) {

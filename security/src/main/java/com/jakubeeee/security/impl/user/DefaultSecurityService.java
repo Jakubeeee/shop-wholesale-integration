@@ -47,8 +47,8 @@ public class DefaultSecurityService implements SecurityService {
     public void createUser(String username, String password, String email, Set<Role.Type> roleTypes) {
         validateUsernameAndEmailUniqueness(username, email);
         var user = new User(username, password, email);
-        Set<Role> roles = roleService.findAllByTypes(roleTypes);
-        roleService.grantRoles(user, roles);
+        Set<Role> roles = roleService.resolveRolesToAssign(roleTypes);
+        user.setRoles(roles);
         encodePassword(user);
         userRepository.save(user);
         authenticateUser(user);

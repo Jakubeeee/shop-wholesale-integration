@@ -1,11 +1,6 @@
 package com.jakubeeee.security.impl.role;
 
 import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
-import com.jakubeeee.security.impl.role.Role;
-import com.jakubeeee.security.impl.role.RoleService;
-import com.jakubeeee.security.impl.user.User;
-import com.jakubeeee.security.impl.role.RoleRepository;
-import com.jakubeeee.security.impl.role.DefaultRoleService;
 import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,7 +23,6 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.Mockito.*;
 
 @Category(FlowControlUnitTestCategory.class)
@@ -53,47 +47,47 @@ public class DefaultRoleServiceTest {
 
     private RoleRepository roleRepository;
 
-    private User testUser;
-
     @Before
     public void setUpForEveryTest() throws Exception {
         roleRepository = getFieldValue(roleService, RoleRepository.class);
-        testUser = new User("testUsername", "testPassword", "testEmail");
     }
 
     @Test
-    public void grantRolesTest_basicRole() {
-        var roles = Set.of(Role.of(BASIC_USER));
-        when(roleRepository.findByType(BASIC_USER)).thenReturn(Optional.of(Role.of(BASIC_USER)));
-        roleService.grantRoles(testUser, roles);
-        assertThat(testUser.getRoles(), hasItem(Role.of(BASIC_USER)));
-        assertThat(testUser.getRoles(), not(hasItems(Role.of(PRO_USER), Role.of(ADMIN))));
-    }
-
-    @Test
-    public void grantRolesTest_proRole() {
-        var roles = Set.of(Role.of(PRO_USER));
+    public void resolveRolesToAssignTest_basicRole() {
+        var roleTypes = Set.of(BASIC_USER);
         when(roleRepository.findByTypeIn(Set.of(BASIC_USER))).thenReturn(Set.of(Role.of(BASIC_USER)));
-        roleService.grantRoles(testUser, roles);
-        assertThat(testUser.getRoles(), hasItems(Role.of(BASIC_USER), Role.of(PRO_USER)));
-        assertThat(testUser.getRoles(), not(hasItem(Role.of(ADMIN))));
+        Set<Role> result = roleService.resolveRolesToAssign(roleTypes);
+        assertThat(result, hasItem(Role.of(BASIC_USER)));
+        assertThat(result, not(hasItems(Role.of(PRO_USER), Role.of(ADMIN))));
     }
 
     @Test
-    public void grantRolesTest_adminRole() {
-        var roles = Set.of(Role.of(ADMIN));
+    public void resolveRolesToAssignTest_proRole() {
+        var roleTypes = Set.of(PRO_USER);
+        when(roleRepository.findByTypeIn(Set.of(PRO_USER))).thenReturn(Set.of(Role.of(PRO_USER)));
+        when(roleRepository.findByTypeIn(Set.of(BASIC_USER))).thenReturn(Set.of(Role.of(BASIC_USER)));
+        Set<Role> result = roleService.resolveRolesToAssign(roleTypes);
+        assertThat(result, hasItems(Role.of(BASIC_USER), Role.of(PRO_USER)));
+        assertThat(result, not(hasItem(Role.of(ADMIN))));
+    }
+
+    @Test
+    public void resolveRolesToAssignTest_adminRole() {
+        var roleTypes = Set.of(ADMIN);
+        when(roleRepository.findByTypeIn(Set.of(ADMIN))).thenReturn(Set.of(Role.of(ADMIN)));
         when(roleRepository.findByTypeIn(Set.of(BASIC_USER, PRO_USER))).thenReturn(Set.of(Role.of(BASIC_USER),
                 Role.of(PRO_USER)));
-        roleService.grantRoles(testUser, roles);
-        assertThat(testUser.getRoles(), hasItems(Role.of(BASIC_USER), Role.of(PRO_USER), Role.of(ADMIN)));
+        Set<Role> result = roleService.resolveRolesToAssign(roleTypes);
+        assertThat(result, hasItems(Role.of(BASIC_USER), Role.of(PRO_USER), Role.of(ADMIN)));
     }
 
     @Test
-    public void grantRolesTest_basicProAndAdminRoles() {
-        var roles = Set.of(Role.of(BASIC_USER), Role.of(PRO_USER), Role.of(ADMIN));
-        roleService.grantRoles(testUser, roles);
-        assertThat(testUser.getRoles(), hasItems(Role.of(BASIC_USER), Role.of(PRO_USER), Role.of(ADMIN)));
-        verify(roleRepository, times(0)).findByTypeIn(anySet());
+    public void resolveRolesToAssignTest_basicProAndAdminRoles() {
+        var roleTypes = Set.of(BASIC_USER, PRO_USER, ADMIN);
+        when(roleRepository.findByTypeIn(Set.of(BASIC_USER, PRO_USER, ADMIN))).thenReturn(Set.of(Role.of(BASIC_USER),
+                Role.of(PRO_USER), Role.of(ADMIN)));
+        Set<Role> result = roleService.resolveRolesToAssign(roleTypes);
+        assertThat(result, hasItems(Role.of(BASIC_USER), Role.of(PRO_USER), Role.of(ADMIN)));
     }
 
     @Test
