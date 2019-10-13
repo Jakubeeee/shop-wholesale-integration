@@ -1,4 +1,4 @@
-package com.jakubeeee.security.impl.passwordreset;
+package com.jakubeeee.security;
 
 import com.jakubeeee.security.impl.FieldMatch;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,5 @@
 package com.jakubeeee.security;
 
-import com.jakubeeee.security.impl.passwordreset.ChangePasswordForm;
 import com.jakubeeee.security.impl.passwordreset.PasswordResetService;
 import com.jakubeeee.security.impl.user.SecurityService;
 import com.jakubeeee.testutils.marker.SpringSliceTestCategory;

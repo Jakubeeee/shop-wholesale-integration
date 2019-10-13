@@ -3,6 +3,7 @@ package com.jakubeeee.security.impl.passwordreset;
 import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
 import com.jakubeeee.core.EmailService;
 import com.jakubeeee.core.MessageService;
+import com.jakubeeee.security.ChangePasswordForm;
 import com.jakubeeee.security.impl.user.SecurityService;
 import com.jakubeeee.security.impl.user.User;
 import lombok.RequiredArgsConstructor;

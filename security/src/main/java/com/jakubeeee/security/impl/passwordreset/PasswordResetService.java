@@ -1,5 +1,6 @@
 package com.jakubeeee.security.impl.passwordreset;
 
+import com.jakubeeee.security.ChangePasswordForm;
 import com.jakubeeee.security.impl.user.User;
 
 import java.util.Set;

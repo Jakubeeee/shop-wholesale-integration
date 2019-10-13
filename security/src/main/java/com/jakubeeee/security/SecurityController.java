@@ -1,8 +1,7 @@
 package com.jakubeeee.security;
 
-import com.jakubeeee.security.impl.user.SecurityService;
-import com.jakubeeee.security.impl.passwordreset.ChangePasswordForm;
 import com.jakubeeee.security.impl.passwordreset.PasswordResetService;
+import com.jakubeeee.security.impl.user.SecurityService;
 import com.jakubeeee.security.impl.user.UsernameNotResolvableException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
