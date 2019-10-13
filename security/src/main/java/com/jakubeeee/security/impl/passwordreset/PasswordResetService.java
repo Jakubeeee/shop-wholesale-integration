@@ -13,8 +13,8 @@ public interface PasswordResetService {
 
     void changePassword(ChangePasswordForm form);
 
-    PasswordResetToken findByValue(String value);
+    PasswordResetTokenValue findByValue(String value);
 
-    Set<PasswordResetToken> findAllByUser(User user);
+    Set<PasswordResetTokenValue> findAllByUser(User user);
 
 }

@@ -76,7 +76,7 @@ public class DefaultPasswordResetService implements PasswordResetService {
 
     @Override
     public void changePassword(ChangePasswordForm form) {
-        PasswordResetToken passwordResetToken = findByValue(form.getResetToken());
+        PasswordResetTokenValue passwordResetToken = findByValue(form.getResetToken());
         if (isTimeAfter(getCurrentDateTime(), passwordResetToken.getExpiryDate()))
             throw new PasswordResetTokenExpiredException("Password reset token has expired");
         User tokenOwner = passwordResetToken.getUser();
@@ -86,15 +86,15 @@ public class DefaultPasswordResetService implements PasswordResetService {
     }
 
     @Override
-    public PasswordResetToken findByValue(String value) {
+    public PasswordResetTokenValue findByValue(String value) {
         Optional<PasswordResetToken> tokenO = passwordResetTokenRepository.findByValue(value);
-        return tokenO.orElseThrow(() -> new DatabaseResultEmptyException("Token with value " + value + " not found in" +
-                " the database"));
+        return passwordResetTokenFactory.createValue(tokenO.orElseThrow(() -> new DatabaseResultEmptyException("Token with value " + value
+                + " not found in the database")));
     }
 
     @Override
-    public Set<PasswordResetToken> findAllByUser(User user) {
-        return passwordResetTokenRepository.findAllByUser(user);
+    public Set<PasswordResetTokenValue> findAllByUser(User user) {
+        return passwordResetTokenFactory.createValues(passwordResetTokenRepository.findAllByUser(user));
     }
 
 }

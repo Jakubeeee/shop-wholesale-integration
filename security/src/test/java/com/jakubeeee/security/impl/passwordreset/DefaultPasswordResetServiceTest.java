@@ -89,12 +89,15 @@ public class DefaultPasswordResetServiceTest {
     private MessageService messageService;
     private PasswordResetTokenRepository passwordResetTokenRepository;
 
+    private Long testUserId;
     private String testEmail;
     private User testUser;
     private String testValue1;
     private String testValue2;
     private PasswordResetToken testPasswordResetToken1;
     private PasswordResetToken testPasswordResetToken2;
+    private PasswordResetTokenValue testPasswordResetTokenValue1;
+    private PasswordResetTokenValue testPasswordResetTokenValue2;
     private ChangePasswordForm changePasswordForm;
 
     @Before
@@ -169,8 +172,8 @@ public class DefaultPasswordResetServiceTest {
     @Test
     public void findByValueTest() {
         when(passwordResetTokenRepository.findByValue(testValue1)).thenReturn(Optional.of(testPasswordResetToken1));
-        PasswordResetToken result = passwordResetService.findByValue(testValue1);
-        Assert.assertThat(result, is(equalTo(testPasswordResetToken1)));
+        PasswordResetTokenValue result = passwordResetService.findByValue(testValue1);
+        Assert.assertThat(result, is(equalTo(testPasswordResetTokenValue1)));
     }
 
     @Test(expected = DatabaseResultEmptyException.class)
@@ -182,9 +185,9 @@ public class DefaultPasswordResetServiceTest {
     @Test
     public void findAllByUserTest() {
         when(passwordResetTokenRepository.findAllByUser(testUser)).thenReturn(Set.of(testPasswordResetToken1, testPasswordResetToken2));
-        Set<PasswordResetToken> resultSet = passwordResetService.findAllByUser(testUser);
+        Set<PasswordResetTokenValue> resultSet = passwordResetService.findAllByUser(testUser);
         assertThat(resultSet,
-                hasItems(testPasswordResetToken1, testPasswordResetToken2)
+                hasItems(testPasswordResetTokenValue1, testPasswordResetTokenValue2)
         );
     }
 
