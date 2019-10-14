@@ -14,4 +14,9 @@ module integration {
     requires spring.context;
     requires spring.core;
     requires spring.web;
+
+    exports com.jakubeeee.integration;
+    exports com.jakubeeee.integration.auth;
+    exports com.jakubeeee.integration.datasource;
+    exports com.jakubeeee.integration.product;
 }
