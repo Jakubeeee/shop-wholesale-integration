@@ -63,15 +63,19 @@ public class DefaultSecurityServiceTest {
     private static String TEST_ENCODED_PASSWORD;
     private static String TEST_EMAIL;
     private static User TEST_USER;
+    private static UserValue TEST_USER_VALUE;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp() throws Exception {
         TEST_ID = 1;
         TEST_USERNAME = "testUsername";
         TEST_PASSWORD = "testPassword";
         TEST_ENCODED_PASSWORD = "testEncodedPassword";
         TEST_EMAIL = "testEmail";
         TEST_USER = new User(TEST_USERNAME, TEST_ENCODED_PASSWORD, TEST_EMAIL);
+        TEST_USER.setId(TEST_ID);
+        TEST_USER_VALUE = new UserValue(TEST_ID, TEST_USERNAME, TEST_ENCODED_PASSWORD, TEST_EMAIL, true,
+                Set.of(Role.of(BASIC_USER)));
     }
 
     @Before
@@ -155,8 +159,8 @@ public class DefaultSecurityServiceTest {
     @Test
     public void findByUsernameTest() {
         when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.of(TEST_USER));
-        User user = securityService.findByUsername(TEST_USERNAME);
-        assertThat(user, is(equalTo(TEST_USER)));
+        UserValue user = securityService.findByUsername(TEST_USERNAME);
+        assertThat(user, is(equalTo(TEST_USER_VALUE)));
     }
 
     @Test(expected = DatabaseResultEmptyException.class)
@@ -168,8 +172,8 @@ public class DefaultSecurityServiceTest {
     @Test
     public void findByEmailTest() {
         when(userRepository.findByEmail(TEST_EMAIL)).thenReturn(Optional.of(TEST_USER));
-        User user = securityService.findByEmail(TEST_EMAIL);
-        assertThat(user, is(equalTo(TEST_USER)));
+        UserValue user = securityService.findByEmail(TEST_EMAIL);
+        assertThat(user, is(equalTo(TEST_USER_VALUE)));
     }
 
     @Test(expected = DatabaseResultEmptyException.class)

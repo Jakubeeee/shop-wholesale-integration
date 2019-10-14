@@ -1,7 +1,7 @@
 package com.jakubeeee.security.impl.passwordreset;
 
 import com.jakubeeee.security.ChangePasswordForm;
-import com.jakubeeee.security.impl.user.User;
+import com.jakubeeee.security.impl.user.UserValue;
 
 import java.util.Set;
 
@@ -16,6 +16,6 @@ public interface PasswordResetService {
 
     PasswordResetTokenValue findByValue(String value);
 
-    Set<PasswordResetTokenValue> findAllByUser(User user);
+    Set<PasswordResetTokenValue> findAllByUser(UserValue user);
 
 }

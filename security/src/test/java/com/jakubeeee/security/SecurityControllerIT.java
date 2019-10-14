@@ -5,7 +5,7 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.jakubeeee.security.impl.passwordreset.PasswordResetService;
 import com.jakubeeee.security.impl.passwordreset.PasswordResetTokenValue;
 import com.jakubeeee.security.impl.user.SecurityService;
-import com.jakubeeee.security.impl.user.User;
+import com.jakubeeee.security.impl.user.UserValue;
 import com.jakubeeee.testcore.AbstractIntegrationTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -51,7 +51,7 @@ public class SecurityControllerIT extends AbstractIntegrationTest {
     @Transactional
     public void handleForgotMyPasswordRequestIntegrationTest_tokenEqualityCheck() throws Exception {
         performForgotMyPasswordRequest(mockMvc, "en").andExpect(status().isOk());
-        User user = securityService.findByEmail(TEST_EMAIL_ADDRESS);
+        UserValue user = securityService.findByEmail(TEST_EMAIL_ADDRESS);
 
         Set<PasswordResetTokenValue> tokens = passwordResetService.findAllByUser(user);
         assertThat(tokens.size(), is(equalTo(1)));
@@ -95,7 +95,7 @@ public class SecurityControllerIT extends AbstractIntegrationTest {
     public void handleForgotMyPasswordRequestIntegrationTest_englishLanguage_contentCheck() throws Exception {
         performForgotMyPasswordRequest(mockMvc, "en").andExpect(status().isOk());
         MimeMessage receivedMessage = greenMail.getReceivedMessages()[0];
-        User user = securityService.findByEmail(TEST_EMAIL_ADDRESS);
+        UserValue user = securityService.findByEmail(TEST_EMAIL_ADDRESS);
         Set<PasswordResetTokenValue> tokens = passwordResetService.findAllByUser(user);
         PasswordResetTokenValue tokenFromUser = tokens.iterator().next();
 
@@ -109,7 +109,7 @@ public class SecurityControllerIT extends AbstractIntegrationTest {
     public void handleForgotMyPasswordRequestIntegrationTest_polishLanguage_contentCheck() throws Exception {
         performForgotMyPasswordRequest(mockMvc, "pl").andExpect(status().isOk());
         MimeMessage receivedMessage = greenMail.getReceivedMessages()[0];
-        User user = securityService.findByEmail(TEST_EMAIL_ADDRESS);
+        UserValue user = securityService.findByEmail(TEST_EMAIL_ADDRESS);
         Set<PasswordResetTokenValue> tokens = passwordResetService.findAllByUser(user);
         PasswordResetTokenValue tokenFromUser = tokens.iterator().next();
 
@@ -142,13 +142,14 @@ public class SecurityControllerIT extends AbstractIntegrationTest {
     @Transactional
     public void handleChangePasswordRequestIntegrationTest() throws Exception {
         performForgotMyPasswordRequest(mockMvc, "en").andExpect(status().isOk());
-        User user = securityService.findByEmail(TEST_EMAIL_ADDRESS);
+        UserValue user = securityService.findByEmail(TEST_EMAIL_ADDRESS);
         Set<PasswordResetTokenValue> tokens = passwordResetService.findAllByUser(user);
         PasswordResetTokenValue tokenFromUser = tokens.iterator().next();
         performChangePasswordRequest(mockMvc,
                 getChangePasswordRequestBody(UPDATED_TEST_PASSWORD, 1L, tokenFromUser.getValue()))
                 .andExpect(status().isOk());
-        entityManager.refresh(user);
+        entityManager.clear();
+        user = securityService.findByEmail(TEST_EMAIL_ADDRESS);
         assertThat(passwordEncoder.matches(UPDATED_TEST_PASSWORD, user.getPassword()), is(equalTo(true)));
     }
 

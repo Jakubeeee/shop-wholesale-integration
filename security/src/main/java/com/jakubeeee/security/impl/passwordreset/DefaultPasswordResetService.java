@@ -5,7 +5,8 @@ import com.jakubeeee.core.EmailService;
 import com.jakubeeee.core.MessageService;
 import com.jakubeeee.security.ChangePasswordForm;
 import com.jakubeeee.security.impl.user.SecurityService;
-import com.jakubeeee.security.impl.user.User;
+import com.jakubeeee.security.impl.user.UserFactory;
+import com.jakubeeee.security.impl.user.UserValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -28,6 +29,7 @@ import static com.jakubeeee.core.EmailUtils.createMailMessage;
 public class DefaultPasswordResetService implements PasswordResetService {
 
     private static final PasswordResetTokenFactory passwordResetTokenFactory = PasswordResetTokenFactory.getInstance();
+    private static final UserFactory userFactory = UserFactory.getInstance();
 
     private final SecurityService securityService;
 
@@ -44,13 +46,13 @@ public class DefaultPasswordResetService implements PasswordResetService {
     @Override
     public void handleForgotMyPasswordProcess(String email, String origin, String localeCode) {
         PasswordResetTokenValue resetToken = createPasswordResetToken(email);
-        User tokenOwner = resetToken.getUser();
-        String resetPasswordUrl = createResetPasswordUrl(origin, tokenOwner.getId(), resetToken.getValue());
+        UserValue tokenOwner = resetToken.getUser();
+        String resetPasswordUrl = createResetPasswordUrl(origin, tokenOwner.getDatabaseId(), resetToken.getValue());
         sendEmailWithResetToken(tokenOwner, resetPasswordUrl, new Locale(localeCode));
     }
 
     private PasswordResetTokenValue createPasswordResetToken(String email) {
-        User user = securityService.findByEmail(email);
+        UserValue user = securityService.findByEmail(email);
         var resetTokenValue = UUID.randomUUID().toString();
         LocalDateTime now = getCurrentDateTime();
         var resetToken = new PasswordResetTokenValue(null, resetTokenValue, now.plusMinutes(TOKEN_LIFETIME_IN_MINUTES), user);
@@ -67,7 +69,7 @@ public class DefaultPasswordResetService implements PasswordResetService {
                 + token;
     }
 
-    private void sendEmailWithResetToken(User user, String resetPasswordUrl, Locale locale) {
+    private void sendEmailWithResetToken(UserValue user, String resetPasswordUrl, Locale locale) {
         String emailContent = messageService.getMessage("passwordResetEmailContent", locale)
                 + "\r\n" + resetPasswordUrl;
         String emailSubject = messageService.getMessage("passwordResetEmailSubject", locale);
@@ -80,10 +82,10 @@ public class DefaultPasswordResetService implements PasswordResetService {
         PasswordResetTokenValue passwordResetToken = findByValue(form.getResetToken());
         if (isTimeAfter(getCurrentDateTime(), passwordResetToken.getExpiryDate()))
             throw new PasswordResetTokenExpiredException("Password reset token has expired");
-        User tokenOwner = passwordResetToken.getUser();
-        if (!Objects.equals(tokenOwner.getId(), form.getUserId()))
+        UserValue tokenOwner = passwordResetToken.getUser();
+        if (!Objects.equals(tokenOwner.getDatabaseId(), form.getUserId()))
             throw new DifferentPasswordResetTokenOwnerException("Password reset token owner is different");
-        securityService.updateUserPassword(tokenOwner.getId(), form.getPassword());
+        securityService.updateUserPassword(tokenOwner.getDatabaseId(), form.getPassword());
     }
 
     @Override
@@ -94,8 +96,8 @@ public class DefaultPasswordResetService implements PasswordResetService {
     }
 
     @Override
-    public Set<PasswordResetTokenValue> findAllByUser(User user) {
-        return passwordResetTokenFactory.createValues(passwordResetTokenRepository.findAllByUser(user));
+    public Set<PasswordResetTokenValue> findAllByUser(UserValue user) {
+        return passwordResetTokenFactory.createValues(passwordResetTokenRepository.findAllByUser(userFactory.createEntity(user)));
     }
 
 }

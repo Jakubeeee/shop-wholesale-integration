@@ -1,7 +1,7 @@
 package com.jakubeeee.security.impl.passwordreset;
 
 import com.jakubeeee.common.persistence.IdentifiableEntityValue;
-import com.jakubeeee.security.impl.user.User;
+import com.jakubeeee.security.impl.user.UserValue;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
@@ -22,12 +22,12 @@ public final class PasswordResetTokenValue extends IdentifiableEntityValue<Passw
 
     private final LocalDateTime expiryDate;
 
-    private final User user;
+    private final UserValue user;
 
     public PasswordResetTokenValue(@Nullable Long databaseId,
                                    @NonNull String value,
                                    @NonNull LocalDateTime expiryDate,
-                                   @NonNull User user) {
+                                   @NonNull UserValue user) {
         super(databaseId);
         this.value = value;
         this.expiryDate = expiryDate;

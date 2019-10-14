@@ -5,8 +5,11 @@ import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
 import com.jakubeeee.core.EmailService;
 import com.jakubeeee.core.MessageService;
 import com.jakubeeee.security.ChangePasswordForm;
+import com.jakubeeee.security.impl.role.Role;
 import com.jakubeeee.security.impl.user.SecurityService;
 import com.jakubeeee.security.impl.user.User;
+import com.jakubeeee.security.impl.user.UserFactory;
+import com.jakubeeee.security.impl.user.UserValue;
 import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import org.junit.Assert;
 import org.junit.Before;
@@ -35,6 +38,7 @@ import java.util.UUID;
 import static com.jakubeeee.common.DateTimeUtils.getCurrentDateTime;
 import static com.jakubeeee.common.DateTimeUtils.isTimeAfter;
 import static com.jakubeeee.common.reflection.ReflectUtils.getFieldValue;
+import static com.jakubeeee.security.impl.role.Role.Type.BASIC_USER;
 import static com.jakubeeee.testutils.DateTimeTestConstants.*;
 import static java.util.UUID.randomUUID;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -93,6 +97,7 @@ public class DefaultPasswordResetServiceTest {
     private Long testUserId;
     private String testEmail;
     private User testUser;
+    private UserValue testUserValue;
     private String testValue1;
     private String testValue2;
     private PasswordResetToken testPasswordResetToken1;
@@ -107,18 +112,24 @@ public class DefaultPasswordResetServiceTest {
         emailService = getFieldValue(passwordResetService, EmailService.class);
         messageService = getFieldValue(passwordResetService, MessageService.class);
         passwordResetTokenRepository = getFieldValue(passwordResetService, PasswordResetTokenRepository.class);
+        testUserId = 1L;
         testEmail = "testEmail";
-        testUser = new User("testUsername", "testPassword", testEmail);
-        setField(testUser, "id", 1L);
-        testValue1 = "testValue";
+        testUserValue = new UserValue(testUserId, "testUsername", "testPassword", testEmail, true,
+                Set.of(Role.of(BASIC_USER)));
+        testUser = UserFactory.getInstance().createEntity(testUserValue);
+        setField(testUser, "id", testUserId);
+        testValue1 = "testValue1";
+        testValue2 = "testValue2";
         testPasswordResetToken1 = new PasswordResetToken(testValue1, testUser, TEST_DATE_TIME, 240);
         testPasswordResetToken2 = new PasswordResetToken(testValue2, testUser, TEST_DATE_TIME_FIVE_HOURS_LATER, 240);
-        changePasswordForm = new ChangePasswordForm("testPassword1", "testPassword1", 1L, testValue1);
+        testPasswordResetTokenValue1 = new PasswordResetTokenValue(null, testValue1, TEST_DATE_TIME, testUserValue);
+        testPasswordResetTokenValue2 = new PasswordResetTokenValue(null, testValue2, TEST_DATE_TIME_FIVE_HOURS_LATER, testUserValue);
+        changePasswordForm = new ChangePasswordForm("testPassword1", "testPassword1", testUserId, testValue1);
     }
 
     @Test
     public void handleForgotMyPasswordProcessTest() {
-        when(securityService.findByEmail(testEmail)).thenReturn(testUser);
+        when(securityService.findByEmail(testEmail)).thenReturn(testUserValue);
         var mockedUUID = PowerMockito.mock(UUID.class);
         PowerMockito.mockStatic(UUID.class);
         PowerMockito.when(randomUUID()).thenReturn(mockedUUID);
@@ -135,7 +146,7 @@ public class DefaultPasswordResetServiceTest {
         passwordResetService.handleForgotMyPasswordProcess(testEmail, "http://localhost:8080", "en");
         verify(passwordResetTokenRepository, times(1)).save(testPasswordResetToken1);
         var mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(testUser.getEmail());
+        mailMessage.setTo(testUserValue.getEmail());
         mailMessage.setSubject(testEmailSubject);
         mailMessage.setText(testEmailContentWithUrl);
         verify(emailService, times(1)).sendMailMessage(mailMessage);
@@ -147,17 +158,17 @@ public class DefaultPasswordResetServiceTest {
         mockGetCurrentTimeInvocation();
         useRealIsTimeAfterMethod();
         passwordResetServiceSpy.changePassword(changePasswordForm);
-        verify(securityService, times(1)).updateUserPassword(1L, "testPassword1");
+        verify(securityService, times(1)).updateUserPassword(testUserId, "testPassword1");
     }
 
     @Test(expected = DifferentPasswordResetTokenOwnerException.class)
     public void changePasswordTest_providedUserIdAndTokenOwenrIdDoNotMatch_shouldThrowException() {
-        setField(testUser, "id", 2L);
+        setField(testUserValue, "id", 2L);
         doReturn(Optional.of(testPasswordResetToken1)).when(passwordResetTokenRepository).findByValue(testValue1);
         mockGetCurrentTimeInvocation();
         useRealIsTimeAfterMethod();
         passwordResetServiceSpy.changePassword(changePasswordForm);
-        verify(securityService, times(0)).updateUserPassword(1L, "testPassword1");
+        verify(securityService, times(0)).updateUserPassword(testUserId, "testPassword1");
     }
 
     @Test(expected = PasswordResetTokenExpiredException.class)
@@ -167,7 +178,7 @@ public class DefaultPasswordResetServiceTest {
         mockGetCurrentTimeInvocation();
         useRealIsTimeAfterMethod();
         passwordResetServiceSpy.changePassword(changePasswordForm);
-        verify(securityService, times(0)).updateUserPassword(1L, "testPassword1");
+        verify(securityService, times(0)).updateUserPassword(testUserId, "testPassword1");
     }
 
     @Test
@@ -186,7 +197,7 @@ public class DefaultPasswordResetServiceTest {
     @Test
     public void findAllByUserTest() {
         when(passwordResetTokenRepository.findAllByUser(testUser)).thenReturn(Set.of(testPasswordResetToken1, testPasswordResetToken2));
-        Set<PasswordResetTokenValue> resultSet = passwordResetService.findAllByUser(testUser);
+        Set<PasswordResetTokenValue> resultSet = passwordResetService.findAllByUser(testUserValue);
         assertThat(resultSet,
                 hasItems(testPasswordResetTokenValue1, testPasswordResetTokenValue2)
         );

@@ -23,6 +23,8 @@ import static com.jakubeeee.security.impl.role.Role.Type.BASIC_USER;
 @Service
 public class DefaultSecurityService implements SecurityService {
 
+    private static final UserFactory userFactory = UserFactory.getInstance();
+
     private final RoleService roleService;
 
     private final UserRepository userRepository;
@@ -46,11 +48,9 @@ public class DefaultSecurityService implements SecurityService {
     @Override
     public void createUser(String username, String password, String email, Set<Role.Type> roleTypes) {
         validateUsernameAndEmailUniqueness(username, email);
-        var user = new User(username, password, email);
         Set<Role> roles = roleService.resolveRolesToAssign(roleTypes);
-        user.setRoles(roles);
-        encodePassword(user);
-        userRepository.save(user);
+        var user = new UserValue(null, username, encodePassword(password), email, true, roles);
+        userRepository.save(userFactory.createEntity(user));
         authenticateUser(user);
     }
 
@@ -61,12 +61,11 @@ public class DefaultSecurityService implements SecurityService {
             throw new EmailNotUniqueException("Provided email is not unique");
     }
 
-    private void encodePassword(User user) {
-        String encryptedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encryptedPassword);
+    private String encodePassword(String password) {
+        return passwordEncoder.encode(password);
     }
 
-    private void authenticateUser(User user) {
+    private void authenticateUser(UserValue user) {
         Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
@@ -113,17 +112,17 @@ public class DefaultSecurityService implements SecurityService {
     }
 
     @Override
-    public User findByUsername(String username) {
+    public UserValue findByUsername(String username) {
         Optional<User> userO = userRepository.findByUsername(username);
-        return userO.orElseThrow(() -> new DatabaseResultEmptyException("User with username " + username + " not " +
-                "found in the database"));
+        return userFactory.createValue(userO.orElseThrow(() ->
+                new DatabaseResultEmptyException("User with username " + username + " not found in the database")));
     }
 
     @Override
-    public User findByEmail(String email) {
+    public UserValue findByEmail(String email) {
         Optional<User> userO = userRepository.findByEmail(email);
-        return userO.orElseThrow(() -> new DatabaseResultEmptyException("User with email " + email + " not found in " +
-                "the database"));
+        return userFactory.createValue(userO.orElseThrow(() ->
+                new DatabaseResultEmptyException("User with email " + email + "not found in the database")));
     }
 
 }

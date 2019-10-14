@@ -23,8 +23,8 @@ public interface SecurityService {
 
     boolean isEmailUnique(String email);
 
-    User findByUsername(String username);
+    UserValue findByUsername(String username);
 
-    User findByEmail(String email);
+    UserValue findByEmail(String email);
 
 }
