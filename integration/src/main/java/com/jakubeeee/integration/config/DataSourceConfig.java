@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.EnumSet;
 import java.util.Set;
 
 import static com.jakubeeee.integration.enums.DataSourceType.WAREHOUSE;
@@ -39,7 +40,7 @@ public class DataSourceConfig {
 
             @Override
             public Set<ProductMappingKey> getAllowedProductMappingKeys() {
-                return Set.of(NAME);
+                return EnumSet.of(NAME);
             }
         };
     }

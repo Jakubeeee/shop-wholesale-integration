@@ -54,8 +54,8 @@ public class ShoperDataSource implements UpdatableDataSource<ShoperProduct> {
 
     @PostConstruct
     void initialize() {
-        allowedProductMappingKeys = Set.of(NAME, CODE);
-        allowedUpdatableProperties = Set.of(STOCK, PRICE, EAN);
+        allowedProductMappingKeys = EnumSet.of(NAME, CODE);
+        allowedUpdatableProperties = EnumSet.of(STOCK, PRICE, EAN);
     }
 
     @Override

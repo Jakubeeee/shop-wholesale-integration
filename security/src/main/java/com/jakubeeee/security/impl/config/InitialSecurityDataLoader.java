@@ -9,7 +9,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
+import java.util.EnumSet;
 
 import static com.jakubeeee.security.impl.role.Role.Type.*;
 
@@ -48,9 +48,9 @@ public class InitialSecurityDataLoader implements ApplicationRunner {
     private void insertDataForLocalProfile() {
         securityService.createUser("test1", "Password1", "testmail1@mail.com");
         securityService.createUser("test2", "Password2", "testmail2@mail.com");
-        securityService.createUser("test3", "Password3", "testmail3@mail.com", Set.of(PRO_USER));
-        securityService.createUser("test4", "Password4", "testmail4@mail.com", Set.of(PRO_USER));
-        securityService.createUser("test5", "Password5", "testmail5@mail.com", Set.of(ADMIN));
+        securityService.createUser("test3", "Password3", "testmail3@mail.com", EnumSet.of(PRO_USER));
+        securityService.createUser("test4", "Password4", "testmail4@mail.com", EnumSet.of(PRO_USER));
+        securityService.createUser("test5", "Password5", "testmail5@mail.com", EnumSet.of(ADMIN));
     }
 
 }

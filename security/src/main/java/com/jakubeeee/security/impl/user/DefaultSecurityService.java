@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -41,7 +42,7 @@ public class DefaultSecurityService implements SecurityService {
     @Transactional
     @Override
     public void createUser(String username, String password, String email) {
-        createUser(username, password, email, Set.of(BASIC_USER));
+        createUser(username, password, email, EnumSet.of(BASIC_USER));
     }
 
     @Transactional

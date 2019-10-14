@@ -21,6 +21,7 @@ import org.springframework.util.LinkedMultiValueMap;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -61,8 +62,8 @@ public class BaseLinkerDataSource implements UpdatableDataSource<BaseLinkerProdu
 
     @PostConstruct
     void initialize() {
-        allowedProductMappingKeys = Set.of(NAME);
-        allowedUpdatableProperties = Set.of(STOCK);
+        allowedProductMappingKeys = EnumSet.of(NAME);
+        allowedUpdatableProperties = EnumSet.of(STOCK);
     }
 
     @Override

@@ -12,10 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static com.jakubeeee.common.CollectionUtils.sortedMapOf;
@@ -166,7 +163,7 @@ public class RoleRepositoryTest {
 
     @Test
     public void findByTypeInTest() {
-        Set<Role> result = repository.findByTypeIn(Set.of(BASIC_USER, PRO_USER));
+        Set<Role> result = repository.findByTypeIn(EnumSet.of(BASIC_USER, PRO_USER));
         assertThat(result.size() == 2, is(equalTo(true)));
         assertThat(result, contains(
                 hasProperty("type", is(BASIC_USER)),

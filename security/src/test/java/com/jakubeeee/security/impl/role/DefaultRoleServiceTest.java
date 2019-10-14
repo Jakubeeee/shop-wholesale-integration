@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -54,8 +55,8 @@ public class DefaultRoleServiceTest {
 
     @Test
     public void resolveRolesToAssignTest_basicRole() {
-        var roleTypes = Set.of(BASIC_USER);
-        when(roleRepository.findByTypeIn(Set.of(BASIC_USER))).thenReturn(Set.of(Role.of(BASIC_USER)));
+        var roleTypes = EnumSet.of(BASIC_USER);
+        when(roleRepository.findByTypeIn(EnumSet.of(BASIC_USER))).thenReturn(Set.of(Role.of(BASIC_USER)));
         Set<Role> result = roleService.resolveRolesToAssign(roleTypes);
         assertThat(result, hasItem(Role.of(BASIC_USER)));
         assertThat(result, not(hasItems(Role.of(PRO_USER), Role.of(ADMIN))));
@@ -63,9 +64,9 @@ public class DefaultRoleServiceTest {
 
     @Test
     public void resolveRolesToAssignTest_proRole() {
-        var roleTypes = Set.of(PRO_USER);
-        when(roleRepository.findByTypeIn(Set.of(PRO_USER))).thenReturn(Set.of(Role.of(PRO_USER)));
-        when(roleRepository.findByTypeIn(Set.of(BASIC_USER))).thenReturn(Set.of(Role.of(BASIC_USER)));
+        var roleTypes = EnumSet.of(PRO_USER);
+        when(roleRepository.findByTypeIn(EnumSet.of(PRO_USER))).thenReturn(Set.of(Role.of(PRO_USER)));
+        when(roleRepository.findByTypeIn(EnumSet.of(BASIC_USER))).thenReturn(Set.of(Role.of(BASIC_USER)));
         Set<Role> result = roleService.resolveRolesToAssign(roleTypes);
         assertThat(result, hasItems(Role.of(BASIC_USER), Role.of(PRO_USER)));
         assertThat(result, not(hasItem(Role.of(ADMIN))));
@@ -73,9 +74,9 @@ public class DefaultRoleServiceTest {
 
     @Test
     public void resolveRolesToAssignTest_adminRole() {
-        var roleTypes = Set.of(ADMIN);
-        when(roleRepository.findByTypeIn(Set.of(ADMIN))).thenReturn(Set.of(Role.of(ADMIN)));
-        when(roleRepository.findByTypeIn(Set.of(BASIC_USER, PRO_USER))).thenReturn(Set.of(Role.of(BASIC_USER),
+        var roleTypes = EnumSet.of(ADMIN);
+        when(roleRepository.findByTypeIn(EnumSet.of(ADMIN))).thenReturn(Set.of(Role.of(ADMIN)));
+        when(roleRepository.findByTypeIn(EnumSet.of(BASIC_USER, PRO_USER))).thenReturn(Set.of(Role.of(BASIC_USER),
                 Role.of(PRO_USER)));
         Set<Role> result = roleService.resolveRolesToAssign(roleTypes);
         assertThat(result, hasItems(Role.of(BASIC_USER), Role.of(PRO_USER), Role.of(ADMIN)));
@@ -83,8 +84,8 @@ public class DefaultRoleServiceTest {
 
     @Test
     public void resolveRolesToAssignTest_basicProAndAdminRoles() {
-        var roleTypes = Set.of(BASIC_USER, PRO_USER, ADMIN);
-        when(roleRepository.findByTypeIn(Set.of(BASIC_USER, PRO_USER, ADMIN))).thenReturn(Set.of(Role.of(BASIC_USER),
+        var roleTypes = EnumSet.of(BASIC_USER, PRO_USER, ADMIN);
+        when(roleRepository.findByTypeIn(EnumSet.of(BASIC_USER, PRO_USER, ADMIN))).thenReturn(Set.of(Role.of(BASIC_USER),
                 Role.of(PRO_USER), Role.of(ADMIN)));
         Set<Role> result = roleService.resolveRolesToAssign(roleTypes);
         assertThat(result, hasItems(Role.of(BASIC_USER), Role.of(PRO_USER), Role.of(ADMIN)));
@@ -119,7 +120,7 @@ public class DefaultRoleServiceTest {
 
     @Test
     public void findAllByTypesTest() {
-        var roleTypes = Set.of(BASIC_USER, PRO_USER, ADMIN);
+        var roleTypes = EnumSet.of(BASIC_USER, PRO_USER, ADMIN);
         var roles = Set.of(Role.of(BASIC_USER), Role.of(PRO_USER), Role.of(ADMIN));
         when(roleRepository.findByTypeIn(roleTypes)).thenReturn(roles);
         Set<Role> result = roleService.findAllByTypes(roleTypes);
@@ -128,7 +129,7 @@ public class DefaultRoleServiceTest {
 
     @Test(expected = DatabaseResultEmptyException.class)
     public void findAllByTypesTest_rolesNotFound_shouldThrowException() {
-        var roleTypes = Set.of(BASIC_USER, PRO_USER, ADMIN);
+        var roleTypes = EnumSet.of(BASIC_USER, PRO_USER, ADMIN);
         when(roleRepository.findByTypeIn(roleTypes)).thenReturn(emptySet());
         roleService.findAllByTypes(roleTypes);
     }

@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -87,7 +88,7 @@ public class DefaultSecurityServiceTest {
 
     @Test
     public void createUserTest_oneRoleTypePassed() throws Exception {
-        var roleTypes = Set.of(BASIC_USER);
+        var roleTypes = EnumSet.of(BASIC_USER);
         var roles = Set.of(Role.of(BASIC_USER));
         when(roleService.findAllByTypes(roleTypes)).thenReturn(roles);
         when(passwordEncoder.encode(TEST_PASSWORD)).thenReturn(TEST_ENCODED_PASSWORD);
@@ -98,7 +99,7 @@ public class DefaultSecurityServiceTest {
 
     @Test
     public void createUserTest_multipleRoleTypesPassed() throws Exception {
-        var roleTypes = Set.of(BASIC_USER, PRO_USER, ADMIN);
+        var roleTypes = EnumSet.of(BASIC_USER, PRO_USER, ADMIN);
         var roles = Set.of(Role.of(BASIC_USER), Role.of(PRO_USER), Role.of(ADMIN));
         when(roleService.findAllByTypes(roleTypes)).thenReturn(roles);
         when(passwordEncoder.encode(TEST_PASSWORD)).thenReturn(TEST_ENCODED_PASSWORD);

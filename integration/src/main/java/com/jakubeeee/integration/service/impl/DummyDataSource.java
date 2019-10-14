@@ -9,6 +9,7 @@ import com.jakubeeee.integration.service.DataSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
@@ -45,6 +46,6 @@ public class DummyDataSource implements DataSource<DummyProduct>, DummyService {
 
     @Override
     public Set<ProductMappingKey> getAllowedProductMappingKeys() {
-        return Set.of(NAME);
+        return EnumSet.of(NAME);
     }
 }
