@@ -55,7 +55,7 @@ import static org.springframework.test.util.ReflectionTestUtils.setField;
 @PowerMockRunnerDelegate(SpringRunner.class)
 @PrepareForTest({DefaultPasswordResetService.class, DateTimeUtils.class, UUID.class})
 // @PowerMockIgnore annotation added because of a bug in power mock library (version: 2.0.0):
-// https://github.com/powermock/powermock/issues/86
+// https://github.com/powermock/powermock/issues/864
 // to be removed in case it is fixed in future versions of power mock.
 @PowerMockIgnore({"com.sun.org.apache.xerces.*", "javax.xml.*", "org.xml.*", "org.w3c.dom.*"})
 public class DefaultPasswordResetServiceTest {
