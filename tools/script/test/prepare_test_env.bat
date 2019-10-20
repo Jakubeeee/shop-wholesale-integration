@@ -1,24 +1,21 @@
 @echo off
+setlocal ENABLEDELAYEDEXPANSION
 
-rem change directory to the resources of testcore module
-cd ../../../testcore/src/main/resources
+for /F "eol=# delims=" %%j in ('type "..\local.properties"') do set %%j
 
-rem make sure that previous temporary properties file is removed
-if exist "generated\testdatabase-generated.properties" del "generated\testdatabase-generated.properties"
+set testcore.resources.dir=%project.root%\testcore\src\main\resources
+set generated.properties.file=%testcore.resources.dir%\generated\testdatabase-generated.properties
 
-rem run groovy script responsible of starting the test database
-start groovy launch_test_postgresql12_container.groovy
+if exist %generated.properties.file% del %generated.properties.file%
 
-rem check if new properties file was generated
+set JAVA_HOME=%java.home%
+
+start %groovy.home%\bin\groovy.bat %testcore.resources.dir%\launch_test_postgresql12_container.groovy
+
 :checkGenerated
-if exist generated/testdatabase-generated.properties goto rebuildTestcore
+if exist %generated.properties.file% goto rebuildTestcore
 
-rem wait for 5 seconds and check again
 timeout /T 5 & goto checkGenerated
 
-rem change directory to testcore module root and rebuild testcore module so the changes are visible
 :rebuildTestcore
-cd ../../../ & call mvn clean install -DskipTests
-
-rem get back to the script location
-cd ../tools/script/test
+call %maven.home%\bin\mvn.cmd -f %project.root%/testcore/pom.xml clean install -DskipTests

@@ -1,14 +1,20 @@
 import com.jakubeeee.testcore.CustomPostgreSQL12Container
 import groovy.transform.Field
+import groovy.transform.SourceURI
 import org.springframework.util.DefaultPropertiesPersister
 import org.testcontainers.containers.JdbcDatabaseContainer
 
-@Grab(group='com.jakubeeee', module='testcore', version='1.0')
+import java.nio.file.Paths
+
+@Grab(group = 'com.jakubeeee', module = 'testcore', version = '1.0')
 
 @Field final JdbcDatabaseContainer container = CustomPostgreSQL12Container.instance
 @Field final Properties propertiesToWrite = new Properties()
 @Field final TEMPORARY_FILE_LOCATION = "generated/testdatabase-generated.properties"
 @Field final TEMPORARY_FILE_HEADER = "This is a temporary file to store test database properties"
+
+@SourceURI @Field final URI SOURCE_URI
+@Field final String THIS_SCRIPT_LOCATION = Paths.get(SOURCE_URI).getParent().toString()
 
 def startupDatabase = {
     println "Starting PostgreSQL 12 database"
@@ -27,7 +33,7 @@ def printContainerProperties = {
 def createTemporaryPropertiesFile = {
     prepareSystemPropertiesToWrite(
             "TEST_POSTGRESQL_URL", "TEST_POSTGRESQL_USERNAME", "TEST_POSTGRESQL_PASSWORD")
-    new File(TEMPORARY_FILE_LOCATION).withOutputStream {
+    new File(THIS_SCRIPT_LOCATION, TEMPORARY_FILE_LOCATION).withOutputStream {
         stream -> new DefaultPropertiesPersister().store(propertiesToWrite, stream, TEMPORARY_FILE_HEADER)
     }
 }
@@ -50,7 +56,7 @@ def waitForUserTermination() {
 }
 
 def removeTemporaryPropertiesFile = {
-    new File(TEMPORARY_FILE_LOCATION).delete()
+    new File(THIS_SCRIPT_LOCATION, TEMPORARY_FILE_LOCATION).delete()
 }
 
 addShutdownHook {

@@ -1,10 +1,9 @@
 @echo off
+setlocal ENABLEDELAYEDEXPANSION
 
-rem change directory to the project root
-cd ../../../
+for /F "eol=# delims=" %%j in ('type "..\local.properties"') do set %%j
 
-rem build project using maven
-call mvn clean install -P "local, back-build" -DskipTests
+set JAVA_HOME=%java.home%
 
-rem get back to the script location
-cd ../tools/script/test
+call %maven.home%\bin\mvn.cmd -f %project.root%/pom.xml ^
+ clean install -P "local, back-build" -DskipTests
