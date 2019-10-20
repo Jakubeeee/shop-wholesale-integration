@@ -403,11 +403,6 @@
                 <artifactId>maven-enforcer-plugin</artifactId>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-            </plugin>
-
         </plugins>
 
     </build>
@@ -443,6 +438,18 @@
         </profile>
 
         <!-- ADDITIONAL PROFILES -->
+        <profile>
+            <id>integrationtest</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>debug</id>
             <build>
