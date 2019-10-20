@@ -222,11 +222,13 @@ public class TestEntityManagerUtilsTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void insertTest_notEntity_shouldThrowException() {
+        mockGetEntityManager();
         insert(testEntityManager, TEST_NOT_ENTITY_1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void insertTest_multipleEntitiesAndOneNotEntity_shouldThrowException() {
+        mockGetEntityManager();
         insert(testEntityManager, TEST_ENTITY_1, TEST_ENTITY_2, TEST_NOT_ENTITY_1);
         verifyPersist(TEST_ENTITY_1);
         verifyPersist(TEST_ENTITY_2);

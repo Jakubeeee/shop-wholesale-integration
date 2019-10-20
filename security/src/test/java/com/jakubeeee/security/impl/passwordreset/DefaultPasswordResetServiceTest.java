@@ -122,8 +122,8 @@ public class DefaultPasswordResetServiceTest {
         testValue2 = "testValue2";
         testPasswordResetToken1 = new PasswordResetToken(testValue1, testUser, TEST_DATE_TIME, 240);
         testPasswordResetToken2 = new PasswordResetToken(testValue2, testUser, TEST_DATE_TIME_FIVE_HOURS_LATER, 240);
-        testPasswordResetTokenValue1 = new PasswordResetTokenValue(null, testValue1, TEST_DATE_TIME, testUserValue);
-        testPasswordResetTokenValue2 = new PasswordResetTokenValue(null, testValue2, TEST_DATE_TIME_FIVE_HOURS_LATER, testUserValue);
+        testPasswordResetTokenValue1 = new PasswordResetTokenValue(null, testValue1, TEST_DATE_TIME.plusMinutes(240), testUserValue);
+        testPasswordResetTokenValue2 = new PasswordResetTokenValue(null, testValue2, TEST_DATE_TIME_FIVE_HOURS_LATER.plusMinutes(240), testUserValue);
         changePasswordForm = new ChangePasswordForm("testPassword1", "testPassword1", testUserId, testValue1);
     }
 
@@ -137,7 +137,7 @@ public class DefaultPasswordResetServiceTest {
         mockGetCurrentTimeInvocation();
         String testEmailContent = "testEmailContent";
         String testEmailContentWithUrl = testEmailContent + "\r\nhttp://localhost:8080/#/change-password?id=1&token" +
-                "=testValue";
+                "=testValue1";
         String testEmailSubject = "testEmailSubject";
         when(messageService.getMessage("passwordResetEmailContent", Locale.ENGLISH))
                 .thenReturn(testEmailContent);
@@ -163,7 +163,7 @@ public class DefaultPasswordResetServiceTest {
 
     @Test(expected = DifferentPasswordResetTokenOwnerException.class)
     public void changePasswordTest_providedUserIdAndTokenOwenrIdDoNotMatch_shouldThrowException() {
-        setField(testUserValue, "id", 2L);
+        setField(testUser, "id", 2L);
         doReturn(Optional.of(testPasswordResetToken1)).when(passwordResetTokenRepository).findByValue(testValue1);
         mockGetCurrentTimeInvocation();
         useRealIsTimeAfterMethod();

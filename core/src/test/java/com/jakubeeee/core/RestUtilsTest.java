@@ -8,10 +8,10 @@ import org.springframework.http.HttpHeaders;
 
 import static com.jakubeeee.core.RestUtils.generateHeaderWithAuthToken;
 import static com.jakubeeee.core.RestUtils.generateHeaderWithUsernameAndPassword;
-import static org.apache.cxf.common.util.Base64Utility.encode;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.util.Base64Utils.encodeToString;
 
 @Category(BehavioralUnitTestCategory.class)
 public class RestUtilsTest {
@@ -26,7 +26,7 @@ public class RestUtilsTest {
         TEST_TOKEN_VALUE = "123456789";
         TEST_USERNAME = "TestUsername";
         TEST_PASSWORD = "TestPassword";
-        TEST_USERNAME_AND_PASSWORD_ENCODED = encode((TEST_USERNAME + ":" + TEST_PASSWORD).getBytes());
+        TEST_USERNAME_AND_PASSWORD_ENCODED = encodeToString((TEST_USERNAME + ":" + TEST_PASSWORD).getBytes());
     }
 
     @Test

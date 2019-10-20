@@ -3,9 +3,9 @@ module tasks {
     requires common;
 
     requires static lombok;
+    requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.databind;
     requires durian;
-    requires jackson.annotations;
     requires java.persistence;
     requires org.apache.commons.lang3;
     requires org.aspectj.weaver;
