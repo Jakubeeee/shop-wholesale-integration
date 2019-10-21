@@ -30,7 +30,7 @@ import static org.mockito.Mockito.*;
 @SuppressWarnings("all")
 @Category(FlowControlUnitTestCategory.class)
 @RunWith(SpringRunner.class)
-public class DefaultSecurityServiceTest {
+public class DefaultUserServiceTest {
 
     @TestConfiguration
     static class TestContextConfig {
@@ -45,14 +45,14 @@ public class DefaultSecurityServiceTest {
         private PasswordEncoder passwordEncoder;
 
         @Bean
-        public SecurityService securityService() {
-            return new DefaultSecurityService(roleService, userRepository, passwordEncoder);
+        public UserService userService() {
+            return new DefaultUserService(roleService, userRepository, passwordEncoder);
         }
 
     }
 
     @Autowired
-    private SecurityService securityService;
+    private UserService userService;
 
     private RoleService roleService;
     private UserRepository userRepository;
@@ -81,9 +81,9 @@ public class DefaultSecurityServiceTest {
 
     @Before
     public void setUpForEveryTest() throws Exception {
-        roleService = getFieldValue(securityService, RoleService.class);
-        userRepository = getFieldValue(securityService, UserRepository.class);
-        passwordEncoder = getFieldValue(securityService, PasswordEncoder.class);
+        roleService = getFieldValue(userService, RoleService.class);
+        userRepository = getFieldValue(userService, UserRepository.class);
+        passwordEncoder = getFieldValue(userService, PasswordEncoder.class);
     }
 
     @Test
@@ -92,7 +92,7 @@ public class DefaultSecurityServiceTest {
         var roles = Set.of(RoleValue.of(BASIC_USER));
         when(roleService.findAllByTypes(roleTypes)).thenReturn(roles);
         when(passwordEncoder.encode(TEST_PASSWORD)).thenReturn(TEST_ENCODED_PASSWORD);
-        securityService.createUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL);
+        userService.createUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL);
         verify(roleService, times(1)).resolveRolesToAssign(roleTypes);
         verify(userRepository, times(1)).save(TEST_USER);
     }
@@ -103,84 +103,84 @@ public class DefaultSecurityServiceTest {
         var roles = Set.of(RoleValue.of(BASIC_USER), RoleValue.of(PRO_USER), RoleValue.of(ADMIN));
         when(roleService.findAllByTypes(roleTypes)).thenReturn(roles);
         when(passwordEncoder.encode(TEST_PASSWORD)).thenReturn(TEST_ENCODED_PASSWORD);
-        securityService.createUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, roleTypes);
+        userService.createUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, roleTypes);
         verify(roleService, times(1)).resolveRolesToAssign(roleTypes);
         verify(userRepository, times(1)).save(TEST_USER);
     }
 
     @Test(expected = UsernameNotUniqueException.class)
     public void createUserTest_nonUniqueUsername_shouldThrowException() {
-        SecurityService securityServiceSpy = spy(securityService);
-        doReturn(false).when(securityServiceSpy).isUsernameUnique(TEST_USERNAME);
-        securityServiceSpy.createUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL);
+        UserService userServiceSpy = spy(userService);
+        doReturn(false).when(userServiceSpy).isUsernameUnique(TEST_USERNAME);
+        userServiceSpy.createUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL);
     }
 
     @Test(expected = EmailNotUniqueException.class)
     public void createUserTest_nonUniqueEmail_shouldThrowException() {
-        SecurityService securityServiceSpy = spy(securityService);
-        doReturn(false).when(securityServiceSpy).isEmailUnique(TEST_EMAIL);
-        securityServiceSpy.createUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL);
+        UserService userServiceSpy = spy(userService);
+        doReturn(false).when(userServiceSpy).isEmailUnique(TEST_EMAIL);
+        userServiceSpy.createUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL);
     }
 
     @Test
     public void updateUserPasswordTest() {
         when(passwordEncoder.encode(TEST_PASSWORD)).thenReturn(TEST_ENCODED_PASSWORD);
-        securityService.updateUserPassword(TEST_ID, TEST_PASSWORD);
+        userService.updateUserPassword(TEST_ID, TEST_PASSWORD);
         verify(userRepository, times(1)).updateUserPassword(TEST_ID, TEST_ENCODED_PASSWORD);
     }
 
     @Test
     public void isUsernameUniqueTest_Unique_shouldReturnTrue() {
         when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.empty());
-        boolean usernameUnique = securityService.isUsernameUnique(TEST_USERNAME);
+        boolean usernameUnique = userService.isUsernameUnique(TEST_USERNAME);
         assertThat(usernameUnique, is(equalTo(true)));
     }
 
     @Test
     public void isUsernameUniqueTest_nonUnique_shouldReturnFalse() {
         when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.of(TEST_USER));
-        boolean usernameUnique = securityService.isUsernameUnique(TEST_USERNAME);
+        boolean usernameUnique = userService.isUsernameUnique(TEST_USERNAME);
         assertThat(usernameUnique, is(equalTo(false)));
     }
 
     @Test
     public void isEmailUniqueTest_Unique_shouldReturnTrue() {
         when(userRepository.findByEmail(TEST_EMAIL)).thenReturn(Optional.empty());
-        boolean emailUnique = securityService.isEmailUnique(TEST_EMAIL);
+        boolean emailUnique = userService.isEmailUnique(TEST_EMAIL);
         assertThat(emailUnique, is(equalTo(true)));
     }
 
     @Test
     public void isEmailUniqueTest_nonUnique_shouldReturnFalse() {
         when(userRepository.findByEmail(TEST_EMAIL)).thenReturn(Optional.of(TEST_USER));
-        boolean emailUnique = securityService.isEmailUnique(TEST_EMAIL);
+        boolean emailUnique = userService.isEmailUnique(TEST_EMAIL);
         assertThat(emailUnique, is(equalTo(false)));
     }
 
     @Test
     public void findByUsernameTest() {
         when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.of(TEST_USER));
-        UserValue user = securityService.findByUsername(TEST_USERNAME);
+        UserValue user = userService.findByUsername(TEST_USERNAME);
         assertThat(user, is(equalTo(TEST_USER_VALUE)));
     }
 
     @Test(expected = DatabaseResultEmptyException.class)
     public void findByUsernameTest_userNotFound_shouldThrowException() {
         when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.empty());
-        securityService.findByUsername(TEST_USERNAME);
+        userService.findByUsername(TEST_USERNAME);
     }
 
     @Test
     public void findByEmailTest() {
         when(userRepository.findByEmail(TEST_EMAIL)).thenReturn(Optional.of(TEST_USER));
-        UserValue user = securityService.findByEmail(TEST_EMAIL);
+        UserValue user = userService.findByEmail(TEST_EMAIL);
         assertThat(user, is(equalTo(TEST_USER_VALUE)));
     }
 
     @Test(expected = DatabaseResultEmptyException.class)
     public void findByEmailTest_userNotFound_shouldThrowException() {
         when(userRepository.findByEmail(TEST_EMAIL)).thenReturn(Optional.empty());
-        securityService.findByEmail(TEST_EMAIL);
+        userService.findByEmail(TEST_EMAIL);
     }
 
 }

@@ -3,7 +3,7 @@ package com.jakubeeee.security.impl.config;
 import com.jakubeeee.security.impl.role.RoleService;
 import com.jakubeeee.security.impl.role.RoleType;
 import com.jakubeeee.security.impl.role.RoleValue;
-import com.jakubeeee.security.impl.user.SecurityService;
+import com.jakubeeee.security.impl.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -24,7 +24,7 @@ public class InitialSecurityDataLoader implements ApplicationRunner {
     @Value("${spring.profiles.active}")
     private String activeProfile;
 
-    private final SecurityService securityService;
+    private final UserService userService;
 
     private final RoleService roleService;
 
@@ -47,11 +47,11 @@ public class InitialSecurityDataLoader implements ApplicationRunner {
     }
 
     private void insertDataForLocalProfile() {
-        securityService.createUser("test1", "Password1", "testmail1@mail.com");
-        securityService.createUser("test2", "Password2", "testmail2@mail.com");
-        securityService.createUser("test3", "Password3", "testmail3@mail.com", EnumSet.of(PRO_USER));
-        securityService.createUser("test4", "Password4", "testmail4@mail.com", EnumSet.of(PRO_USER));
-        securityService.createUser("test5", "Password5", "testmail5@mail.com", EnumSet.of(ADMIN));
+        userService.createUser("test1", "Password1", "testmail1@mail.com");
+        userService.createUser("test2", "Password2", "testmail2@mail.com");
+        userService.createUser("test3", "Password3", "testmail3@mail.com", EnumSet.of(PRO_USER));
+        userService.createUser("test4", "Password4", "testmail4@mail.com", EnumSet.of(PRO_USER));
+        userService.createUser("test5", "Password5", "testmail5@mail.com", EnumSet.of(ADMIN));
     }
 
 }

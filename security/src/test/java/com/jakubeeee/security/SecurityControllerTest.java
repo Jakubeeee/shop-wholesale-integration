@@ -1,7 +1,7 @@
 package com.jakubeeee.security;
 
 import com.jakubeeee.security.impl.passwordreset.PasswordResetService;
-import com.jakubeeee.security.impl.user.SecurityService;
+import com.jakubeeee.security.impl.user.UserService;
 import com.jakubeeee.testutils.marker.SpringSliceTestCategory;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -28,7 +28,7 @@ public class SecurityControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private SecurityService securityService;
+    private UserService userService;
 
     @MockBean
     private PasswordResetService passwordResetService;
@@ -36,13 +36,13 @@ public class SecurityControllerTest {
     @Test
     public void isAuthenticatedTest_shouldReturn200() throws Exception {
         mockMvc.perform(get("/is-authenticated")).andExpect(status().isOk());
-        verify(securityService, times(1)).isAuthenticated();
+        verify(userService, times(1)).isAuthenticated();
     }
 
     @Test
     public void getCurrentUsernameTest_shouldReturn200() throws Exception {
         mockMvc.perform(get("/get-current-username")).andExpect(status().isOk());
-        verify(securityService, times(1)).getCurrentUsername();
+        verify(userService, times(1)).getCurrentUsername();
     }
 
     @Test
@@ -138,7 +138,7 @@ public class SecurityControllerTest {
                 .content(testUsername)
                 .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk());
-        verify(securityService, times(1)).isUsernameUnique(testUsername);
+        verify(userService, times(1)).isUsernameUnique(testUsername);
     }
 
     @Test
@@ -147,7 +147,7 @@ public class SecurityControllerTest {
                 .content(TEST_EMAIL_ADDRESS)
                 .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk());
-        verify(securityService, times(1)).isEmailUnique(TEST_EMAIL_ADDRESS);
+        verify(userService, times(1)).isEmailUnique(TEST_EMAIL_ADDRESS);
     }
 
 }

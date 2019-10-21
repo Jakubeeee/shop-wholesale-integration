@@ -23,7 +23,7 @@ import static com.jakubeeee.security.impl.role.RoleType.BASIC_USER;
  * Default service bean used for operations related to security and user management.
  */
 @Service
-public class DefaultSecurityService implements SecurityService {
+public class DefaultUserService implements UserService {
 
     private static final UserFactory userFactory = UserFactory.getInstance();
 
@@ -33,8 +33,8 @@ public class DefaultSecurityService implements SecurityService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public DefaultSecurityService(RoleService roleService, UserRepository userRepository,
-                                  @Lazy PasswordEncoder passwordEncoder) {
+    public DefaultUserService(RoleService roleService, UserRepository userRepository,
+                              @Lazy PasswordEncoder passwordEncoder) {
         this.roleService = roleService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;

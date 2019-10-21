@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * Interface for service beans used for operations related to security and user management.
  */
-public interface SecurityService {
+public interface UserService {
 
     void createUser(String username, String password, String email);
 

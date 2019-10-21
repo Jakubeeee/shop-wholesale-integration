@@ -4,8 +4,8 @@ import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
 import com.jakubeeee.core.EmailService;
 import com.jakubeeee.core.MessageService;
 import com.jakubeeee.security.ChangePasswordForm;
-import com.jakubeeee.security.impl.user.SecurityService;
 import com.jakubeeee.security.impl.user.UserFactory;
+import com.jakubeeee.security.impl.user.UserService;
 import com.jakubeeee.security.impl.user.UserValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +31,7 @@ public class DefaultPasswordResetService implements PasswordResetService {
     private static final PasswordResetTokenFactory passwordResetTokenFactory = PasswordResetTokenFactory.getInstance();
     private static final UserFactory userFactory = UserFactory.getInstance();
 
-    private final SecurityService securityService;
+    private final UserService userService;
 
     private final EmailService emailService;
 
@@ -52,7 +52,7 @@ public class DefaultPasswordResetService implements PasswordResetService {
     }
 
     private PasswordResetTokenValue createPasswordResetToken(String email) {
-        UserValue user = securityService.findByEmail(email);
+        UserValue user = userService.findByEmail(email);
         var resetTokenValue = UUID.randomUUID().toString();
         LocalDateTime now = getCurrentDateTime();
         var resetToken = new PasswordResetTokenValue(null, resetTokenValue, now.plusMinutes(TOKEN_LIFETIME_IN_MINUTES), user);
@@ -85,7 +85,7 @@ public class DefaultPasswordResetService implements PasswordResetService {
         UserValue tokenOwner = passwordResetToken.getUser();
         if (!Objects.equals(tokenOwner.getDatabaseId(), form.getUserId()))
             throw new DifferentPasswordResetTokenOwnerException("Password reset token owner is different");
-        securityService.updateUserPassword(tokenOwner.getDatabaseId(), form.getPassword());
+        userService.updateUserPassword(tokenOwner.getDatabaseId(), form.getPassword());
     }
 
     @Override

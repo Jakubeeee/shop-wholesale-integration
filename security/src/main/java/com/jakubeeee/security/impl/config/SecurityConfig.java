@@ -1,6 +1,6 @@
 package com.jakubeeee.security.impl.config;
 
-import com.jakubeeee.security.impl.user.SecurityService;
+import com.jakubeeee.security.impl.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String SALT = "n&S!hd^&Rd)*YDh(*C&dtga9s";
 
-    private final SecurityService securityService;
+    private final UserService userService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -41,12 +41,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final LogoutSuccessHandler logoutSuccessHandler;
 
-    public SecurityConfig(SecurityService securityService,
+    public SecurityConfig(UserService userService,
                           @Lazy PasswordEncoder passwordEncoder,
                           @Lazy AuthenticationEntryPoint authenticationEntryPoint,
                           @Lazy AuthenticationSuccessHandler authenticationSuccessHandler,
                           @Lazy LogoutSuccessHandler logoutSuccessHandler) {
-        this.securityService = securityService;
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationEntryPoint = authenticationEntryPoint;
         this.authenticationSuccessHandler = authenticationSuccessHandler;
@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder builder) throws Exception {
         builder
-                .userDetailsService(securityService::findByUsername)
+                .userDetailsService(userService::findByUsername)
                 .passwordEncoder(passwordEncoder);
     }
 

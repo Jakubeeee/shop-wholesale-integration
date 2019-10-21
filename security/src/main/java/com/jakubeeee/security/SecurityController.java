@@ -1,7 +1,7 @@
 package com.jakubeeee.security;
 
 import com.jakubeeee.security.impl.passwordreset.PasswordResetService;
-import com.jakubeeee.security.impl.user.SecurityService;
+import com.jakubeeee.security.impl.user.UserService;
 import com.jakubeeee.security.impl.user.UsernameNotResolvableException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -16,19 +16,19 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class SecurityController {
 
-    private final SecurityService securityService;
+    private final UserService userService;
 
     private final PasswordResetService passwordResetService;
 
     @GetMapping("/is-authenticated")
     public boolean isAuthenticated() {
-        return securityService.isAuthenticated();
+        return userService.isAuthenticated();
     }
 
     @GetMapping("/get-current-username")
     public String getCurrentUsername() {
         try {
-            return securityService.getCurrentUsername();
+            return userService.getCurrentUsername();
         } catch (UsernameNotResolvableException e) {
             return "";
         }
@@ -49,12 +49,12 @@ public class SecurityController {
 
     @PostMapping(path = "/is-username-unique", consumes = "text/plain")
     public boolean checkUsernameUniqueness(@RequestBody String username) {
-        return securityService.isUsernameUnique(username);
+        return userService.isUsernameUnique(username);
     }
 
     @PostMapping(path = "/is-email-unique", consumes = "text/plain")
     public boolean checkEmailUniqueness(@RequestBody String email) {
-        return securityService.isEmailUnique(email);
+        return userService.isEmailUnique(email);
     }
 
 }

@@ -6,9 +6,9 @@ import com.jakubeeee.core.EmailService;
 import com.jakubeeee.core.MessageService;
 import com.jakubeeee.security.ChangePasswordForm;
 import com.jakubeeee.security.impl.role.RoleValue;
-import com.jakubeeee.security.impl.user.SecurityService;
 import com.jakubeeee.security.impl.user.User;
 import com.jakubeeee.security.impl.user.UserFactory;
+import com.jakubeeee.security.impl.user.UserService;
 import com.jakubeeee.security.impl.user.UserValue;
 import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import org.junit.Assert;
@@ -64,7 +64,7 @@ public class DefaultPasswordResetServiceTest {
     static class TestContextConfig {
 
         @MockBean
-        private SecurityService securityService;
+        private UserService userService;
 
         @MockBean
         private EmailService emailService;
@@ -77,7 +77,7 @@ public class DefaultPasswordResetServiceTest {
 
         @Bean
         public PasswordResetService passwordResetService() {
-            return new DefaultPasswordResetService(securityService, emailService,
+            return new DefaultPasswordResetService(userService, emailService,
                     messageService, passwordResetTokenRepository);
         }
 
@@ -89,7 +89,7 @@ public class DefaultPasswordResetServiceTest {
     @SpyBean
     private PasswordResetService passwordResetServiceSpy;
 
-    private SecurityService securityService;
+    private UserService userService;
     private EmailService emailService;
     private MessageService messageService;
     private PasswordResetTokenRepository passwordResetTokenRepository;
@@ -108,7 +108,7 @@ public class DefaultPasswordResetServiceTest {
 
     @Before
     public void setUpForEveryTest() throws Exception {
-        securityService = getFieldValue(passwordResetService, SecurityService.class);
+        userService = getFieldValue(passwordResetService, UserService.class);
         emailService = getFieldValue(passwordResetService, EmailService.class);
         messageService = getFieldValue(passwordResetService, MessageService.class);
         passwordResetTokenRepository = getFieldValue(passwordResetService, PasswordResetTokenRepository.class);
@@ -129,7 +129,7 @@ public class DefaultPasswordResetServiceTest {
 
     @Test
     public void handleForgotMyPasswordProcessTest() {
-        when(securityService.findByEmail(testEmail)).thenReturn(testUserValue);
+        when(userService.findByEmail(testEmail)).thenReturn(testUserValue);
         var mockedUUID = PowerMockito.mock(UUID.class);
         PowerMockito.mockStatic(UUID.class);
         PowerMockito.when(randomUUID()).thenReturn(mockedUUID);
@@ -158,7 +158,7 @@ public class DefaultPasswordResetServiceTest {
         mockGetCurrentTimeInvocation();
         useRealIsTimeAfterMethod();
         passwordResetServiceSpy.changePassword(changePasswordForm);
-        verify(securityService, times(1)).updateUserPassword(testUserId, "testPassword1");
+        verify(userService, times(1)).updateUserPassword(testUserId, "testPassword1");
     }
 
     @Test(expected = DifferentPasswordResetTokenOwnerException.class)
@@ -168,7 +168,7 @@ public class DefaultPasswordResetServiceTest {
         mockGetCurrentTimeInvocation();
         useRealIsTimeAfterMethod();
         passwordResetServiceSpy.changePassword(changePasswordForm);
-        verify(securityService, times(0)).updateUserPassword(testUserId, "testPassword1");
+        verify(userService, times(0)).updateUserPassword(testUserId, "testPassword1");
     }
 
     @Test(expected = PasswordResetTokenExpiredException.class)
@@ -178,7 +178,7 @@ public class DefaultPasswordResetServiceTest {
         mockGetCurrentTimeInvocation();
         useRealIsTimeAfterMethod();
         passwordResetServiceSpy.changePassword(changePasswordForm);
-        verify(securityService, times(0)).updateUserPassword(testUserId, "testPassword1");
+        verify(userService, times(0)).updateUserPassword(testUserId, "testPassword1");
     }
 
     @Test
