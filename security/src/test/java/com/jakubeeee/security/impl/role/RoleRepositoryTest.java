@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import static com.jakubeeee.common.CollectionUtils.sortedMapOf;
-import static com.jakubeeee.security.impl.role.Role.Type.*;
+import static com.jakubeeee.security.impl.role.RoleType.*;
 import static com.jakubeeee.testutils.TestEntityManagerUtils.*;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;

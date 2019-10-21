@@ -1,6 +1,6 @@
 package com.jakubeeee.security.impl.user;
 
-import com.jakubeeee.security.impl.role.Role;
+import com.jakubeeee.security.impl.role.RoleType;
 
 import java.util.Set;
 
@@ -11,7 +11,7 @@ public interface SecurityService {
 
     void createUser(String username, String password, String email);
 
-    void createUser(String username, String password, String email, Set<Role.Type> roleTypes);
+    void createUser(String username, String password, String email, Set<RoleType> roleTypes);
 
     void updateUserPassword(long userId, String password);
 

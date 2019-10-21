@@ -1,8 +1,9 @@
 package com.jakubeeee.security.impl.user;
 
 import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
-import com.jakubeeee.security.impl.role.Role;
 import com.jakubeeee.security.impl.role.RoleService;
+import com.jakubeeee.security.impl.role.RoleType;
+import com.jakubeeee.security.impl.role.RoleValue;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +17,7 @@ import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.jakubeeee.security.impl.role.Role.Type.BASIC_USER;
+import static com.jakubeeee.security.impl.role.RoleType.BASIC_USER;
 
 /**
  * Default service bean used for operations related to security and user management.
@@ -47,9 +48,9 @@ public class DefaultSecurityService implements SecurityService {
 
     @Transactional
     @Override
-    public void createUser(String username, String password, String email, Set<Role.Type> roleTypes) {
+    public void createUser(String username, String password, String email, Set<RoleType> roleTypes) {
         validateUsernameAndEmailUniqueness(username, email);
-        Set<Role> roles = roleService.resolveRolesToAssign(roleTypes);
+        Set<RoleValue> roles = roleService.resolveRolesToAssign(roleTypes);
         var user = new UserValue(null, username, encodePassword(password), email, true, roles);
         userRepository.save(userFactory.createEntity(user));
         authenticateUser(user);

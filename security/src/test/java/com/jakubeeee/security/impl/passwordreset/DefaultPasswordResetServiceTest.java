@@ -5,7 +5,7 @@ import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
 import com.jakubeeee.core.EmailService;
 import com.jakubeeee.core.MessageService;
 import com.jakubeeee.security.ChangePasswordForm;
-import com.jakubeeee.security.impl.role.Role;
+import com.jakubeeee.security.impl.role.RoleValue;
 import com.jakubeeee.security.impl.user.SecurityService;
 import com.jakubeeee.security.impl.user.User;
 import com.jakubeeee.security.impl.user.UserFactory;
@@ -38,7 +38,7 @@ import java.util.UUID;
 import static com.jakubeeee.common.DateTimeUtils.getCurrentDateTime;
 import static com.jakubeeee.common.DateTimeUtils.isTimeAfter;
 import static com.jakubeeee.common.reflection.ReflectUtils.getFieldValue;
-import static com.jakubeeee.security.impl.role.Role.Type.BASIC_USER;
+import static com.jakubeeee.security.impl.role.RoleType.BASIC_USER;
 import static com.jakubeeee.testutils.DateTimeTestConstants.*;
 import static java.util.UUID.randomUUID;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -115,7 +115,7 @@ public class DefaultPasswordResetServiceTest {
         testUserId = 1L;
         testEmail = "testEmail";
         testUserValue = new UserValue(testUserId, "testUsername", "testPassword", testEmail, true,
-                Set.of(Role.of(BASIC_USER)));
+                Set.of(RoleValue.of(BASIC_USER)));
         testUser = UserFactory.getInstance().createEntity(testUserValue);
         setField(testUser, "id", testUserId);
         testValue1 = "testValue1";

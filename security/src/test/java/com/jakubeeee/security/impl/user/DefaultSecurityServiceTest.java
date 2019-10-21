@@ -1,8 +1,8 @@
 package com.jakubeeee.security.impl.user;
 
 import com.jakubeeee.common.persistence.DatabaseResultEmptyException;
-import com.jakubeeee.security.impl.role.Role;
 import com.jakubeeee.security.impl.role.RoleService;
+import com.jakubeeee.security.impl.role.RoleValue;
 import com.jakubeeee.testutils.marker.FlowControlUnitTestCategory;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static com.jakubeeee.common.reflection.ReflectUtils.getFieldValue;
-import static com.jakubeeee.security.impl.role.Role.Type.*;
+import static com.jakubeeee.security.impl.role.RoleType.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -76,7 +76,7 @@ public class DefaultSecurityServiceTest {
         TEST_USER = new User(TEST_USERNAME, TEST_ENCODED_PASSWORD, TEST_EMAIL);
         TEST_USER.setId(TEST_ID);
         TEST_USER_VALUE = new UserValue(TEST_ID, TEST_USERNAME, TEST_ENCODED_PASSWORD, TEST_EMAIL, true,
-                Set.of(Role.of(BASIC_USER)));
+                Set.of(RoleValue.of(BASIC_USER)));
     }
 
     @Before
@@ -89,7 +89,7 @@ public class DefaultSecurityServiceTest {
     @Test
     public void createUserTest_oneRoleTypePassed() throws Exception {
         var roleTypes = EnumSet.of(BASIC_USER);
-        var roles = Set.of(Role.of(BASIC_USER));
+        var roles = Set.of(RoleValue.of(BASIC_USER));
         when(roleService.findAllByTypes(roleTypes)).thenReturn(roles);
         when(passwordEncoder.encode(TEST_PASSWORD)).thenReturn(TEST_ENCODED_PASSWORD);
         securityService.createUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL);
@@ -100,7 +100,7 @@ public class DefaultSecurityServiceTest {
     @Test
     public void createUserTest_multipleRoleTypesPassed() throws Exception {
         var roleTypes = EnumSet.of(BASIC_USER, PRO_USER, ADMIN);
-        var roles = Set.of(Role.of(BASIC_USER), Role.of(PRO_USER), Role.of(ADMIN));
+        var roles = Set.of(RoleValue.of(BASIC_USER), RoleValue.of(PRO_USER), RoleValue.of(ADMIN));
         when(roleService.findAllByTypes(roleTypes)).thenReturn(roles);
         when(passwordEncoder.encode(TEST_PASSWORD)).thenReturn(TEST_ENCODED_PASSWORD);
         securityService.createUser(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, roleTypes);

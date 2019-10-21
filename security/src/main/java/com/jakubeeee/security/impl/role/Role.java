@@ -1,10 +1,7 @@
 package com.jakubeeee.security.impl.role;
 
 import com.jakubeeee.common.persistence.IdentifiableEntity;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +10,7 @@ import javax.persistence.*;
  * components only for users with appropriate permissions.
  */
 @Getter
+@Setter
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @NoArgsConstructor
@@ -22,20 +20,14 @@ public class Role extends IdentifiableEntity {
 
     @Column(name = "TYPE", unique = true, nullable = false, updatable = false)
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private RoleType type;
 
-    private Role(Type type) {
+    private Role(RoleType type) {
         this.type = type;
     }
 
-    public static Role of(Type type) {
+    public static Role of(RoleType type) {
         return new Role(type);
-    }
-
-    public enum Type {
-        BASIC_USER,
-        PRO_USER,
-        ADMIN
     }
 
 }

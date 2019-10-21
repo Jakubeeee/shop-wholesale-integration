@@ -12,8 +12,8 @@ import java.util.Set;
 @Repository
 public interface RoleRepository extends CrudRepository<Role, Long> {
 
-    Optional<Role> findByType(Role.Type roleType);
+    Optional<Role> findByType(RoleType roleType);
 
-    Set<Role> findByTypeIn(Set<Role.Type> roleTypes);
+    Set<Role> findByTypeIn(Set<RoleType> roleTypes);
 
 }

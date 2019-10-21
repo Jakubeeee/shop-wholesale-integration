@@ -1,7 +1,8 @@
 package com.jakubeeee.security.impl.config;
 
-import com.jakubeeee.security.impl.role.Role;
 import com.jakubeeee.security.impl.role.RoleService;
+import com.jakubeeee.security.impl.role.RoleType;
+import com.jakubeeee.security.impl.role.RoleValue;
 import com.jakubeeee.security.impl.user.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.EnumSet;
 
-import static com.jakubeeee.security.impl.role.Role.Type.*;
+import static com.jakubeeee.security.impl.role.RoleType.*;
 
 /**
  * Component used to initially populate the database with data required by the security module.
@@ -40,9 +41,9 @@ public class InitialSecurityDataLoader implements ApplicationRunner {
         insertRole(ADMIN);
     }
 
-    private void insertRole(Role.Type roleType) {
+    private void insertRole(RoleType roleType) {
         if (roleService.findOneOptionalByType(roleType).isEmpty())
-            roleService.save(Role.of(roleType));
+            roleService.save(RoleValue.of(roleType));
     }
 
     private void insertDataForLocalProfile() {

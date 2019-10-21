@@ -1,6 +1,7 @@
 package com.jakubeeee.security.impl.user;
 
 import com.jakubeeee.common.persistence.BaseEntityFactory;
+import com.jakubeeee.security.impl.role.RoleFactory;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
@@ -10,6 +11,8 @@ import lombok.NonNull;
 @NoArgsConstructor(staticName = "getInstance")
 public class UserFactory extends BaseEntityFactory<User, UserValue> {
 
+    private static final RoleFactory roleFactory = RoleFactory.getInstance();
+
     @Override
     public User createEntity(@NonNull UserValue value) {
         var user = new User();
@@ -18,13 +21,14 @@ public class UserFactory extends BaseEntityFactory<User, UserValue> {
         user.setPassword(value.getPassword());
         user.setEmail(value.getEmail());
         user.setEnabled(value.isEnabled());
-        user.setRoles(value.getRoles());
+        user.setRoles(roleFactory.createEntities(value.getRoles()));
         return user;
     }
 
     @Override
     public UserValue createValue(@NonNull User entity) {
-        return new UserValue(entity.getId(), entity.getUsername(), entity.getPassword(), entity.getEmail(), entity.isEnabled(), entity.getRoles());
+        return new UserValue(entity.getId(), entity.getUsername(), entity.getPassword(), entity.getEmail(),
+                entity.isEnabled(), roleFactory.createValues(entity.getRoles()));
     }
 
 }

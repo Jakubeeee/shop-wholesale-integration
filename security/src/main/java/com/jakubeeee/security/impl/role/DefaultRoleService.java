@@ -18,68 +18,69 @@ import static java.util.stream.Collectors.toCollection;
 @Service
 public class DefaultRoleService implements RoleService {
 
+    private static final RoleFactory roleFactory = RoleFactory.getInstance();
+
     private final RoleRepository roleRepository;
 
     @Override
-    public Set<Role> resolveRolesToAssign(Set<Role.Type> roleTypes) {
-        Set<Role> roles = findAllByTypes(roleTypes);
+    public Set<RoleValue> resolveRolesToAssign(Set<RoleType> roleTypes) {
+        Set<RoleValue> roles = findAllByTypes(roleTypes);
         roles = attachLowerRoles(roles);
         return roles;
     }
 
-    private Set<Role> attachLowerRoles(Set<Role> currentRoles) {
-        Set<Role> extendedRoles = new HashSet<>(currentRoles);
-        if (isRoleTypePresentInSet(currentRoles, Role.Type.ADMIN))
-            addRolesToSetIfMissing(extendedRoles, Set.of(Role.Type.BASIC_USER, Role.Type.PRO_USER));
-        else if (isRoleTypePresentInSet(currentRoles, Role.Type.PRO_USER))
-            addRolesToSetIfMissing(extendedRoles, Set.of(Role.Type.BASIC_USER));
+    private Set<RoleValue> attachLowerRoles(Set<RoleValue> currentRoles) {
+        var extendedRoles = new HashSet<>(currentRoles);
+        if (isRoleTypePresentInSet(currentRoles, RoleType.ADMIN))
+            addRolesToSetIfMissing(extendedRoles, Set.of(RoleType.BASIC_USER, RoleType.PRO_USER));
+        else if (isRoleTypePresentInSet(currentRoles, RoleType.PRO_USER))
+            addRolesToSetIfMissing(extendedRoles, Set.of(RoleType.BASIC_USER));
         return extendedRoles;
     }
 
-    private boolean isRoleTypePresentInSet(Set<Role> roles, Role.Type roleType) {
-        return roles.stream().map(Role::getType).anyMatch(typeInSet -> typeInSet.equals(roleType));
+    private boolean isRoleTypePresentInSet(Set<RoleValue> roles, RoleType roleType) {
+        return roles.stream().map(RoleValue::getType).anyMatch(typeInSet -> typeInSet.equals(roleType));
     }
 
-    private void addRolesToSetIfMissing(Set<Role> roles, Set<Role.Type> roleTypes) {
-        Set<Role.Type> typesOfMissingRoles =
+    private void addRolesToSetIfMissing(Set<RoleValue> roles, Set<RoleType> roleTypes) {
+        Set<RoleType> typesOfMissingRoles =
                 roleTypes.stream().filter(type -> !isRoleTypePresentInSet(roles, type)).collect(toCollection(HashSet::new));
         if (!typesOfMissingRoles.isEmpty()) {
-            Set<Role> additionalRoles = findAllByTypes(typesOfMissingRoles);
+            Set<RoleValue> additionalRoles = findAllByTypes(typesOfMissingRoles);
             roles.addAll(additionalRoles);
         }
     }
 
     @Override
-    public Role findOneByType(Role.Type roleType) {
+    public RoleValue findOneByType(RoleType roleType) {
         Optional<Role> roleO = roleRepository.findByType(roleType);
-        return roleO.orElseThrow(() -> new DatabaseResultEmptyException("Role with type " + roleType + " not found in" +
-                " " +
-                "the database"));
+        return roleFactory.createValue(roleO.orElseThrow(() -> new DatabaseResultEmptyException("Role with type " + roleType
+                + " not found in the database")));
     }
 
     @Override
-    public Optional<Role> findOneOptionalByType(Role.Type roleType) {
-        return roleRepository.findByType(roleType);
+    public Optional<RoleValue> findOneOptionalByType(RoleType roleType) {
+        return roleRepository.findByType(roleType).map(roleFactory::createValue);
     }
 
     @Override
-    public Set<Role> findAllByTypes(Set<Role.Type> roleTypes) {
+    public Set<RoleValue> findAllByTypes(Set<RoleType> roleTypes) {
         Set<Role> roles = roleRepository.findByTypeIn(roleTypes);
         if (roles.isEmpty()) throw new DatabaseResultEmptyException("Roles with types " + roleTypes + " " +
                 "not found in the database");
-        return roles;
+        return roleFactory.createValues(roles);
     }
 
     @Override
-    public Set<Role> findAll() {
+    public Set<RoleValue> findAll() {
         Set<Role> roles = new HashSet<>((List<Role>) roleRepository.findAll());
         if (roles.isEmpty()) throw new DatabaseResultEmptyException("No roles found in the database");
-        return roles;
+        return roleFactory.createValues(roles);
     }
 
     @Override
-    public void save(Role role) {
-        roleRepository.save(role);
+    public void save(RoleValue role) {
+        roleRepository.save(roleFactory.createEntity(role));
     }
 
 }

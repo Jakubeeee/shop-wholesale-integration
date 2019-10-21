@@ -8,16 +8,16 @@ import java.util.Set;
  */
 public interface RoleService {
 
-    Set<Role> resolveRolesToAssign(Set<Role.Type> roleTypes);
+    Set<RoleValue> resolveRolesToAssign(Set<RoleType> roleTypes);
 
-    Role findOneByType(Role.Type roleType);
+    RoleValue findOneByType(RoleType roleType);
 
-    Optional<Role> findOneOptionalByType(Role.Type roleType);
+    Optional<RoleValue> findOneOptionalByType(RoleType roleType);
 
-    Set<Role> findAllByTypes(Set<Role.Type> roleTypes);
+    Set<RoleValue> findAllByTypes(Set<RoleType> roleTypes);
 
-    Set<Role> findAll();
+    Set<RoleValue> findAll();
 
-    void save(Role role);
+    void save(RoleValue role);
 
 }

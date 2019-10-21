@@ -1,7 +1,7 @@
 package com.jakubeeee.security.impl.user;
 
 import com.jakubeeee.common.persistence.IdentifiableEntityValue;
-import com.jakubeeee.security.impl.role.Role;
+import com.jakubeeee.security.impl.role.RoleValue;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
@@ -35,14 +35,14 @@ public final class UserValue extends IdentifiableEntityValue<User> implements Us
 
     private final transient boolean enabled;
 
-    private final transient Set<Role> roles;
+    private final transient Set<RoleValue> roles;
 
     public UserValue(@Nullable Long databaseId,
                      @NonNull String username,
                      @NonNull String password,
                      @NonNull String email,
                      boolean enabled,
-                     @NonNull Set<Role> roles) {
+                     @NonNull Set<RoleValue> roles) {
         super(databaseId);
         this.username = username;
         this.password = password;
@@ -54,7 +54,7 @@ public final class UserValue extends IdentifiableEntityValue<User> implements Us
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         var authorities = new HashSet<GrantedAuthority>();
-        for (Role role : roles)
+        for (RoleValue role : roles)
             authorities.add(() -> role.getType().name());
         return authorities;
     }
@@ -74,7 +74,7 @@ public final class UserValue extends IdentifiableEntityValue<User> implements Us
         return true;
     }
 
-    public Set<Role> getRoles() {
+    public Set<RoleValue> getRoles() {
         return Set.copyOf(roles);
     }
 
