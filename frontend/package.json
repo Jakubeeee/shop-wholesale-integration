@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "ajv": "^6.10.2",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "buefy": "^0.8.3",
     "bulma": "^0.7.5",
     "dateformat": "^3.0.3",
